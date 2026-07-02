@@ -1661,144 +1661,6 @@
       #f6f7fb;
   }
 
-  body.loading-lock { overflow: hidden; }
-
-  #creativeLoader {
-    position: fixed;
-    inset: 0;
-    z-index: 20000;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    color: #fff;
-    background:
-      linear-gradient(120deg, rgba(4, 6, 13, 0.96), rgba(10, 15, 34, 0.92)),
-      url("./assets/images/AdvancedConstructionProjectPlanning_530x@2x.webp") center/cover no-repeat;
-    transition: opacity .55s ease, visibility .55s ease;
-  }
-
-  #creativeLoader::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    background:
-      linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
-    background-size: 54px 54px;
-    mask-image: linear-gradient(180deg, rgba(0,0,0,.96), rgba(0,0,0,.22));
-    animation: loaderGrid 2.2s linear infinite;
-  }
-
-  #creativeLoader::after {
-    content: "";
-    position: absolute;
-    width: min(58vw, 720px);
-    aspect-ratio: 1;
-    border: 1px solid rgba(239,255,57,.28);
-    transform: rotate(12deg);
-    animation: loaderFrame 2.8s ease-in-out infinite alternate;
-  }
-
-  .loader-core {
-    position: relative;
-    z-index: 2;
-    width: min(520px, calc(100vw - 48px));
-    display: grid;
-    gap: 28px;
-  }
-
-  .loader-mark {
-    width: 108px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(255,255,255,.20);
-    border-radius: 8px;
-    background: rgba(255,255,255,.08);
-    backdrop-filter: blur(14px);
-    box-shadow: 0 28px 90px rgba(0,0,0,.38);
-  }
-
-  .loader-mark span {
-    position: relative;
-    width: 56px;
-    height: 56px;
-    display: block;
-    border: 2px solid var(--signal);
-    border-radius: 7px;
-    transform: rotate(45deg);
-    animation: loaderPulse 1.35s ease-in-out infinite;
-  }
-
-  .loader-mark span::before,
-  .loader-mark span::after {
-    content: "";
-    position: absolute;
-    background: var(--signal);
-  }
-
-  .loader-mark span::before {
-    width: 30px;
-    height: 2px;
-    left: 11px;
-    top: 26px;
-  }
-
-  .loader-mark span::after {
-    width: 2px;
-    height: 30px;
-    left: 26px;
-    top: 11px;
-  }
-
-  .loader-copy { display: grid; gap: 10px; }
-
-  .loader-kicker {
-    color: var(--signal);
-    font-size: .76rem;
-    font-weight: 800;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-  }
-
-  .loader-title {
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(2.4rem, 8vw, 5.4rem);
-    line-height: .88;
-    font-weight: 800;
-    letter-spacing: 0;
-  }
-
-  .loader-sub {
-    max-width: 360px;
-    color: rgba(255,255,255,.70);
-    font-size: .95rem;
-    line-height: 1.6;
-  }
-
-  .loader-progress {
-    height: 6px;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 999px;
-    background: rgba(255,255,255,.14);
-  }
-
-  .loader-progress span {
-    display: block;
-    height: 100%;
-    width: 40%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--signal), var(--mint), #fff);
-    animation: loaderBar 1.1s ease-in-out infinite;
-  }
-
-  #creativeLoader.loader-hide {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
   .top-nav {
     height: 74px;
     padding: 0 clamp(18px, 4vw, 58px);
@@ -2334,26 +2196,6 @@
   .admin-modal-card,
   .mobile-nav-drawer { border-radius: 8px !important; }
 
-  @keyframes loaderGrid {
-    from { transform: translate3d(0,0,0); }
-    to { transform: translate3d(54px,54px,0); }
-  }
-
-  @keyframes loaderFrame {
-    from { transform: rotate(12deg) scale(.94); opacity: .55; }
-    to { transform: rotate(20deg) scale(1.04); opacity: .95; }
-  }
-
-  @keyframes loaderPulse {
-    0%, 100% { transform: rotate(45deg) scale(.92); }
-    50% { transform: rotate(45deg) scale(1.08); }
-  }
-
-  @keyframes loaderBar {
-    0% { transform: translateX(-120%); }
-    100% { transform: translateX(260%); }
-  }
-
   @media (max-width: 1100px) {
     #page-landing .courses-grid,
     #page-landing .categories-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2404,56 +2246,13 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    #creativeLoader::before,
-    #creativeLoader::after,
-    .loader-mark span,
-    .loader-progress span { animation: none; }
-  }
 </style>
 </head>
-<body class="loading-lock">
-<div id="creativeLoader" role="status" aria-live="polite" aria-label="StructLab loading">
-  <div class="loader-core">
-    <div class="loader-mark"><span></span></div>
-    <div class="loader-copy">
-      <div class="loader-kicker">Learn / Certify / Get Hired</div>
-      <div class="loader-title">STRUCT<br>LAB</div>
-      <p class="loader-sub">Preparing a construction learning hub with courses, certificates, dashboards, and hiring flows.</p>
-    </div>
-    <div class="loader-progress"><span></span></div>
-  </div>
-</div>
-<script>
-  (function() {
-    var loader = document.getElementById('creativeLoader');
-    var hidden = false;
-    function hideLoader() {
-      if (!loader || hidden) return;
-      hidden = true;
-      window.setTimeout(function() {
-        loader.classList.add('loader-hide');
-        document.body.classList.remove('loading-lock');
-      }, 180);
-      window.setTimeout(function() {
-        if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-      }, 760);
-    }
-    if (document.readyState === 'complete') {
-      hideLoader();
-    } else {
-      window.addEventListener('load', hideLoader);
-      window.setTimeout(hideLoader, 1300);
-    }
-  })();
-</script>
-
-<div class="motion-progress" aria-hidden="true"><span></span></div>
-
+<body>
 <!-- NAV -->
 <nav class="top-nav">
   <a class="nav-logo brand-logo-link" onclick="showPage('landing')" style="text-decoration:none;cursor:pointer" aria-label="StructLab home">
-    <img class="brand-logo-img brand-logo-img-nav" src="./assets/images/structlab-logo-transparent.png" alt="">
+    <img class="brand-logo-img brand-logo-img-nav" src="./assets/images/structlab-logo-transparent.png" alt="" decoding="async" fetchpriority="high">
   </a>
   <div class="nav-links">
     <a href="#courses" onclick="handleNavClick(event, 'courses')">Courses</a>
@@ -2689,7 +2488,7 @@
       <div class="course-card" data-level="advanced" data-students="2847" data-duration="8" data-keywords="geodesy surveying topoqraf laser scanner total station design reconstruction facade measurement">
         <div class="course-img video-preview">
           <button class="video-thumb" type="button" onclick="openVideoModal('m8bXLkD8FdQ', this.closest('.course-card').querySelector('h3').textContent, 'https://youtu.be/m8bXLkD8FdQ')" aria-label="Open course video">
-            <img src="https://img.youtube.com/vi/m8bXLkD8FdQ/hqdefault.jpg" alt="Geodesy course video thumbnail" loading="lazy">
+            <img src="https://img.youtube.com/vi/m8bXLkD8FdQ/hqdefault.jpg" alt="Geodesy course video thumbnail" loading="lazy" decoding="async">
             <span class="play-badge">▶</span>
             <span class="video-tip" id="courseVideoTip">Click to watch inside the site</span>
           </button>
@@ -2929,7 +2728,7 @@
     <div class="team-grid">
       <article class="team-card">
         <div class="team-photo team-photo-baba">
-          <img src="./assets/images/baba.jpeg" alt="Baba Aslanov">
+          <img src="./assets/images/baba.jpeg" alt="Baba Aslanov" loading="lazy" decoding="async">
         </div>
         <div class="team-body">
           <h3>Baba Aslanov</h3>
@@ -2944,7 +2743,7 @@
 
       <article class="team-card">
         <div class="team-photo team-photo-sarvat">
-          <img src="./assets/images/servet.jpeg" alt="Sarvat Sadirov">
+          <img src="./assets/images/servet.jpeg" alt="Sarvat Sadirov" loading="lazy" decoding="async">
         </div>
         <div class="team-body">
           <h3>Sarvat Sadirov</h3>
@@ -2959,7 +2758,7 @@
 
       <article class="team-card">
         <div class="team-photo team-photo-sabuhi">
-          <img src="./assets/images/sabuhi.JPG" alt="Sabuhi Gasimzada">
+          <img src="./assets/images/sabuhi.JPG" alt="Sabuhi Gasimzada" loading="lazy" decoding="async">
         </div>
         <div class="team-body">
           <h3>Sabuhi Gasimzada</h3>
@@ -3075,7 +2874,7 @@
         <span class="partner-badge" id="partnerBadgeTopoqraf">Sponsor</span>
 
         <div class="partner-logo">
-          <img src="./assets/images/topoqraf.webp" alt="Topoqraf logo">
+          <img src="./assets/images/topoqraf.webp" alt="Topoqraf logo" loading="lazy" decoding="async">
         </div>
 
         <div class="partner-name">Topoqraf</div>
@@ -3083,27 +2882,6 @@
         </p>
 
         <span class="partner-link-text" id="partnerVisitText">Saytı ziyarət et</span>
-      </a>
-
-      <a
-        class="partner-card sponsor"
-        href="https://alfavitgroup.az/"
-        target="_blank"
-        rel="noopener noreferrer sponsored"
-        aria-label="Alfavit Group saytını aç"
-        title="Alfavit Group"
-      >
-        <span class="partner-badge" id="partnerBadgeAlfavit">İnvestor</span>
-
-        <div class="partner-logo logo-on-dark">
-          <img src="./assets/images/logo.png" alt="Alfavit Group logo">
-        </div>
-
-        <div class="partner-name">Alfavit Group</div>
-        <p class="partner-note" id="partnerTextAlfavit">
-        </p>
-
-        <span class="partner-link-text" id="partnerVisitTextAlfavit">Saytı ziyarət et</span>
       </a>
     </div>
   </section>
@@ -3113,7 +2891,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a class="nav-logo brand-logo-link footer-logo-link" style="display:flex;margin-bottom:14px;" aria-label="StructLab">
-          <img class="brand-logo-img brand-logo-img-footer" src="./assets/images/structlab-logo-white.png" alt="">
+          <img class="brand-logo-img brand-logo-img-footer" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
         </a>
         <p>Empowering construction professionals through quality education and training.</p>
       </div>
@@ -3148,7 +2926,7 @@
   <div class="dashboard-page">
     <aside class="sidebar">
       <div class="sidebar-logo" aria-label="StructLab">
-        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="">
+        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
       </div>
       <nav class="sidebar-nav">
         <div class="sidebar-item active" data-student-view="dashboard">
@@ -3479,7 +3257,7 @@
   <div class="dashboard-page">
     <aside class="sidebar">
       <div class="sidebar-logo" aria-label="StructLab">
-        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="">
+        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
       </div>
       <nav class="sidebar-nav">
         <div class="sidebar-item active" data-company-view="dashboard">
@@ -3587,7 +3365,7 @@
   <div class="dashboard-page">
     <aside class="sidebar">
       <div class="sidebar-logo" aria-label="StructLab">
-        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="">
+        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
       </div>
       <nav class="sidebar-nav">
         <div class="sidebar-item active" data-admin-view="dashboard">
@@ -3745,7 +3523,7 @@
     <div class="auth-layout">
       <aside class="auth-visual">
         <div class="auth-brand" aria-label="StructLab">
-          <img class="brand-logo-img brand-logo-img-auth" src="./assets/images/structlab-logo-white.png" alt="">
+          <img class="brand-logo-img brand-logo-img-auth" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
         </div>
         <h3 id="authVisualTitle">A smarter way to learn, certify, and get hired.</h3>
         <p id="authVisualText">Create a realistic account flow for students, companies, and admins inside the same demo platform.</p>
@@ -4021,11 +3799,9 @@
     },
     "partners": {
       "title": "Companies We Collaborate With",
-      "sub": "Our partners, sponsors, and investors supporting the platform",
+      "sub": "Our partners and sponsors supporting the platform",
       "sponsorBadge": "Sponsor",
-      "investorBadge": "Investor",
       "topoqrafText": "Our partner in geodesy and surveying services. Clicking the logo opens the official website.",
-      "alfavitText": "Investment partner supporting the development of the StructLab platform and its startup ecosystem.",
       "visitText": "Visit website"
     },
     "pageSwitcher": [
@@ -4356,11 +4132,9 @@
     },
     "partners": {
       "title": "Əməkdaşlıq etdiyimiz şirkətlər",
-      "sub": "Platformamıza dəstək olan tərəfdaşlarımız, sponsorlarımız və investorlarımız",
+      "sub": "Platformamıza dəstək olan tərəfdaşlarımız və sponsorlarımız",
       "sponsorBadge": "Sponsor",
-      "investorBadge": "İnvestor",
       "topoqrafText": "Peşəkar topoqrafiya və geodeziya xidmətləri ilə layihələrinizə dəqiq başlanğıc verin.",
-      "alfavitText": "StructLab platformasının inkişafına və startup ekosisteminə investisiya dəstəyi göstərən tərəfdaş.",
       "visitText": "Saytı ziyarət et"
     },
     "pageSwitcher": [
@@ -4973,12 +4747,25 @@
     closeAuthModal();
   });
 
+  function debounce(fn, delay) {
+    var timer;
+    return function() {
+      var context = this;
+      var args = arguments;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function() {
+        fn.apply(context, args);
+      }, delay);
+    };
+  }
+
   function initCourseEnhancements() {
     const courseSearch = document.getElementById('courseSearch');
     const heroSearch = document.getElementById('heroSearchInput');
+    const applyCourseControlsDebounced = debounce(applyCourseControls, 120);
     if (courseSearch) courseSearch.addEventListener('input', () => {
       syncSearchInputs('course');
-      applyCourseControls();
+      applyCourseControlsDebounced();
     });
     if (heroSearch) heroSearch.addEventListener('input', () => syncSearchInputs('hero'));
   }
@@ -4986,17 +4773,7 @@
   function animateCounter(element) {
     const target = Number(element.dataset.target || 0);
     const suffix = element.dataset.suffix || '';
-    const duration = 1200;
-    const start = performance.now();
-
-    function tick(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
-      element.textContent = value.toLocaleString() + suffix;
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-
-    requestAnimationFrame(tick);
+    element.textContent = target.toLocaleString() + suffix;
   }
 
   function initStatsCounters() {
@@ -5178,9 +4955,6 @@
     setText('#partnerBadgeTopoqraf', t.partners.sponsorBadge);
     setText('#partnerTextTopoqraf', t.partners.topoqrafText);
     setText('#partnerVisitText', t.partners.visitText);
-    setText('#partnerBadgeAlfavit', t.partners.investorBadge);
-    setText('#partnerTextAlfavit', t.partners.alfavitText);
-    setText('#partnerVisitTextAlfavit', t.partners.visitText);
 
     applyLandingExtras(extra);
     applyCourseControls();
@@ -5794,155 +5568,75 @@
   (function() {
     var btn = document.getElementById('scrollTopBtn');
     if (!btn) return;
-    window.addEventListener('scroll', function() {
-      btn.classList.toggle('visible', window.scrollY > 400);
-    }, { passive: true });
-    btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    btn.addEventListener('click', function() { window.scrollTo({ top: 0 }); });
   })();
 
   /* ===================== LANDING MOTION SYSTEM ===================== */
   (function() {
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var landing = document.getElementById('page-landing');
     if (!landing) return;
+    landing.classList.add('light-motion');
 
-    function markMotionElements() {
-      var groups = [
-        '.value-prop',
-        '.stat-item',
-        '#how-it-works .section-header',
-        '#how-it-works .how-card',
-        '#categories .section-header',
-        '#categories .cat-card',
-        '#courses .section-header',
-        '#courses .courses-toolbar',
-        '#courses .filter-tabs',
-        '#courses .course-card',
-        '#showcase .section-header',
-        '#showcase .showcase-card',
-        '#faq .section-header',
-        '#faq .faq-item',
-        '#team .section-header',
-        '#team .team-card',
-        '#about .section-header',
-        '#about .dash-card',
-        '.cta-section',
-        '#contact .section-header',
-        '#contact .contact-info-item',
-        '#contact .contact-form',
-        '.partners-section .section-header',
-        '.partner-card',
-        'footer .footer-brand',
-        'footer .footer-col',
-        'footer .footer-bottom'
-      ];
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealSelectors = [
+      '#page-landing .section-header',
+      '#page-landing .value-prop',
+      '#page-landing .stat-item',
+      '#page-landing .how-card',
+      '#page-landing .cat-card',
+      '#page-landing .course-card',
+      '#page-landing .showcase-card',
+      '#page-landing .faq-item',
+      '#page-landing .team-card',
+      '#page-landing .dash-card',
+      '#page-landing .contact-info-item',
+      '#page-landing .contact-form',
+      '#page-landing .partner-card',
+      '#page-landing footer .footer-brand',
+      '#page-landing footer .footer-col',
+      '#page-landing footer .footer-bottom'
+    ];
+    var sceneSelectors = [
+      '#page-landing > .value-props',
+      '#page-landing > .stats',
+      '#page-landing > .section',
+      '#page-landing > .cta-section',
+      '#page-landing > .partners-section',
+      '#page-landing > footer'
+    ];
 
-      groups.forEach(function(selector) {
-        document.querySelectorAll(selector).forEach(function(el, index) {
-          el.classList.add('motion-ready');
-          el.style.setProperty('--motion-index', index % 6);
-        });
+    revealSelectors.forEach(function(selector) {
+      document.querySelectorAll(selector).forEach(function(el, index) {
+        el.classList.add('motion-ready');
+        el.style.setProperty('--motion-index', index % 4);
       });
+    });
 
-      document.querySelectorAll('#page-landing .course-card, #page-landing .showcase-card, #page-landing .team-card, #page-landing .partner-card, #page-landing .cat-card, #page-landing .how-card').forEach(function(el) {
-        el.classList.add('tilt-ready');
-      });
-
-      document.querySelectorAll('#page-landing > .section, #page-landing > .value-props, #page-landing > .stats, #page-landing > .cta-section, #page-landing > .partners-section, #page-landing > footer').forEach(function(el, index) {
+    sceneSelectors.forEach(function(selector) {
+      document.querySelectorAll(selector).forEach(function(el) {
         el.classList.add('scroll-scene');
-        el.style.setProperty('--scene-index', index);
       });
-    }
+    });
 
-    function initReveal() {
-      var items = document.querySelectorAll('.motion-ready');
-      var scenes = document.querySelectorAll('.scroll-scene');
-      if (reduceMotion || !('IntersectionObserver' in window)) {
-        items.forEach(function(el) { el.classList.add('in-view'); });
-        scenes.forEach(function(el) { el.classList.add('scene-open'); });
-        return;
-      }
-
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        });
-      }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
-
-      items.forEach(function(el) { observer.observe(el); });
-
-      var sceneObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('scene-open');
-          sceneObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
-
-      scenes.forEach(function(el) { sceneObserver.observe(el); });
-    }
-
-    function initTilt() {
-      if (reduceMotion || !window.matchMedia('(pointer: fine)').matches) return;
-      document.querySelectorAll('.tilt-ready').forEach(function(card) {
-        card.addEventListener('pointermove', function(event) {
-          var rect = card.getBoundingClientRect();
-          var px = (event.clientX - rect.left) / rect.width;
-          var py = (event.clientY - rect.top) / rect.height;
-          var rotateY = (px - .5) * 7;
-          var rotateX = (.5 - py) * 6;
-          card.style.setProperty('--tilt-x', rotateX.toFixed(2) + 'deg');
-          card.style.setProperty('--tilt-y', rotateY.toFixed(2) + 'deg');
-          card.style.setProperty('--mx', Math.round(px * 100) + '%');
-          card.style.setProperty('--my', Math.round(py * 100) + '%');
-        });
-        card.addEventListener('pointerleave', function() {
-          card.style.setProperty('--tilt-x', '0deg');
-          card.style.setProperty('--tilt-y', '0deg');
-          card.style.setProperty('--mx', '50%');
-          card.style.setProperty('--my', '50%');
-        });
+    var targets = document.querySelectorAll('.motion-ready, .scroll-scene');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      targets.forEach(function(el) {
+        el.classList.add('in-view');
+        el.classList.add('scene-open');
       });
+      return;
     }
 
-    function initScrollProgress() {
-      var bar = document.querySelector('.motion-progress span');
-      var ticking = false;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in-view');
+        entry.target.classList.add('scene-open');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
-      function update() {
-        var doc = document.documentElement;
-        var maxScroll = Math.max(1, doc.scrollHeight - window.innerHeight);
-        var progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-        if (bar) bar.style.transform = 'scaleX(' + progress + ')';
-
-        var hero = document.querySelector('#page-landing .hero');
-        if (hero) {
-          var heroRect = hero.getBoundingClientRect();
-          if (heroRect.bottom > 0) {
-            var heroProgress = Math.min(1, Math.max(0, -heroRect.top / Math.max(1, hero.offsetHeight)));
-            hero.style.setProperty('--hero-shift', (heroProgress * 20).toFixed(2));
-          }
-        }
-        ticking = false;
-      }
-
-      function requestTick() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-
-      update();
-      window.addEventListener('scroll', requestTick, { passive: true });
-      window.addEventListener('resize', requestTick);
-    }
-
-    markMotionElements();
-    initReveal();
-    initTilt();
-    initScrollProgress();
+    targets.forEach(function(el) { observer.observe(el); });
   })();
 
   /* ===================== ADMIN CRUD ===================== */
@@ -6178,15 +5872,15 @@
   function initAdminSearch() {
     var studentSearch = document.getElementById('adminStudentSearchInput');
     if (studentSearch) {
-      studentSearch.addEventListener('input', function() {
+      studentSearch.addEventListener('input', debounce(function() {
         renderAdminStudents(this.value);
-      });
+      }, 120));
     }
     var companySearch = document.getElementById('adminCompanySearchInput');
     if (companySearch) {
-      companySearch.addEventListener('input', function() {
+      companySearch.addEventListener('input', debounce(function() {
         renderAdminCompanies(this.value);
-      });
+      }, 120));
     }
   }
 
@@ -6335,7 +6029,6 @@
   h5,
   .nav-logo,
   .stat-num,
-  .loader-title,
   .admin-stat-num {
     font-family: 'Noto Sans Display', 'Noto Sans', Arial, sans-serif !important;
     letter-spacing: 0 !important;
@@ -6509,34 +6202,6 @@
       radial-gradient(circle at 8% 12%, rgba(124, 60, 255, .16), transparent 30%),
       radial-gradient(circle at 90% 8%, rgba(39, 215, 255, .14), transparent 26%),
       linear-gradient(180deg, #fbfcff 0%, #f3f6ff 58%, #f7f9ff 100%) !important;
-  }
-
-  #creativeLoader {
-    background:
-      radial-gradient(circle at 25% 25%, rgba(124,60,255,.32), transparent 28%),
-      radial-gradient(circle at 76% 18%, rgba(39,215,255,.20), transparent 30%),
-      linear-gradient(120deg, rgba(3,4,20,.98), rgba(18,16,64,.94)),
-      url("./assets/images/AdvancedConstructionProjectPlanning_530x@2x.webp") center/cover no-repeat !important;
-  }
-
-  #creativeLoader::after {
-    border-color: rgba(185,167,255,.44) !important;
-    box-shadow: 0 0 90px rgba(124,60,255,.22);
-  }
-
-  .loader-kicker,
-  .loader-mark span {
-    color: #d7cbff !important;
-    border-color: #9f7dff !important;
-  }
-
-  .loader-mark span::before,
-  .loader-mark span::after {
-    background: linear-gradient(90deg, #9f7dff, #27d7ff) !important;
-  }
-
-  .loader-progress span {
-    background: linear-gradient(90deg, #7c3cff, #315dff, #27d7ff) !important;
   }
 
   .top-nav {
@@ -6804,7 +6469,6 @@
       linear-gradient(120deg, rgba(5,5,22,.98), rgba(25,10,72,.72) 48%, rgba(5,32,85,.76)) !important;
     background-size: 180% 180%, 160% 160%, 92px 92px, 78px 78px, auto !important;
     background-position: 0% 50%, 100% 50%, 0 0, 0 0, center !important;
-    animation: heroGradientFlow 11s ease-in-out infinite alternate !important;
   }
 
   #page-landing .hero::after {
@@ -6814,44 +6478,6 @@
       linear-gradient(90deg, rgba(124,60,255,.22), transparent 35%, rgba(39,215,255,.16)) !important;
     background-size: 128px 128px, 128px 128px, 100% 100% !important;
     mask-image: linear-gradient(90deg, rgba(0,0,0,.96), rgba(0,0,0,.68), rgba(0,0,0,.34)) !important;
-    animation: heroGridDrift 16s linear infinite !important;
-  }
-
-  @keyframes heroGradientFlow {
-    0% {
-      background-position: 0% 50%, 100% 50%, 0 0, 0 0, center;
-      filter: hue-rotate(0deg) saturate(1);
-    }
-    100% {
-      background-position: 100% 50%, 0% 50%, 92px 46px, -78px 39px, center;
-      filter: hue-rotate(10deg) saturate(1.08);
-    }
-  }
-
-  @keyframes heroGridDrift {
-    from { background-position: 0 0, 0 0, center; }
-    to { background-position: 128px 0, 0 128px, center; }
-  }
-
-  .motion-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    z-index: 2200;
-    pointer-events: none;
-    background: rgba(7,10,31,.08);
-  }
-
-  .motion-progress span {
-    display: block;
-    width: 100%;
-    height: 100%;
-    transform: scaleX(0);
-    transform-origin: left;
-    background: linear-gradient(90deg, #ffd84d, #ff8a2a 32%, #7c3cff 68%, #27d7ff);
-    box-shadow: 0 0 18px rgba(255,216,77,.42), 0 0 30px rgba(39,215,255,.28);
   }
 
   #page-landing {
@@ -7069,16 +6695,9 @@
   #page-landing .progress-fill,
   #page-landing .white-fill {
     transform-origin: left;
-    animation: linePulse 2.8s ease-in-out infinite;
-  }
-
-  @keyframes linePulse {
-    0%, 100% { filter: saturate(1); }
-    50% { filter: saturate(1.45) brightness(1.15); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .motion-progress span,
     .motion-ready,
     .scroll-scene,
     #page-landing .hero > *,
@@ -7092,24 +6711,6 @@
       clip-path: none !important;
       opacity: 1 !important;
     }
-  }
-
-  #creativeLoader::before {
-    display: none !important;
-  }
-
-  #creativeLoader::after {
-    animation: none !important;
-    box-shadow: 0 0 42px rgba(124,60,255,.14) !important;
-  }
-
-  .loader-mark {
-    backdrop-filter: none !important;
-  }
-
-  .loader-mark span,
-  .loader-progress span {
-    animation-duration: 1.8s !important;
   }
 
   #scrollTopBtn,
@@ -7202,6 +6803,189 @@
     .brand-logo-img-nav {
       width: 148px;
       height: 46px;
+    }
+  }
+
+  #page-landing .cta-btns {
+    gap: 14px !important;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #page-landing .btn-cta-white,
+  #page-landing .btn-cta-outline {
+    min-width: 158px;
+    min-height: 50px;
+    border-radius: 12px !important;
+    padding: 13px 28px !important;
+    font-size: 0.96rem;
+    font-weight: 900;
+    line-height: 1;
+    border: 1px solid transparent !important;
+    box-shadow: 0 16px 34px rgba(7,10,31,.18);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease !important;
+  }
+
+  #page-landing .btn-cta-white {
+    background: linear-gradient(135deg, #11105e 0%, #2312a4 52%, #315dff 100%) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.18) !important;
+  }
+
+  #page-landing .btn-cta-outline {
+    background: rgba(255,255,255,.14) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.46) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  #page-landing .btn-cta-white:hover,
+  #page-landing .btn-cta-outline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 44px rgba(7,10,31,.24);
+  }
+
+  #page-landing .btn-cta-outline:hover {
+    background: rgba(255,255,255,.22) !important;
+    border-color: rgba(255,255,255,.72) !important;
+  }
+
+  #page-landing .btn-cta-white:focus-visible,
+  #page-landing .btn-cta-outline:focus-visible {
+    outline: 3px solid rgba(255,255,255,.42);
+    outline-offset: 3px;
+  }
+
+  #page-landing .value-prop,
+  #page-landing .showcase-card {
+    border-color: rgba(49,93,255,.11) !important;
+    box-shadow: 0 18px 48px rgba(15,23,42,.09) !important;
+  }
+
+  #page-landing .value-props {
+    transform: none !important;
+    margin: 0 auto !important;
+    padding-block: 34px 28px !important;
+    border-top: 0 !important;
+    border-bottom-color: rgba(49,93,255,.10) !important;
+  }
+
+  #page-landing .value-prop::after,
+  #page-landing .showcase-card::before {
+    left: 28px !important;
+    right: 28px !important;
+    top: 0 !important;
+    width: auto !important;
+    height: 3px !important;
+    border-radius: 0 0 999px 999px;
+    background: linear-gradient(90deg, rgba(124,60,255,.76), rgba(49,93,255,.78), rgba(39,215,255,.72)) !important;
+    opacity: .72;
+  }
+
+  #page-landing .value-prop-icon {
+    box-shadow: 0 14px 28px rgba(49,93,255,.16) !important;
+  }
+
+  @media (max-width: 640px) {
+    #page-landing .cta-btns {
+      width: min(100%, 340px);
+      margin-inline: auto;
+    }
+
+    #page-landing .btn-cta-white,
+    #page-landing .btn-cta-outline {
+      width: 100%;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .fade-up {
+    animation-duration: .42s !important;
+  }
+
+  #page-landing.light-motion .motion-ready,
+  #page-landing.light-motion .scroll-scene {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(.992);
+    transition:
+      opacity .72s cubic-bezier(.2,.8,.2,1),
+      transform .72s cubic-bezier(.2,.8,.2,1),
+      border-color .22s ease,
+      box-shadow .22s ease;
+    transition-delay: calc(var(--motion-index, 0) * 48ms);
+    will-change: opacity, transform;
+  }
+
+  #page-landing.light-motion .scroll-scene {
+    transform: translate3d(0, 34px, 0);
+  }
+
+  #page-landing.light-motion .motion-ready.in-view,
+  #page-landing.light-motion .scroll-scene.scene-open {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    will-change: auto;
+  }
+
+  #page-landing.light-motion .section-header.motion-ready h2,
+  #page-landing.light-motion .section-header.motion-ready p {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  #page-landing .hero,
+  #page-landing .hero > *,
+  .tilt-ready {
+    transform: none !important;
+    transform-style: flat !important;
+    will-change: auto !important;
+  }
+
+  #page-landing .hero::before,
+  #page-landing .hero::after,
+  .scroll-scene::before,
+  #page-landing .hero-search::after,
+  #page-landing .course-card::after,
+  #page-landing .showcase-card::after,
+  #page-landing .team-card::after,
+  #page-landing .partner-card::after,
+  #page-landing .cat-card::after,
+  #page-landing .how-card::after {
+    display: none !important;
+    animation: none !important;
+  }
+
+  #page-landing .match-fill,
+  #page-landing .progress-fill,
+  #page-landing .white-fill {
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .top-nav,
+  .hero-tag,
+  .hero-search input,
+  #page-landing .btn-cta-outline,
+  #page-landing .trusted-logo,
+  .page-switcher {
+    backdrop-filter: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+
+    #page-landing.light-motion .motion-ready,
+    #page-landing.light-motion .scroll-scene {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
     }
   }
 </style>
