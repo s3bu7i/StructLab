@@ -1661,6 +1661,178 @@
       #f6f7fb;
   }
 
+  body.is-loading { overflow: hidden; }
+
+  .site-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 20000;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    color: #fff;
+    background:
+      linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px),
+      radial-gradient(circle at 22% 18%, rgba(39,215,255,.20), transparent 26%),
+      radial-gradient(circle at 78% 70%, rgba(239,255,57,.16), transparent 28%),
+      linear-gradient(135deg, #04060d 0%, #10134a 52%, #082a5e 100%);
+    background-size: 46px 46px, 46px 46px, auto, auto, auto;
+    transition: opacity .32s ease, visibility .32s ease;
+  }
+
+  .site-loader.loader-hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .loader-panel {
+    width: min(540px, 100%);
+    display: grid;
+    gap: 22px;
+  }
+
+  .loader-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .loader-mark {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #7c3cff, #315dff 58%, #27d7ff);
+    box-shadow: 0 18px 42px rgba(39,93,255,.28);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .loader-mark::before {
+    content: "";
+    width: 28px;
+    height: 28px;
+    border: 3px solid #fff;
+    border-top-width: 7px;
+    border-radius: 5px;
+    transform: perspective(80px) rotateX(10deg);
+  }
+
+  .loader-brand-text span {
+    display: block;
+    color: rgba(255,255,255,.64);
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .loader-brand-text strong {
+    display: block;
+    margin-top: 3px;
+    font-family: 'Noto Sans Display', 'Noto Sans', Arial, sans-serif;
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    line-height: .9;
+    letter-spacing: 0;
+  }
+
+  .loader-path {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .loader-step {
+    min-height: 92px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 14px;
+    padding: 14px;
+    background: rgba(255,255,255,.075);
+    animation: loaderStep .9s ease both;
+  }
+
+  .loader-step:nth-child(2) { animation-delay: .08s; }
+  .loader-step:nth-child(3) { animation-delay: .16s; }
+
+  .loader-step span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    margin-bottom: 10px;
+    background: rgba(239,255,57,.14);
+    color: #efff39;
+    font-weight: 900;
+  }
+
+  .loader-step strong {
+    display: block;
+    font-size: .9rem;
+    margin-bottom: 4px;
+  }
+
+  .loader-step small {
+    display: block;
+    color: rgba(255,255,255,.58);
+    font-size: .76rem;
+    line-height: 1.45;
+  }
+
+  .loader-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: rgba(255,255,255,.72);
+    font-size: .82rem;
+    font-weight: 800;
+  }
+
+  .loader-track {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+  }
+
+  .loader-track span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transform-origin: left;
+    background: linear-gradient(90deg, #efff39, #24d6a4, #27d7ff);
+    animation: loaderLoad .95s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  @keyframes loaderStep {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes loaderLoad {
+    from { transform: scaleX(.08); }
+    to { transform: scaleX(1); }
+  }
+
+  @media (max-width: 560px) {
+    .loader-path { grid-template-columns: 1fr; }
+    .loader-step { min-height: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-loader,
+    .loader-step,
+    .loader-track span {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
   .top-nav {
     height: 74px;
     padding: 0 clamp(18px, 4vw, 58px);
@@ -2248,7 +2420,68 @@
 
 </style>
 </head>
-<body>
+<body class="is-loading">
+<div class="site-loader" id="siteLoader" role="status" aria-live="polite" aria-label="StructLab loading">
+  <div class="loader-panel">
+    <div class="loader-brand-row">
+      <div class="loader-mark" aria-hidden="true"></div>
+      <div class="loader-brand-text">
+        <span>Construction learning hub</span>
+        <strong>StructLab</strong>
+      </div>
+    </div>
+    <div class="loader-path" aria-hidden="true">
+      <div class="loader-step">
+        <span>01</span>
+        <strong>Courses</strong>
+        <small>Practical skills for real construction work.</small>
+      </div>
+      <div class="loader-step">
+        <span>02</span>
+        <strong>Certificates</strong>
+        <small>Verified progress and completion records.</small>
+      </div>
+      <div class="loader-step">
+        <span>03</span>
+        <strong>Careers</strong>
+        <small>Profiles built for hiring workflows.</small>
+      </div>
+    </div>
+    <div class="loader-status">
+      <span>Preparing workspace</span>
+      <span>Learn / Certify / Get Hired</span>
+    </div>
+    <div class="loader-track" aria-hidden="true"><span></span></div>
+  </div>
+</div>
+<script>
+  (function() {
+    var loader = document.getElementById('siteLoader');
+    var started = Date.now();
+    var hidden = false;
+
+    function hideLoader() {
+      if (!loader || hidden) return;
+      hidden = true;
+      var elapsed = Date.now() - started;
+      var delay = Math.max(0, 850 - elapsed);
+      window.setTimeout(function() {
+        loader.classList.add('loader-hide');
+        document.body.classList.remove('is-loading');
+        window.setTimeout(function() {
+          if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+        }, 340);
+      }, delay);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', hideLoader, { once: true });
+    } else {
+      hideLoader();
+    }
+    window.setTimeout(hideLoader, 1600);
+  })();
+</script>
 <!-- NAV -->
 <nav class="top-nav">
   <a class="nav-logo brand-logo-link" onclick="showPage('landing')" style="text-decoration:none;cursor:pointer" aria-label="StructLab home">
