@@ -6,8 +6,8 @@
 <title>StructLab – Bridging Education & Construction</title>
 <meta name="description" content="StructLab connects construction education, certification, and hiring workflows in one platform.">
 <meta name="theme-color" content="#315dff">
-<link rel="icon" type="image/png" href="./assets/images/structlab-logo-icon.png">
-<link rel="apple-touch-icon" href="./assets/images/structlab-logo-icon.png">
+<link rel="icon" type="image/png" href="./assets/images/logo_2-polished.png">
+<link rel="apple-touch-icon" href="./assets/images/logo_2-polished.png">
 <link rel="manifest" href="./site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300..900;1,400..700&family=Noto+Sans+Display:wght@400..900&display=swap" rel="stylesheet">
@@ -1010,6 +1010,23 @@
     border-color: rgba(244,124,32,0.35);
   }
 
+  .partner-card.coordinat-partner {
+    border-color: rgba(27, 176, 205, 0.34);
+  }
+
+  .partner-card.coordinat-partner:hover {
+    border-color: #1bb0cd;
+  }
+
+  .coordinat-partner .partner-badge {
+    background: #e7f8fb;
+    color: #0788a5;
+  }
+
+  .coordinat-partner .partner-link-text {
+    color: #0788a5;
+  }
+
   .partner-badge {
     position: absolute;
     top: 14px;
@@ -1052,6 +1069,11 @@
   .partner-logo.logo-on-dark img {
     max-width: 235px;
     max-height: 76px;
+  }
+
+  .partner-logo.coordinat-logo img {
+    max-width: 250px;
+    max-height: 82px;
   }
 
   .partner-name {
@@ -2485,7 +2507,7 @@
 <!-- NAV -->
 <nav class="top-nav">
   <a class="nav-logo brand-logo-link" onclick="showPage('landing')" style="text-decoration:none;cursor:pointer" aria-label="StructLab home">
-    <img class="brand-logo-img brand-logo-img-nav" src="./assets/images/structlab-logo-transparent.png" alt="" decoding="async" fetchpriority="high">
+    <img class="brand-logo-img brand-logo-img-nav" src="./assets/images/logo_2-polished.png" alt="StructLab" decoding="async" fetchpriority="high">
   </a>
   <div class="nav-links">
     <a href="#courses" onclick="handleNavClick(event, 'courses')">Courses</a>
@@ -3116,6 +3138,25 @@
 
         <span class="partner-link-text" id="partnerVisitText">Saytı ziyarət et</span>
       </a>
+      <a
+        class="partner-card coordinat-partner"
+        href="https://www.coordinatgroup.com/"
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        aria-label="Open Coordinat Group website"
+        title="Coordinat Group"
+      >
+        <span class="partner-badge" id="partnerBadgeCoordinat">Partner</span>
+
+        <div class="partner-logo coordinat-logo">
+          <img src="./assets/images/coordinat.png" alt="Coordinat Group logo" loading="lazy" decoding="async">
+        </div>
+
+        <div class="partner-name">Coordinat Group</div>
+        <p class="partner-note" id="partnerTextCoordinat"></p>
+
+        <span class="partner-link-text" id="partnerVisitTextCoordinat">Visit website</span>
+      </a>
     </div>
   </section>
 
@@ -3124,7 +3165,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a class="nav-logo brand-logo-link footer-logo-link" style="display:flex;margin-bottom:14px;" aria-label="StructLab">
-          <img class="brand-logo-img brand-logo-img-footer" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
+          <img class="brand-logo-img brand-logo-img-footer" src="./assets/images/logo_2-polished.png" alt="StructLab" loading="lazy" decoding="async">
         </a>
         <p>Empowering construction professionals through quality education and training.</p>
       </div>
@@ -3159,7 +3200,7 @@
   <div class="dashboard-page">
     <aside class="sidebar">
       <div class="sidebar-logo" aria-label="StructLab">
-        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
+        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/logo_2-polished.png" alt="StructLab" loading="lazy" decoding="async">
       </div>
       <nav class="sidebar-nav">
         <div class="sidebar-item active" data-student-view="dashboard">
@@ -3490,7 +3531,7 @@
   <div class="dashboard-page">
     <aside class="sidebar">
       <div class="sidebar-logo" aria-label="StructLab">
-        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
+        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/logo_2-polished.png" alt="StructLab" loading="lazy" decoding="async">
       </div>
       <nav class="sidebar-nav">
         <div class="sidebar-item active" data-company-view="dashboard">
@@ -3598,7 +3639,7 @@
   <div class="dashboard-page">
     <aside class="sidebar">
       <div class="sidebar-logo" aria-label="StructLab">
-        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
+        <img class="brand-logo-img brand-logo-img-sidebar" src="./assets/images/logo_2-polished.png" alt="StructLab" loading="lazy" decoding="async">
       </div>
       <nav class="sidebar-nav">
         <div class="sidebar-item active" data-admin-view="dashboard">
@@ -3756,7 +3797,7 @@
     <div class="auth-layout">
       <aside class="auth-visual">
         <div class="auth-brand" aria-label="StructLab">
-          <img class="brand-logo-img brand-logo-img-auth" src="./assets/images/structlab-logo-white.png" alt="" loading="lazy" decoding="async">
+          <img class="brand-logo-img brand-logo-img-auth" src="./assets/images/logo_2-polished.png" alt="StructLab" loading="lazy" decoding="async">
         </div>
         <h3 id="authVisualTitle">A smarter way to learn, certify, and get hired.</h3>
         <p id="authVisualText">Create a realistic account flow for students, companies, and admins inside the same demo platform.</p>
@@ -4035,6 +4076,8 @@
       "sub": "Our partners and sponsors supporting the platform",
       "sponsorBadge": "Sponsor",
       "topoqrafText": "Our partner in geodesy and surveying services. Clicking the logo opens the official website.",
+      "coordinatBadge": "Partner",
+      "coordinatText": "Professional engineering and surveying solutions from Coordinat Group.",
       "visitText": "Visit website"
     },
     "pageSwitcher": [
@@ -4368,6 +4411,8 @@
       "sub": "Platformamıza dəstək olan tərəfdaşlarımız və sponsorlarımız",
       "sponsorBadge": "Sponsor",
       "topoqrafText": "Peşəkar topoqrafiya və geodeziya xidmətləri ilə layihələrinizə dəqiq başlanğıc verin.",
+      "coordinatBadge": "Tərəfdaş",
+      "coordinatText": "Coordinat Group-dan peşəkar mühəndislik və ölçmə həlləri.",
       "visitText": "Saytı ziyarət et"
     },
     "pageSwitcher": [
@@ -5188,6 +5233,9 @@
     setText('#partnerBadgeTopoqraf', t.partners.sponsorBadge);
     setText('#partnerTextTopoqraf', t.partners.topoqrafText);
     setText('#partnerVisitText', t.partners.visitText);
+    setText('#partnerBadgeCoordinat', t.partners.coordinatBadge);
+    setText('#partnerTextCoordinat', t.partners.coordinatText);
+    setText('#partnerVisitTextCoordinat', t.partners.visitText);
 
     applyLandingExtras(extra);
     applyCourseControls();
@@ -7220,6 +7268,148 @@
       transition: none !important;
       will-change: auto !important;
     }
+  }
+</style>
+
+<!-- PDF-INSPIRED ACCENT PALETTE -->
+<style>
+  :root {
+    --navy: #11105e;
+    --navy-dark: #0d0930;
+    --blue: #5b3df5;
+    --blue-light: #27d7ff;
+    --orange: #ee6c61;
+    --orange-light: #ff917c;
+    --orange-pale: #fff0ee;
+    --signal: #27d7ff;
+    --mint: #7c3cff;
+  }
+
+  #page-landing .hero {
+    background:
+      radial-gradient(circle at 78% 46%, rgba(238,108,97,0.72) 0%, rgba(238,108,97,0.32) 24%, transparent 48%),
+      radial-gradient(circle at 60% 68%, rgba(39,215,255,0.20) 0%, transparent 34%),
+      linear-gradient(135deg, #0d0930 0%, #171052 52%, #3a1f68 100%);
+  }
+
+  #page-landing .hero::before {
+    background:
+      linear-gradient(90deg, rgba(13,9,48,.96) 0%, rgba(13,9,48,.72) 44%, rgba(13,9,48,.22) 100%),
+      linear-gradient(180deg, rgba(13,9,48,.05), rgba(13,9,48,.62));
+  }
+
+  #page-landing .hero h1::after {
+    background: linear-gradient(90deg, #7c3cff, #27d7ff, transparent);
+  }
+
+  #page-landing .btn-explore,
+  .btn-primary:hover,
+  .hero .btn-explore:hover {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #7c3cff 0%, #27d7ff 100%) !important;
+  }
+
+  .btn-primary {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #5b3df5 0%, #27bff2 100%) !important;
+    box-shadow: 0 10px 24px rgba(91, 61, 245, 0.22);
+  }
+
+  #page-landing .section-header h2::after {
+    content: "";
+    display: block;
+    width: 54px;
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #7c3cff, #27d7ff);
+  }
+
+  #page-landing .section-bg .section-header h2::after {
+    box-shadow: 0 0 20px rgba(39, 215, 255, 0.38);
+  }
+
+  #page-landing .cta-section {
+    background:
+      radial-gradient(circle at 86% 24%, rgba(238,108,97,0.92) 0%, transparent 32%),
+      radial-gradient(circle at 18% 82%, rgba(39,215,255,0.34) 0%, transparent 38%),
+      linear-gradient(120deg, #100b38 0%, #2b176e 54%, #552269 100%) !important;
+    color: #ffffff;
+  }
+
+  #page-landing .cta-section h2 { color: #ffffff !important; }
+  #page-landing .cta-section p { color: rgba(255,255,255,0.8) !important; }
+  #page-landing .btn-cta-white {
+    background: linear-gradient(135deg, #7c3cff 0%, #27d7ff 100%) !important;
+  }
+
+  #page-landing .partners-grid { align-items: stretch; }
+  #page-landing .partner-card {
+    min-height: 252px;
+    justify-content: center;
+    border-color: rgba(91,61,245,0.16);
+  }
+
+  #page-landing .partner-card:hover {
+    border-color: rgba(39,215,255,0.72);
+    box-shadow: 0 20px 44px rgba(17,16,94,0.14);
+  }
+
+  #page-landing input:focus,
+  #page-landing textarea:focus,
+  #page-landing select:focus {
+    outline: none;
+    border-color: #5b3df5 !important;
+    box-shadow: 0 0 0 4px rgba(91,61,245,0.13) !important;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 3px solid rgba(39,215,255,0.8);
+    outline-offset: 3px;
+  }
+
+  #page-landing section[id] { scroll-margin-top: 96px; }
+
+  @media (max-width: 640px) {
+    #page-landing .section-header h2::after { margin-top: 14px; }
+    #page-landing .partner-card { min-height: 226px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #page-landing .partner-card,
+    #page-landing .btn-primary,
+    #page-landing .btn-cta-white { transition: none !important; }
+  }
+
+  .brand-logo-img {
+    filter: drop-shadow(0 4px 9px rgba(17, 16, 94, 0.14));
+  }
+
+  .brand-logo-img-nav {
+    width: 82px;
+    height: 64px;
+  }
+
+  .brand-logo-img-footer,
+  .brand-logo-img-sidebar,
+  .brand-logo-img-auth {
+    padding: 5px;
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+  }
+
+  .brand-logo-img-footer { width: 100px; height: 82px; }
+  .brand-logo-img-sidebar { width: 100px; height: 82px; }
+  .brand-logo-img-auth { width: 112px; height: 90px; }
+
+  @media (max-width: 900px) {
+    .brand-logo-img-nav { width: 74px; height: 58px; }
   }
 </style>
 
