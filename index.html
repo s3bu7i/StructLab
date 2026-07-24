@@ -911,6 +911,7 @@
   .team-photo-baba img { object-position: center 38%; }
   .team-photo-sarvat img { object-position: center 24%; }
   .team-photo-sabuhi img { object-position: center 30%; }
+  .team-photo-sevinc img { object-position: center 38%; }
 
   .team-body {
     padding: 24px 24px 26px;
@@ -3025,6 +3026,16 @@
           </a>
         </div>
       </article>
+      <article class="team-card">
+        <div class="team-photo team-photo-sevinc">
+          <img src="./assets/images/sevinc.jpeg" alt="Sevinc Aliyeva" loading="lazy" decoding="async">
+        </div>
+        <div class="team-body">
+          <h3>Sevinc Aliyeva</h3>
+          <p class="team-role">Team Member</p>
+          <p class="team-bio">Part of the StructLab team.</p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -4015,12 +4026,14 @@
       "roles": [
         "CEO & Founder",
         "CEO & Founder, Topoqraf.az",
-        "Developer"
+        "Developer",
+        "Team Member"
       ],
       "bios": [
         "Leads StructLab’s product vision, strategy, and business development direction.",
         "Brings industry partnership, geodesy, and topography expertise to the StructLab ecosystem.",
-        "Works on the web development and digital product experience of the StructLab platform."
+        "Works on the web development and digital product experience of the StructLab platform.",
+        "Part of the StructLab team."
       ],
       "linkedin": "View LinkedIn"
     },
@@ -4350,7 +4363,8 @@
       "roles": [
         "CEO və həmtəsisçi",
         "CEO və həmtəsisçi, Topoqraf.az",
-        "Developer"
+        "Developer",
+        "Komanda üzvü"
       ],
       "bios": [
         "StructLab üçün məhsul vizyonu, strategiya və biznes inkişafı istiqamətlərinə rəhbərlik edir.",
@@ -7287,19 +7301,73 @@
 
   #page-landing .hero {
     background:
-      radial-gradient(circle at 78% 46%, rgba(238,108,97,0.72) 0%, rgba(238,108,97,0.32) 24%, transparent 48%),
-      radial-gradient(circle at 60% 68%, rgba(39,215,255,0.20) 0%, transparent 34%),
-      linear-gradient(135deg, #0d0930 0%, #171052 52%, #3a1f68 100%);
+      radial-gradient(ellipse at 100% 62%, rgba(164,55,105,0.74) 0%, rgba(164,55,105,0.38) 29%, transparent 54%),
+      radial-gradient(ellipse at 88% 28%, rgba(255,130,104,0.94) 0%, rgba(244,102,117,0.68) 25%, transparent 54%),
+      radial-gradient(ellipse at 72% 46%, rgba(211,88,186,0.46) 0%, transparent 42%),
+      radial-gradient(circle at 58% 82%, rgba(39,215,255,0.26) 0%, transparent 37%),
+      linear-gradient(135deg, #0d0930 0%, #171052 48%, #432064 100%);
   }
 
   #page-landing .hero::before {
     background:
-      linear-gradient(90deg, rgba(13,9,48,.96) 0%, rgba(13,9,48,.72) 44%, rgba(13,9,48,.22) 100%),
-      linear-gradient(180deg, rgba(13,9,48,.05), rgba(13,9,48,.62));
+      linear-gradient(90deg, rgba(13,9,48,.97) 0%, rgba(13,9,48,.76) 42%, rgba(13,9,48,.14) 100%),
+      linear-gradient(180deg, rgba(13,9,48,.04), rgba(13,9,48,.46));
   }
 
   #page-landing .hero h1::after {
     background: linear-gradient(90deg, #7c3cff, #27d7ff, transparent);
+  }
+
+  #page-landing #courses {
+    background:
+      radial-gradient(circle at 8% 10%, rgba(255,130,104,0.13) 0%, transparent 22%),
+      radial-gradient(circle at 94% 84%, rgba(124,60,255,0.11) 0%, transparent 26%),
+      #f6f7fb;
+  }
+
+  #page-landing #showcase {
+    background:
+      radial-gradient(circle at 90% 16%, rgba(255,130,104,0.10) 0%, transparent 24%),
+      radial-gradient(circle at 7% 88%, rgba(39,215,255,0.12) 0%, transparent 28%),
+      #ffffff;
+  }
+
+  #page-landing .team-section {
+    background:
+      radial-gradient(circle at 12% 14%, rgba(211,88,186,0.10) 0%, transparent 24%),
+      radial-gradient(circle at 90% 82%, rgba(39,215,255,0.11) 0%, transparent 25%),
+      linear-gradient(180deg, #ffffff 0%, #f7f7ff 100%);
+  }
+
+  #page-landing .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  #page-landing #categories.section-bg,
+  #page-landing #contact.section-bg {
+    background:
+      radial-gradient(circle at 86% 18%, rgba(255,130,104,0.32) 0%, transparent 30%),
+      radial-gradient(circle at 12% 82%, rgba(39,215,255,0.18) 0%, transparent 28%),
+      linear-gradient(135deg, rgba(8,11,24,.98), rgba(27,20,74,.97));
+  }
+
+  #page-landing #faq {
+    background:
+      radial-gradient(circle at 86% 22%, rgba(211,88,186,0.28) 0%, transparent 32%),
+      radial-gradient(circle at 10% 88%, rgba(39,215,255,0.16) 0%, transparent 26%),
+      linear-gradient(135deg, #11105e 0%, #201354 100%);
+  }
+
+  #page-landing .course-card,
+  #page-landing .showcase-card,
+  #page-landing .team-card {
+    border-color: rgba(91,61,245,0.14);
+  }
+
+  #page-landing .course-card:hover,
+  #page-landing .showcase-card:hover,
+  #page-landing .team-card:hover {
+    border-color: rgba(255,130,104,0.45);
   }
 
   #page-landing .btn-explore,
