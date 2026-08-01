@@ -8,7 +8,7 @@
   "theme_color": "#315dff",
   "icons": [
     {
-      "src": "./assets/images/logo_2-polished.png",
+      "src": "./assets/images/main_logo.png",
       "type": "image/png",
       "purpose": "any"
     }
