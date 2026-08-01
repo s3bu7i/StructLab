@@ -1692,16 +1692,29 @@
     z-index: 20000;
     display: grid;
     place-items: center;
-    padding: 28px;
+    overflow: hidden;
+    padding: 24px;
     color: #fff;
     background:
-      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px),
-      radial-gradient(circle at 22% 18%, rgba(255,120,103,.24), transparent 28%),
-      radial-gradient(circle at 78% 70%, rgba(245,215,127,.18), transparent 30%),
-      linear-gradient(135deg, #07083a 0%, #121560 52%, #242578 100%);
-    background-size: 56px 56px, 56px 56px, auto, auto, auto;
-    transition: opacity .22s ease, visibility .22s ease;
+      radial-gradient(circle at 18% 12%, rgba(166,156,244,.20), transparent 30%),
+      radial-gradient(circle at 82% 84%, rgba(255,155,123,.16), transparent 32%),
+      linear-gradient(145deg, #07083a 0%, #111454 56%, #20216a 100%);
+    transition: opacity .32s ease, visibility .32s ease;
+    isolation: isolate;
+  }
+
+  .site-loader::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: .34;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(circle at center, #000, transparent 78%);
+    mask-image: radial-gradient(circle at center, #000, transparent 78%);
   }
 
   .site-loader.loader-hide {
@@ -1711,40 +1724,59 @@
   }
 
   .loader-panel {
-    width: min(480px, 100%);
+    width: min(420px, 100%);
     display: grid;
-    gap: 16px;
+    gap: 26px;
+    padding: 38px 36px 32px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(221,214,254,.20);
+    border-radius: 28px;
+    background: linear-gradient(155deg, rgba(255,255,255,.12), rgba(255,255,255,.055));
+    box-shadow: 0 30px 90px rgba(3,4,36,.36), inset 0 1px 0 rgba(255,255,255,.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    animation: loaderPanelIn .5s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  .loader-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 22%;
+    width: 56%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #b9afff 36%, #ffab8f 70%, transparent);
   }
 
   .loader-brand-row {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
+    text-align: center;
   }
 
   .loader-logo-shell {
-    width: 148px;
-    height: 96px;
-    padding: 7px;
-    border-radius: 16px;
+    width: 154px;
+    height: 120px;
+    padding: 0;
     display: grid;
     place-items: center;
-    background: rgba(255,255,255,.96);
-    border: 1px solid rgba(200,185,255,.54);
-    box-shadow: 0 14px 32px rgba(7,8,58,.34), inset 0 1px 0 rgba(255,255,255,.86);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
     position: relative;
     flex-shrink: 0;
   }
 
-  .loader-logo-shell::after {
+  .loader-logo-shell::before {
     content: "";
     position: absolute;
-    inset: -5px;
-    border: 2px solid transparent;
-    border-top-color: #a69cf4;
-    border-right-color: #ff9b7b;
-    border-radius: 20px;
-    animation: loaderOrbit 1.35s linear infinite;
+    inset: -18px;
+    z-index: -1;
+    border-radius: 32px;
+    background: radial-gradient(circle, rgba(166,156,244,.20), transparent 70%);
   }
 
   .loader-logo {
@@ -1752,68 +1784,21 @@
     height: 100%;
     object-fit: contain;
     display: block;
-    border-radius: 10px;
+    filter: drop-shadow(0 14px 24px rgba(3,4,36,.34));
   }
 
   .loader-brand-text span {
     display: block;
-    color: rgba(255,255,255,.64);
-    font-size: .78rem;
-    font-weight: 900;
-    letter-spacing: .18em;
+    color: rgba(255,255,255,.58);
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .2em;
     text-transform: uppercase;
   }
 
-  .loader-brand-text strong {
-    display: block;
-    margin-top: 3px;
-    font-family: 'Noto Sans Display', 'Noto Sans', Arial, sans-serif;
-    font-size: clamp(1.55rem, 4vw, 2.2rem);
-    line-height: 1;
-    letter-spacing: 0;
-  }
-
-  .loader-path {
+  .loader-loading {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .loader-step {
-    min-height: 78px;
-    border: 1px solid rgba(221,214,254,.24);
-    border-radius: 12px;
-    padding: 12px;
-    background: rgba(255,255,255,.07);
-    animation: loaderStep .55s ease both;
-  }
-
-  .loader-step:nth-child(2) { animation-delay: .08s; }
-  .loader-step:nth-child(3) { animation-delay: .16s; }
-
-  .loader-step span {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    background: rgba(200,185,255,.18);
-    color: #f1ecff;
-    font-weight: 900;
-  }
-
-  .loader-step strong {
-    display: block;
-    font-size: .9rem;
-    margin-bottom: 4px;
-  }
-
-  .loader-step small {
-    display: block;
-    color: rgba(255,255,255,.58);
-    font-size: .76rem;
-    line-height: 1.45;
+    gap: 11px;
   }
 
   .loader-status {
@@ -1821,55 +1806,86 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    color: rgba(255,255,255,.72);
-    font-size: .82rem;
-    font-weight: 800;
+    color: rgba(255,255,255,.76);
+    font-size: .8rem;
+    font-weight: 700;
+  }
+
+  .loader-percent {
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .02em;
   }
 
   .loader-track {
-    height: 6px;
+    height: 7px;
     overflow: hidden;
     border-radius: 999px;
-    background: rgba(255,255,255,.14);
+    background: rgba(255,255,255,.12);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.18);
   }
 
   .loader-track span {
     display: block;
-    width: 100%;
+    width: var(--loader-progress, 8%);
     height: 100%;
     border-radius: inherit;
-    transform-origin: left;
     background: linear-gradient(90deg, #5459d9, #a69cf4, #f5d77f);
-    animation: loaderLoad .65s cubic-bezier(.2,.8,.2,1) both;
+    box-shadow: 0 0 18px rgba(166,156,244,.55);
+    transition: width .14s ease-out;
   }
 
-  @keyframes loaderStep {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
+  .loader-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    color: rgba(255,255,255,.46);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .02em;
   }
 
-  @keyframes loaderLoad {
-    from { transform: scaleX(.08); }
-    to { transform: scaleX(1); }
+  .loader-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex: 0 0 auto;
   }
 
-  @keyframes loaderOrbit {
-    to { transform: rotate(360deg); }
+  .loader-dots i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #c8bfff;
+    animation: loaderDot 1.15s ease-in-out infinite;
+  }
+
+  .loader-dots i:nth-child(2) { animation-delay: .14s; }
+  .loader-dots i:nth-child(3) { animation-delay: .28s; }
+
+  @keyframes loaderPanelIn {
+    from { opacity: 0; transform: translateY(12px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes loaderDot {
+    0%, 60%, 100% { opacity: .28; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
   }
 
   @media (max-width: 560px) {
-    .loader-brand-row { align-items: flex-start; gap: 12px; }
-    .loader-logo-shell { width: 112px; height: 78px; border-radius: 14px; }
-    .loader-path { grid-template-columns: 1fr; }
-    .loader-step { min-height: 0; }
-    .loader-status { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .site-loader { padding: 16px; }
+    .loader-panel { padding: 32px 24px 26px; border-radius: 24px; gap: 24px; }
+    .loader-logo-shell { width: 138px; height: 108px; }
+    .loader-foot { font-size: .66rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .site-loader,
-    .loader-step,
+    .loader-panel,
     .loader-track span,
-    .loader-logo-shell::after {
+    .loader-dots i {
       animation: none !important;
       transition: none !important;
     }
@@ -2467,74 +2483,107 @@
   <div class="loader-panel">
     <div class="loader-brand-row">
       <div class="loader-logo-shell">
-        <img class="loader-logo" src="./assets/images/main_logo.png" alt="" decoding="async" fetchpriority="high">
+        <img class="loader-logo" src="./assets/images/main_logo-transparent.png" alt="" decoding="async" fetchpriority="high">
       </div>
       <div class="loader-brand-text">
         <img class="loader-wordmark" src="./assets/images/STRUCT%20lub.png" alt="Struct Lab">
         <span>Construction learning hub</span>
-        <strong>StructLab yüklənir</strong>
       </div>
     </div>
-    <div class="loader-path" aria-hidden="true">
-      <div class="loader-step">
-        <span>01</span>
-        <strong>Tədris</strong>
-        <small>Praktik biliklər hazırlanır.</small>
+    <div class="loader-loading">
+      <div class="loader-status">
+        <span id="loaderStatusText">Platforma hazırlanır</span>
+        <span class="loader-percent" id="loaderPercent">8%</span>
       </div>
-      <div class="loader-step">
-        <span>02</span>
-        <strong>Sertifikat</strong>
-        <small>İrəliləyişiniz yoxlanılır.</small>
+      <div class="loader-track" id="loaderProgress" role="progressbar" aria-label="Yüklənmə vəziyyəti" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8">
+        <span></span>
       </div>
-      <div class="loader-step">
-        <span>03</span>
-        <strong>Karyera</strong>
-        <small>İş imkanları hazırlanır.</small>
+      <div class="loader-foot" aria-hidden="true">
+        <span class="loader-dots"><i></i><i></i><i></i></span>
+        <span>Tədris · Sertifikat · Karyera</span>
       </div>
     </div>
-    <div class="loader-status">
-      <span>İş mühiti hazırlanır</span>
-      <span>Bir neçə an çəkə bilər</span>
-    </div>
-    <div class="loader-track" aria-hidden="true"><span></span></div>
   </div>
 </div>
 <script>
   (function() {
     var loader = document.getElementById('siteLoader');
     var loaderLogo = loader ? loader.querySelector('.loader-logo') : null;
+    var progress = document.getElementById('loaderProgress');
+    var percent = document.getElementById('loaderPercent');
+    var statusText = document.getElementById('loaderStatusText');
     var started = Date.now();
     var hidden = false;
+    var ready = false;
+    var value = 8;
+    var minimumDuration = 760;
+
+    function renderProgress(nextValue) {
+      value = Math.max(value, Math.min(100, nextValue));
+      var rounded = Math.round(value);
+      if (progress) {
+        progress.style.setProperty('--loader-progress', rounded + '%');
+        progress.setAttribute('aria-valuenow', String(rounded));
+      }
+      if (percent) percent.textContent = rounded + '%';
+      if (statusText) {
+        if (rounded >= 100) statusText.textContent = 'Hazırdır';
+        else if (rounded >= 68) statusText.textContent = 'Son toxunuşlar edilir';
+        else if (rounded >= 34) statusText.textContent = 'Məzmun yüklənir';
+        else statusText.textContent = 'Platforma hazırlanır';
+      }
+    }
 
     function hideLoader() {
       if (!loader || hidden) return;
       hidden = true;
-      var elapsed = Date.now() - started;
-      var delay = Math.max(0, 600 - elapsed);
+      loader.classList.add('loader-hide');
+      document.body.classList.remove('is-loading');
       window.setTimeout(function() {
-        loader.classList.add('loader-hide');
-        document.body.classList.remove('is-loading');
-        window.setTimeout(function() {
-          if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-        }, 240);
-      }, delay);
+        if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      }, 340);
     }
 
-    function hideWhenReady() {
+    function markReady() {
+      ready = true;
+    }
+
+    function checkAssets() {
       if (!loaderLogo || loaderLogo.complete) {
-        hideLoader();
+        markReady();
         return;
       }
-      loaderLogo.addEventListener('load', hideLoader, { once: true });
-      loaderLogo.addEventListener('error', hideLoader, { once: true });
+      loaderLogo.addEventListener('load', markReady, { once: true });
+      loaderLogo.addEventListener('error', markReady, { once: true });
+    }
+
+    function updateLoader() {
+      if (hidden) return;
+      var elapsed = Date.now() - started;
+      var target = ready && elapsed >= minimumDuration
+        ? 100
+        : Math.min(92, 8 + (elapsed / minimumDuration) * 68);
+      var step = ready && elapsed >= minimumDuration
+        ? Math.max(2.4, (100 - value) * .18)
+        : Math.max(.35, (target - value) * .12);
+
+      renderProgress(Math.min(target, value + step));
+
+      if (ready && elapsed >= minimumDuration && value >= 99.4) {
+        renderProgress(100);
+        window.setTimeout(hideLoader, 170);
+        return;
+      }
+      window.requestAnimationFrame(updateLoader);
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', hideWhenReady, { once: true });
+      document.addEventListener('DOMContentLoaded', checkAssets, { once: true });
     } else {
-      hideWhenReady();
+      checkAssets();
     }
-    window.setTimeout(hideLoader, 1400);
+    window.setTimeout(markReady, 2200);
+    window.requestAnimationFrame(updateLoader);
   })();
 </script>
 <!-- NAV -->
