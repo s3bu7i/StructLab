@@ -1,0 +1,108 @@
+<!-- ===== ADMIN PANEL ===== -->
+<div id="page-admin" class="page">
+  <div class="dashboard-page">
+    <aside class="sidebar">
+      <div class="sidebar-logo" aria-label="StructLab">
+        <span class="brand-lockup brand-lockup-sidebar brand-lockup-on-dark" aria-hidden="true">
+          <img class="brand-symbol" src="/assets/images/main_logo.png" alt="" loading="lazy" decoding="async">
+          <img class="brand-wordmark" src="/assets/images/STRUCT%20lub.png" alt="" loading="lazy" decoding="async">
+        </span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-item active" data-admin-view="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-item" data-admin-view="students">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Manage Students
+        </div>
+        <div class="sidebar-item" data-admin-view="companies">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Manage Companies
+        </div>
+        <div class="sidebar-item" data-admin-view="courses">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Courses
+        </div>
+        <div class="sidebar-item" data-admin-view="exams">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 1 22 12a10 10 0 0 1-2.93 7.07"/><path d="M4.93 4.93A10 10 0 0 0 2 12a10 10 0 0 0 2.93 7.07"/></svg>
+          Exams
+        </div>
+        <div class="sidebar-item" data-admin-view="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          Settings
+        </div>
+      </nav>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="dash-welcome">
+          <h1>Admin Control Center</h1>
+          <p>Platform users, companies, courses, exams, approvals, and system settings.</p>
+        </div>
+        <div class="dash-topbar-right">
+          <div class="topbar-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <div class="avatar" style="background:linear-gradient(135deg,#2d5e2d,#4a7c4a)">A</div>
+        </div>
+      </div>
+
+      <section class="admin-view active" id="admin-view-dashboard" data-view-title="Admin Overview" data-view-sub="Platformanın ümumi vəziyyəti, təsdiqlər və kritik əməliyyatlar.">
+        <div class="role-hero admin"><div><h2>StructLab operations overview</h2><p>Admin daxil olduqda bütün platformanın nəzarət mərkəzini görür: tələbələr, şirkətlər, kurslar, imtahanlar, təsdiqlər, moderasiya və sistem sağlamlığı.</p><div class="hero-chip-row"><span class="hero-chip">120 active students</span><span class="hero-chip">45 companies</span><span class="hero-chip">15 courses</span><span class="hero-chip">98.7% uptime</span></div></div><div class="role-hero-card"><strong>24</strong><span>Items waiting for admin decision</span><div class="white-track"><div class="white-fill" style="width:63%"></div></div></div></div>
+        <div class="admin-stats"><div class="admin-stat"><div class="admin-stat-icon blue">🎓</div><div><div class="admin-stat-num">120</div><div class="admin-stat-label">Active Students</div></div></div><div class="admin-stat"><div class="admin-stat-icon orange">🏗️</div><div><div class="admin-stat-num">45</div><div class="admin-stat-label">Partner Companies</div></div></div><div class="admin-stat"><div class="admin-stat-icon green">📚</div><div><div class="admin-stat-num">15</div><div class="admin-stat-label">Ongoing Courses</div></div></div></div>
+        <div class="admin-alert-grid"><div class="student-card"><h3>Live activity</h3><div class="activity-feed"><div class="activity-item"><div class="activity-dot">✓</div><div><h4>Topoqraf course submitted</h4><p>New BIM coordination module is waiting for content approval.</p></div><span class="pill orange">Review</span></div><div class="activity-item"><div class="activity-dot">🏢</div><div><h4>New company request</h4><p>UrbanConstruct requested employer verification.</p></div><span class="pill blue">Pending</span></div><div class="activity-item"><div class="activity-dot">⚠</div><div><h4>Exam flag detected</h4><p>2 assessment attempts require manual moderation.</p></div><span class="pill orange">Check</span></div></div></div><div class="student-card"><h3>System health</h3><div class="skill-grid"><div class="skill-item"><div class="skill-item-head"><span>Server</span><span>98.7%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:98%"></div></div></div><div class="skill-item"><div class="skill-item-head"><span>Content QA</span><span>74%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:74%"></div></div></div><div class="skill-item"><div class="skill-item-head"><span>Support SLA</span><span>91%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:91%"></div></div></div><div class="skill-item"><div class="skill-item-head"><span>Approvals</span><span>63%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:63%"></div></div></div></div></div></div>
+      </section>
+
+      <section class="admin-view" id="admin-view-students" data-view-title="Manage Students" data-view-sub="Student accounts, certificates, progress, and support tickets.">
+        <div class="dash-page-head"><div><h2>Student management</h2><p>Tələbələri axtar, statuslarını dəyiş, sertifikatları təsdiqlə, progress və müraciət tarixçəsini yoxla.</p></div><div class="dash-actions"><button class="btn-soft">Export CSV</button><button class="btn-dark">Add student</button></div></div>
+        <div class="student-kpis"><div class="student-kpi"><span>Total students</span><strong id="adminTotalStudentsCount">120</strong><small>+18 monthly</small></div><div class="student-kpi"><span>Active this week</span><strong>83</strong><small>69% active</small></div><div class="student-kpi"><span>Certificates issued</span><strong>52</strong><small>Verified</small></div><div class="student-kpi"><span>Support tickets</span><strong>7</strong><small>2 urgent</small></div></div>
+        <div class="student-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:16px;flex-wrap:wrap">
+            <h3>Recent students</h3>
+            <input type="text" id="adminStudentSearchInput" placeholder="Search students..." style="border:1.5px solid var(--gray-200);border-radius:10px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:0.86rem;outline:none;width:min(260px, 100%)">
+          </div>
+          <table class="student-table">
+            <thead><tr><th>Name</th><th>Track</th><th>Progress</th><th>Status</th><th></th></tr></thead>
+            <tbody id="adminStudentsTableBody">
+              <tr><td><strong>Ali Rahimov</strong><br>ali.rahimov@example.com</td><td>Junior Site Engineer</td><td>82%</td><td><span class="pill green">Active</span></td><td><button class="btn-soft">Open</button></td></tr>
+              <tr><td><strong>Fatima S.</strong><br>fatima@example.com</td><td>Structural Intern</td><td>64%</td><td><span class="pill blue">Learning</span></td><td><button class="btn-soft">Open</button></td></tr>
+              <tr><td><strong>Murad K.</strong><br>murad@example.com</td><td>Project Planner</td><td>58%</td><td><span class="pill orange">Exam pending</span></td><td><button class="btn-soft">Open</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-view" id="admin-view-companies" data-view-title="Manage Companies" data-view-sub="Employer verification, company profiles, vacancy quality, and partnership data.">
+        <div class="dash-page-head"><div><h2>Company management</h2><p>Şirkət qeydiyyatları, employer verification, vakansiya keyfiyyəti və tərəfdaşlıq statusları idarə edilir.</p></div><button class="btn-dark">Invite company</button></div>
+        <div class="module-grid"><div class="module-card"><div class="module-card-top"><div><h3>BakuBuild Co.</h3><p>Verified employer · 4 active jobs · 15 applicants.</p></div><div class="module-icon green">✓</div></div><span class="pill green">Verified</span></div><div class="module-card"><div class="module-card-top"><div><h3>UrbanConstruct</h3><p>Verification documents uploaded, admin decision needed.</p></div><div class="module-icon orange">!</div></div><span class="pill orange">Pending</span></div><div class="module-card"><div class="module-card-top"><div><h3>MegaConstruction</h3><p>High activity partner, requested premium analytics.</p></div><div class="module-icon">★</div></div><span class="pill blue">Partner</span></div></div>
+        <div class="student-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:16px;flex-wrap:wrap">
+            <h3>Pending company approvals</h3>
+            <input type="text" id="adminCompanySearchInput" placeholder="Search companies..." style="border:1.5px solid var(--gray-200);border-radius:10px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:0.86rem;outline:none;width:min(260px, 100%)">
+          </div>
+          <div class="compact-list" id="adminCompaniesList">
+            <div class="compact-item"><div class="compact-item-main"><div class="compact-icon" style="background:linear-gradient(135deg,var(--orange),#c9520a)">UC</div><div><h4>UrbanConstruct</h4><p>Tax certificate uploaded · needs human verification</p></div></div><div class="compact-item-side"><button class="btn-soft">Reject</button><button class="btn-mini-orange">Approve</button></div></div>
+            <div class="compact-item"><div class="compact-item-main"><div class="compact-icon">MC</div><div><h4>MegaConstruction</h4><p>Premium partner request · review payment and contract</p></div></div><div class="compact-item-side"><button class="btn-soft">View</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-view" id="admin-view-courses" data-view-title="Course Management" data-view-sub="Create, moderate, publish, and analyze course content.">
+        <div class="dash-page-head"><div><h2>Course operations</h2><p>Kursların yaradılması, müəllif təsdiqi, video material, imtahan bağlantısı və sertifikat qaydaları buradan idarə olunur.</p></div><button class="btn-dark">Create course</button></div>
+        <div class="module-grid"><div class="module-card"><div class="module-card-top"><div><h3>Shop Drawing Essentials</h3><p>Draft ready, needs final cover and quiz mapping.</p></div><div class="module-icon">📐</div></div><span class="pill orange">Draft</span></div><div class="module-card"><div class="module-card-top"><div><h3>BIM Model Coordination</h3><p>Topoqraf submitted 6 video lessons and documentation.</p></div><div class="module-icon green">▧</div></div><span class="pill blue">In review</span></div><div class="module-card"><div class="module-card-top"><div><h3>Technical Documentation</h3><p>Published course with 342 enrollments.</p></div><div class="module-icon orange">📄</div></div><span class="pill green">Published</span></div></div>
+        <div class="student-panel-grid equal"><div class="student-card"><h3>Course QA checklist</h3><div class="learning-path"><div class="path-step"><div class="path-dot">1</div><div><strong>Content review</strong><span>Learning objectives, video quality, subtitles and resources.</span></div></div><div class="path-step"><div class="path-dot">2</div><div><strong>Exam mapping</strong><span>Every certificate course must have assessment rules.</span></div></div><div class="path-step"><div class="path-dot">3</div><div><strong>Publish approval</strong><span>Final admin approval before visibility on landing page.</span></div></div></div></div><div class="student-card"><h3>Category balance</h3><div class="skill-grid"><div class="skill-item"><div class="skill-item-head"><span>Shop drawing</span><span>24%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:24%"></div></div></div><div class="skill-item"><div class="skill-item-head"><span>BIM model</span><span>31%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:31%"></div></div></div><div class="skill-item"><div class="skill-item-head"><span>Estimate</span><span>18%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:18%"></div></div></div><div class="skill-item"><div class="skill-item-head"><span>Tech docs</span><span>27%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:27%"></div></div></div></div></div></div>
+      </section>
+
+      <section class="admin-view" id="admin-view-exams" data-view-title="Exam Management" data-view-sub="Assessment templates, moderation, scoring rules, and certificate triggers.">
+        <div class="dash-page-head"><div><h2>Exam and certificate rules</h2><p>İmtahan bankı, suallar, keçid balı, cəhd sayı, nəticə moderasiyası və sertifikat aktivləşməsi.</p></div><button class="btn-dark">Create exam</button></div>
+        <div class="student-panel-grid"><div class="student-card"><h3>Moderation queue</h3><div class="exam-row"><div><h4>Safety Final · suspicious attempt</h4><p>Time anomaly and repeated answer pattern detected.</p><div class="exam-meta"><span class="pill orange">Flagged</span><span class="pill">Manual review</span></div></div><button class="btn-mini-orange">Review</button></div><div class="exam-row"><div><h4>BIM coordination quiz</h4><p>New exam questions submitted by instructor.</p><div class="exam-meta"><span class="pill blue">Question bank</span><span class="pill">12 items</span></div></div><button class="btn-soft">Approve</button></div></div><div class="student-card"><h3>Certificate triggers</h3><table class="student-table"><tbody><tr><td><strong>Passing score</strong></td><td>70% minimum</td></tr><tr><td><strong>Retake limit</strong></td><td>2 attempts</td></tr><tr><td><strong>Identity check</strong></td><td><span class="pill blue">Optional</span></td></tr><tr><td><strong>Certificate issue</strong></td><td><span class="pill green">Automatic</span></td></tr></tbody></table></div></div>
+      </section>
+
+      <section class="admin-view" id="admin-view-settings" data-view-title="Platform Settings" data-view-sub="Roles, permissions, payment rules, integrations, and platform configuration.">
+        <div class="dash-page-head"><div><h2>System settings</h2><p>Admin rolları, icazələr, ödəniş modeli, email bildirişləri, landing visibility və platforma konfiqurasiyası.</p></div><button class="btn-dark">Save changes</button></div>
+        <div class="permission-grid"><div class="permission-card"><h4>Admin roles</h4><p>Super Admin, Content Manager, Company Verifier, Support Agent rolları.</p><span class="pill blue">4 roles</span></div><div class="permission-card"><h4>Platform visibility</h4><p>Courses, companies, partners, certificates and job marketplace modules.</p><span class="pill green">Public</span></div><div class="permission-card"><h4>Notifications</h4><p>Email templates for exam results, approvals, job applications and certificates.</p><span class="pill orange">6 templates</span></div><div class="permission-card"><h4>Security</h4><p>Login rules, session policy, moderation logs and audit trail.</p><span class="pill dark">Protected</span></div></div>
+        <div class="student-card" style="margin-top:22px"><h3>Audit log</h3><table class="student-table"><thead><tr><th>Action</th><th>User</th><th>Time</th></tr></thead><tbody><tr><td><strong>Approved company</strong><br>UrbanConstruct verification</td><td>Admin</td><td>10:24</td></tr><tr><td><strong>Published course</strong><br>Technical Documentation</td><td>Content Manager</td><td>09:40</td></tr><tr><td><strong>Updated exam rule</strong><br>Retake limit changed</td><td>Super Admin</td><td>Yesterday</td></tr></tbody></table></div>
+      </section>
+    </main>
+  </div>
+</div>

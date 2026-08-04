@@ -1,33 +1,14 @@
 # StructLab
 
-StructLab is a static landing/demo website for a construction education, certification, and hiring platform.
+StructLab is a React frontend for a construction education, certification, and hiring platform. The original visual language is preserved while the landing page, student dashboard, company dashboard, admin panel, and shared overlays are separated into React-owned page surfaces.
 
-## Structure
-
-```text
-StructLab/
-├── index.html
-├── assets/
-│   └── images/
-├── README.md
-├── .editorconfig
-├── .gitignore
-├── robots.txt
-└── site.webmanifest
-```
-
-## Run
-
-Open `index.html` directly in a browser, or serve the folder with any static server.
-
-Example:
+## Development
 
 ```bash
-npx serve .
+npm install
+npm run dev
 ```
 
-## Notes
+Create a production build with `npm run build`.
 
-- All visual assets are stored in `assets/images`.
-- The site is self-contained in `index.html`.
-- No build step is required.
+The pre-React source is retained in `reference/index.static.html`. Run `npm run extract:legacy` only when that reference file is intentionally updated; it regenerates the page fragments, stylesheet, and compatibility runtime.

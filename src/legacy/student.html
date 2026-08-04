@@ -1,0 +1,333 @@
+<!-- ===== STUDENT DASHBOARD ===== -->
+<div id="page-student" class="page">
+  <div class="dashboard-page">
+    <aside class="sidebar">
+      <div class="sidebar-logo" aria-label="StructLab">
+        <span class="brand-lockup brand-lockup-sidebar brand-lockup-on-dark" aria-hidden="true">
+          <img class="brand-symbol" src="/assets/images/main_logo.png" alt="" loading="lazy" decoding="async">
+          <img class="brand-wordmark" src="/assets/images/STRUCT%20lub.png" alt="" loading="lazy" decoding="async">
+        </span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-item active" data-student-view="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-item" data-student-view="courses">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Courses
+        </div>
+        <div class="sidebar-item" data-student-view="exams">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Exams
+          <span class="sidebar-badge">2</span>
+        </div>
+        <div class="sidebar-item" data-student-view="jobs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Job Listings
+        </div>
+        <div class="sidebar-item" data-student-view="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile
+        </div>
+      </nav>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="dash-welcome">
+          <h1>Welcome, Ali! 👋</h1>
+          <p>Tuesday, April 7, 2026 — Keep up the great work</p>
+        </div>
+        <div class="dash-topbar-right">
+          <div class="topbar-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div class="avatar">A</div>
+        </div>
+      </div>
+
+      <section class="student-view active" id="student-view-dashboard" data-view-title="Welcome, Ali! 👋" data-view-sub="Tuesday, April 7, 2026 — Keep up the great work">
+        <div class="student-kpis">
+          <div class="student-kpi"><span>Active courses</span><strong id="studentActiveCoursesCount">3</strong><small>+1 this week</small></div>
+          <div class="student-kpi"><span>Average progress</span><strong id="studentAvgProgress">75%</strong><small>On track</small></div>
+          <div class="student-kpi"><span>Certificates</span><strong id="studentCertificatesCount">1</strong><small>2 close to completion</small></div>
+          <div class="student-kpi"><span>Job match</span><strong id="studentJobMatch">87%</strong><small>Site Supervisor</small></div>
+        </div>
+
+        <div class="progress-card">
+          <h3>Your Progress</h3>
+          <div class="progress-label">
+            <span>Course Progress</span>
+            <span id="studentProgressPercent">75%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="studentProgressFill" style="width:75%"></div></div>
+        </div>
+
+        <div class="dash-grid-2">
+          <div class="dash-card">
+            <h3>Continue Learning</h3>
+            <div class="learn-card">
+              <div class="learn-thumb">Construction Safety</div>
+              <div class="learn-info">
+                <h4>Construction Safety Essentials</h4>
+                <p>Module 5 of 8 — Site Hazard Recognition</p>
+                <button class="btn-continue" onclick="showStudentView('courses')">Continue →</button>
+              </div>
+            </div>
+          </div>
+          <div class="dash-card">
+            <h3>Take Exam</h3>
+            <div class="exam-card-inner">
+              <h4>Structural Engineering Test</h4>
+              <div class="exam-instructor">
+                <div class="dot"></div>
+                <span>Practitioner Mid. — Majrij Kom</span>
+              </div>
+              <button class="btn-start-exam" onclick="showStudentView('exams')">Start Exam</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-bottom:24px">
+          <h3>Enrolled Courses</h3>
+          <div id="studentEnrolledCoursesList" style="display:flex;flex-direction:column;gap:4px;margin-top:4px">
+            <div class="candidate-row">
+              <div class="candidate-avatar" style="background:linear-gradient(135deg,#1a2a5e,#2348d6)">CS</div>
+              <div class="candidate-info">
+                <h4>Construction Safety Essentials</h4>
+                <p>Advanced · 75% complete</p>
+              </div>
+              <div style="margin-left:auto">
+                <div style="width:80px;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden">
+                  <div style="width:75%;height:100%;background:var(--blue);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+            <div class="candidate-row">
+              <div class="candidate-avatar" style="background:linear-gradient(135deg,#4a7c4a,#2d4a2d)">SE</div>
+              <div class="candidate-info">
+                <h4>Structural Engineering Test</h4>
+                <p>Intermediate · 40% complete</p>
+              </div>
+              <div style="margin-left:auto">
+                <div style="width:80px;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden">
+                  <div style="width:40%;height:100%;background:var(--orange);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+            <div class="candidate-row">
+              <div class="candidate-avatar" style="background:linear-gradient(135deg,#7c4a7c,#5e2d5e)">BP</div>
+              <div class="candidate-info">
+                <h4>Blueprint Reading Fundamentals</h4>
+                <p>Beginner · 100% complete ✓</p>
+              </div>
+              <div style="margin-left:auto">
+                <div style="width:80px;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden">
+                  <div style="width:100%;height:100%;background:var(--success);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="student-view" id="student-view-courses" data-view-title="My Courses" data-view-sub="Track active courses, certificates, and next lessons from one place.">
+        <div class="dash-page-head">
+          <div>
+            <h2>My Courses</h2>
+            <p>Structured learning path for construction, BIM, shop drawing, estimating, and site coordination.</p>
+          </div>
+          <div class="dash-actions">
+            <button class="btn-soft">Filter</button>
+            <button class="btn-dark">Browse new courses</button>
+          </div>
+        </div>
+
+        <div class="student-panel-grid">
+          <div class="student-card">
+            <h3>Active learning</h3>
+            <div id="studentActiveLearningList">
+              <div class="student-course-row">
+                <div class="course-icon-box">CS</div>
+                <div class="course-row-main">
+                  <h4>Construction Safety Essentials</h4>
+                  <p>Next lesson: Personal Protective Equipment and site hazard recognition.</p>
+                  <div class="course-progress-line"><div class="course-progress-track"><div class="course-progress-fill" style="width:75%"></div></div><span>75%</span></div>
+                </div>
+                <button class="btn-mini-orange">Resume</button>
+              </div>
+              <div class="student-course-row">
+                <div class="course-icon-box" style="background:linear-gradient(135deg,#2d4a2d,#4a7c4a)">PP</div>
+                <div class="course-row-main">
+                  <h4>Construction Project Planning</h4>
+                  <p>Scheduling, resource planning, reporting, and budget control fundamentals.</p>
+                  <div class="course-progress-line"><div class="course-progress-track"><div class="course-progress-fill" style="width:58%"></div></div><span>58%</span></div>
+                </div>
+                <button class="btn-mini-orange">Resume</button>
+              </div>
+              <div class="student-course-row">
+                <div class="course-icon-box" style="background:linear-gradient(135deg,#5e2d5e,#7c4a7c)">BP</div>
+                <div class="course-row-main">
+                  <h4>Blueprint Reading Fundamentals</h4>
+                  <p>Completed course. Certificate available for profile and job applications.</p>
+                  <div class="course-progress-line"><div class="course-progress-track"><div class="course-progress-fill" style="width:100%;background:var(--success)"></div></div><span>100%</span></div>
+                </div>
+                <button class="btn-soft">Certificate</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="student-card">
+            <h3>Recommended path</h3>
+            <p class="student-card-sub">Based on your target role: Junior Site Engineer.</p>
+            <div class="learning-path">
+              <div class="path-step"><div class="path-dot">1</div><div><strong>Safety foundation</strong><span>Complete PPE, hazard recognition, and OSHA basics.</span></div></div>
+              <div class="path-step"><div class="path-dot">2</div><div><strong>Drawing literacy</strong><span>Read plans, sections, elevations, and technical symbols.</span></div></div>
+              <div class="path-step"><div class="path-dot">3</div><div><strong>Planning and reporting</strong><span>Learn daily reporting, schedules, progress tracking, and cost control.</span></div></div>
+              <div class="path-step"><div class="path-dot">4</div><div><strong>BIM basics</strong><span>Understand model coordination and clash detection workflows.</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="student-view" id="student-view-exams" data-view-title="Exams" data-view-sub="Manage pending exams, attempts, and certificate eligibility.">
+        <div class="dash-page-head">
+          <div>
+            <h2>Exams</h2>
+            <p>Upcoming assessments, exam history, readiness indicators, and certification status.</p>
+          </div>
+          <button class="btn-dark">Exam rules</button>
+        </div>
+
+        <div class="student-kpis">
+          <div class="student-kpi"><span>Pending exams</span><strong>2</strong><small>Action required</small></div>
+          <div class="student-kpi"><span>Completed</span><strong>4</strong><small>All passed</small></div>
+          <div class="student-kpi"><span>Average score</span><strong>86%</strong><small>+6% improvement</small></div>
+          <div class="student-kpi"><span>Certificates ready</span><strong>1</strong><small>Download enabled</small></div>
+        </div>
+
+        <div class="student-panel-grid equal">
+          <div class="student-card">
+            <h3>Upcoming exams</h3>
+            <div class="exam-row">
+              <div>
+                <h4>Structural Engineering Test</h4>
+                <p>30 questions · 45 minutes · Passing score 70%</p>
+                <div class="exam-meta"><span class="pill orange">Due today</span><span class="pill blue">Intermediate</span><span class="pill">2 attempts left</span></div>
+              </div>
+              <button class="btn-mini-orange">Start</button>
+            </div>
+            <div class="exam-row">
+              <div>
+                <h4>Construction Safety Final</h4>
+                <p>Scenario-based assessment for site safety certification.</p>
+                <div class="exam-meta"><span class="pill blue">Ready in 2 modules</span><span class="pill">Advanced</span></div>
+              </div>
+              <button class="btn-soft">Review</button>
+            </div>
+          </div>
+
+          <div class="student-card">
+            <h3>Recent results</h3>
+            <table class="student-table">
+              <thead><tr><th>Exam</th><th>Score</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Blueprint Reading Quiz</strong><br>April 2026</td><td>92%</td><td><span class="pill green">Passed</span></td></tr>
+                <tr><td><strong>Site Safety Basics</strong><br>March 2026</td><td>84%</td><td><span class="pill green">Passed</span></td></tr>
+                <tr><td><strong>Project Planning Check</strong><br>March 2026</td><td>78%</td><td><span class="pill green">Passed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="student-view" id="student-view-jobs" data-view-title="Job Listings" data-view-sub="Role-matched vacancies based on courses, certificates, and skills.">
+        <div class="dash-page-head">
+          <div>
+            <h2>Job Listings</h2>
+            <p>Smart matching uses course progress, exam results, certificates, and selected career target.</p>
+          </div>
+          <div class="dash-actions"><button class="btn-soft">Saved jobs</button><button class="btn-dark">Upload CV</button></div>
+        </div>
+
+        <div class="dash-note"><strong>Recommendation:</strong> complete Construction Safety Final to increase match score for Site Supervisor and Safety Assistant roles.</div>
+
+        <div class="job-board">
+          <article class="job-card">
+            <div class="job-top"><div><h4>Junior Site Engineer</h4><p>BakuBuild Co. · Full-time · Baku</p></div><div class="match-badge">91%</div></div>
+            <p>Suitable for candidates with blueprint reading, site reporting, and safety fundamentals.</p>
+            <div class="job-tags"><span class="pill blue">Blueprint</span><span class="pill green">Safety</span><span class="pill">Reporting</span></div>
+            <button class="btn-dark">Apply now</button>
+          </article>
+          <article class="job-card">
+            <div class="job-top"><div><h4>BIM Assistant</h4><p>Alfavit Group · Internship · Hybrid</p></div><div class="match-badge">76%</div></div>
+            <p>Entry-level support role for BIM model checking, documentation, and coordination tasks.</p>
+            <div class="job-tags"><span class="pill orange">BIM</span><span class="pill">Docs</span><span class="pill">Coordination</span></div>
+            <button class="btn-dark">Apply now</button>
+          </article>
+          <article class="job-card">
+            <div class="job-top"><div><h4>Safety Assistant</h4><p>UrbanConstruct · Contract · Sumgait</p></div><div class="match-badge">87%</div></div>
+            <p>Support site safety inspections, toolbox talks, incident logs, and compliance reports.</p>
+            <div class="job-tags"><span class="pill green">OSHA</span><span class="pill blue">Site</span><span class="pill">Checklist</span></div>
+            <button class="btn-dark">Apply now</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="student-view" id="student-view-profile" data-view-title="Profile" data-view-sub="Your learning profile, certificates, skills, and hiring readiness.">
+        <div class="profile-hero">
+          <div class="profile-user">
+            <div class="profile-avatar-large">A</div>
+            <div>
+              <h2>Ali Rahimov</h2>
+              <p>Junior Site Engineer Track · Baku, Azerbaijan</p>
+            </div>
+          </div>
+          <div class="profile-completion">
+            <strong>82%</strong>
+            <div class="white-track"><div class="white-fill" style="width:82%"></div></div>
+            <p style="margin-top:8px;text-align:right">Profile readiness</p>
+          </div>
+        </div>
+
+        <div class="student-panel-grid">
+          <div class="student-card">
+            <h3>Skill matrix</h3>
+            <div class="skill-grid">
+              <div class="skill-item"><div class="skill-item-head"><span>Safety compliance</span><span>94%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:94%"></div></div></div>
+              <div class="skill-item"><div class="skill-item-head"><span>Blueprint reading</span><span>92%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:92%"></div></div></div>
+              <div class="skill-item"><div class="skill-item-head"><span>Planning & reporting</span><span>68%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:68%"></div></div></div>
+              <div class="skill-item"><div class="skill-item-head"><span>BIM coordination</span><span>45%</span></div><div class="course-progress-track"><div class="course-progress-fill" style="width:45%"></div></div></div>
+            </div>
+          </div>
+          <div class="student-card">
+            <h3>Certificates</h3>
+            <div class="certificate-row"><div><strong>Blueprint Reading Fundamentals</strong><span>Issued April 2026 · ID SL-2026-2210</span></div><span class="pill green">Verified</span></div>
+            <div class="certificate-row"><div><strong>Construction Safety Essentials</strong><span>75% completed · final exam pending</span></div><span class="pill orange">In progress</span></div>
+            <button class="btn-dark" style="width:100%;margin-top:8px">Download profile PDF</button>
+          </div>
+        </div>
+
+        <div class="student-panel-grid equal">
+          <div class="student-card">
+            <h3>Account details</h3>
+            <table class="student-table">
+              <tbody>
+                <tr><td><strong>Email</strong></td><td>ali.rahimov@example.com</td></tr>
+                <tr><td><strong>Phone</strong></td><td>+994 XX XXX XX XX</td></tr>
+                <tr><td><strong>Preferred role</strong></td><td>Junior Site Engineer</td></tr>
+                <tr><td><strong>Availability</strong></td><td>Internship / Full-time</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="student-card">
+            <h3>Hiring preferences</h3>
+            <p class="student-card-sub">Visible to companies when you apply or enable talent discovery.</p>
+            <div class="job-tags"><span class="pill blue">Baku</span><span class="pill blue">Hybrid</span><span class="pill">Site roles</span><span class="pill">BIM assistant</span></div>
+            <button class="btn-soft" style="width:100%;margin-top:18px">Edit preferences</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

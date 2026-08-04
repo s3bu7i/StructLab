@@ -1,0 +1,34 @@
+{
+  "name": "structlab",
+  "version": "1.0.0",
+  "description": "StructLab is a React frontend for a construction education, certification, and hiring platform. The original visual language is preserved while the landing page, student dashboard, company dashboard, admin panel, and shared overlays are separated into React-owned page surfaces.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "preview": "vite preview",
+    "extract:legacy": "node scripts/extract-legacy.mjs"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creatheos/StructLab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/creatheos/StructLab/issues"
+  },
+  "homepage": "https://github.com/creatheos/StructLab#readme",
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.5",
+    "vite": "^8.2.0"
+  }
+}

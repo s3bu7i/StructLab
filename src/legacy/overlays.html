@@ -1,0 +1,186 @@
+<!-- FLOATING DEMO MENU -->
+<button class="menu-toggle" id="pageMenuToggle" type="button" onclick="togglePageMenu(event)" aria-label="Open demo menu" aria-expanded="false">
+  <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+  <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+<div class="page-switcher" id="pageSwitcher">
+  <button class="ps-btn active" onclick="showPage('landing')">🏠 Landing</button>
+  <button class="ps-btn" onclick="showPage('student')">🎓 Student</button>
+  <button class="ps-btn" onclick="showPage('company')">🏗️ Company</button>
+  <button class="ps-btn" onclick="showPage('admin')">⚙️ Admin</button>
+</div>
+
+<!-- CERTIFICATE MODAL -->
+<div id="certificateModal" class="modal-backdrop" onclick="closeCertificateModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <button class="modal-close" aria-label="Close" onclick="closeCertificateModal()">×</button>
+    <div class="certificate-modal">
+      <div class="certificate-frame">
+        <div class="section-pill" id="modalCertificateBadge">Verified Credential</div>
+        <h3 id="modalCertificateTitle">StructLab Certificate of Completion</h3>
+        <p id="modalCertificateSub">This certificate confirms that the learner has successfully completed a verified training pathway on StructLab.</p>
+        <div class="certificate-name">Ali Rahimov</div>
+        <p id="modalCertificateCourse">Advanced Site Safety Management</p>
+        <div class="certificate-footer">
+          <div><span id="modalFooterLabel1">Issued by</span><strong id="modalFooterValue1">StructLab Academy</strong></div>
+          <div><span id="modalFooterLabel2">Completion date</span><strong id="modalFooterValue2">April 2026</strong></div>
+          <div><span id="modalFooterLabel3">Credential ID</span><strong id="modalFooterValue3">SL-2026-4471</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COURSE VIDEO MODAL -->
+<div id="videoModal" class="modal-backdrop" onclick="closeVideoModal(event)">
+  <div class="modal-card video-modal-card" onclick="event.stopPropagation()">
+    <button class="modal-close" aria-label="Close" onclick="closeVideoModal()">×</button>
+    <div class="video-modal-head">
+      <h3 id="videoModalTitle">Course video</h3>
+      <p id="videoModalSub">The lesson opens directly inside StructLab.</p>
+    </div>
+    <div class="video-frame" id="videoFrame"></div>
+    <div class="video-modal-foot">
+      <span id="videoModalNote">If the embedded player is restricted by YouTube, open the backup link.</span>
+      <a id="videoExternalLink" href="https://youtu.be/m8bXLkD8FdQ" target="_blank" rel="noopener noreferrer">Open on YouTube</a>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal-backdrop auth-backdrop" onclick="closeAuthModal(event)">
+  <div class="modal-card auth-card" onclick="event.stopPropagation()">
+    <button class="modal-close" aria-label="Close" onclick="closeAuthModal()">×</button>
+    <div class="auth-layout">
+      <aside class="auth-visual">
+        <div class="auth-brand" aria-label="StructLab">
+          <span class="brand-lockup brand-lockup-auth brand-lockup-on-dark" aria-hidden="true">
+            <img class="brand-symbol" src="/assets/images/main_logo.png" alt="" loading="lazy" decoding="async">
+            <img class="brand-wordmark" src="/assets/images/STRUCT%20lub.png" alt="" loading="lazy" decoding="async">
+          </span>
+        </div>
+        <h3 id="authVisualTitle">A smarter way to learn, certify, and get hired.</h3>
+        <p id="authVisualText">Create a realistic account flow for students, companies, and admins inside the same demo platform.</p>
+        <div class="auth-benefits">
+          <div class="auth-benefit" id="authBenefit1">✓ Course progress tracking</div>
+          <div class="auth-benefit" id="authBenefit2">✓ Verifiable certificates</div>
+          <div class="auth-benefit" id="authBenefit3">✓ Company-ready candidate profiles</div>
+        </div>
+      </aside>
+      <div class="auth-form-wrap">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="loginTab" type="button" onclick="switchAuthMode('login')">Sign In</button>
+          <button class="auth-tab" id="signupTab" type="button" onclick="switchAuthMode('signup')">Sign Up</button>
+        </div>
+
+        <form id="loginForm" class="auth-form active" onsubmit="event.preventDefault(); closeAuthModal(); showPage('student')">
+          <h3 id="loginTitle">Welcome back</h3>
+          <p class="auth-sub" id="loginSub">Sign in to continue your course, certificate, and career progress.</p>
+          <div class="auth-field">
+            <label id="loginEmailLabel">Email address</label>
+            <input type="email" placeholder="ali@structlab.az" autocomplete="email">
+          </div>
+          <div class="auth-field">
+            <label id="loginPasswordLabel">Password</label>
+            <input type="password" placeholder="••••••••" autocomplete="current-password">
+          </div>
+          <div class="auth-options">
+            <label><input type="checkbox"> <span id="rememberLabel">Remember me</span></label>
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+          <button class="btn-primary auth-submit" type="submit" id="loginSubmit">Sign In</button>
+          <div class="auth-divider" id="demoDivider">or open demo dashboard</div>
+          <div class="auth-demo-row">
+            <button class="auth-demo-btn" type="button" onclick="closeAuthModal(); showPage('student')" id="demoStudentBtn">Student demo</button>
+            <button class="auth-demo-btn" type="button" onclick="closeAuthModal(); showPage('company')" id="demoCompanyBtn">Company demo</button>
+          </div>
+        </form>
+
+        <form id="signupForm" class="auth-form" onsubmit="event.preventDefault(); closeAuthModal(); showPage('student')">
+          <h3 id="signupTitle">Create your account</h3>
+          <p class="auth-sub" id="signupSub">Join StructLab and start building a professional construction profile.</p>
+          <div class="auth-row">
+            <div class="auth-field">
+              <label id="firstNameLabel">First name</label>
+              <input type="text" id="firstNameInput" placeholder="Ali" autocomplete="given-name">
+            </div>
+            <div class="auth-field">
+              <label id="lastNameLabel">Last name</label>
+              <input type="text" id="lastNameInput" placeholder="Rahimov" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label id="signupEmailLabel">Email address</label>
+            <input type="email" id="signupEmailInput" placeholder="name@example.com" autocomplete="email">
+          </div>
+          <div class="auth-field">
+            <label id="accountTypeLabel">Account type</label>
+            <select id="accountTypeSelect">
+              <option id="accountStudentOption" value="student">Student / Learner</option>
+              <option id="accountCompanyOption" value="company">Company / Employer</option>
+              <option id="accountInstructorOption" value="instructor">Instructor</option>
+            </select>
+          </div>
+          <div class="auth-field">
+            <label id="signupPasswordLabel">Password</label>
+            <input type="password" placeholder="Create a strong password" autocomplete="new-password">
+          </div>
+          <button class="btn-orange auth-submit" type="submit" id="signupSubmit">Create Account</button>
+          <p class="auth-fineprint" id="authFineprint">By signing up, you agree to StructLab’s demo terms and privacy policy.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- NEW CSS ADDITIONS -->
+
+
+<!-- DARK PURPLE & ORANGE ACCENT PALETTE -->
+
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTopBtn" aria-label="Scroll to top" style="display:none!important">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()">
+  <div class="mobile-nav-drawer" onclick="event.stopPropagation()">
+    <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close">×</button>
+    <div class="mobile-nav-links">
+      <a href="#courses" onclick="closeMobileNav();handleNavClick(event,'courses')">Courses</a>
+      <a href="#categories" onclick="closeMobileNav();handleNavClick(event,'categories')">Categories</a>
+      <a href="#team" onclick="closeMobileNav();handleNavClick(event,'team')">Team</a>
+      <a href="#about" onclick="closeMobileNav();handleNavClick(event,'about')">About</a>
+      <a href="#contact" onclick="closeMobileNav();handleNavClick(event,'contact')">Contact</a>
+      <hr>
+    </div>
+    <div class="mobile-nav-btns">
+      <button class="btn-ghost" style="border:1.5px solid var(--gray-200);border-radius:10px" onclick="closeMobileNav();openAuthModal('login')">Sign In</button>
+      <button class="btn-primary" style="border-radius:10px" onclick="closeMobileNav();openAuthModal('signup')">Get Started</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN ADD STUDENT MODAL -->
+<div id="adminStudentModal" class="modal-backdrop" onclick="closeAdminStudentModal()">
+  <div class="admin-modal-card" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeAdminStudentModal()" aria-label="Close">×</button>
+    <div class="admin-modal-head"><h3>Add New Student</h3></div>
+    <form class="admin-modal-body" id="adminStudentForm" onsubmit="submitAdminStudent(event)" novalidate>
+      <div class="auth-field"><label style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Full Name *</label><input id="newStudentName" type="text" required placeholder="Ali Rahimov" style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none"></div>
+      <div class="auth-field"><label style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Email *</label><input id="newStudentEmail" type="email" required placeholder="ali@example.com" style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none"></div>
+      <div class="auth-field"><label style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Track</label><input id="newStudentTrack" type="text" placeholder="Junior Site Engineer" style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none"></div>
+      <div class="admin-modal-foot">
+        <button type="button" class="btn-ghost" onclick="closeAdminStudentModal()">Cancel</button>
+        <button type="submit" class="btn-dark">Add Student</button>
+      </div>
+    </form>
+  </div>
+</div>

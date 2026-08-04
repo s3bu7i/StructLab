@@ -1,0 +1,678 @@
+<!-- ===== LANDING PAGE ===== -->
+<div id="page-landing" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-shapes" aria-hidden="true">
+      <span class="hero-shape hero-shape-coral"></span>
+      <span class="hero-shape hero-shape-gold"></span>
+      <span class="hero-shape hero-shape-violet"></span>
+      <span class="hero-shape hero-shape-glow"></span>
+    </div>
+    <div class="hero-tag">Industry-Leading Education</div>
+    <h1 class="fade-up">Build Your Future<br>in Construction</h1>
+    <p class="fade-up delay-1">Master essential construction skills with expert-led courses. From safety certifications to advanced project management, we've got you covered.</p>
+    <div class="hero-search fade-up delay-2">
+      <input id="heroSearchInput" type="text" placeholder="Search courses..." onkeydown="handleHeroSearchKey(event)">
+      <button class="btn-explore" onclick="searchCoursesFromHero()">Explore Courses</button>
+    </div>
+    <div class="hero-pills fade-up delay-3">
+      <div class="hero-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M3 20a9 9 0 0 1 18 0"/></svg>
+        Certified Programs
+      </div>
+      <div class="hero-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Expert Instructors
+      </div>
+      <div class="hero-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Lifetime Access
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Props -->
+  <div class="value-props">
+    <div class="value-prop">
+      <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      <h3>Learn</h3>
+      <p>Practical courses designed for real-world construction environments</p>
+    </div>
+    <div class="value-prop">
+      <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      <h3>Certify</h3>
+      <p>Industry-recognized certifications that open doors to new opportunities</p>
+    </div>
+    <div class="value-prop">
+      <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      <h3>Get Hired</h3>
+      <p>Direct job placement connections with top construction companies</p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <div class="stat-num" data-target="100" data-suffix="+">100+</div>
+      <div class="stat-label">Courses</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="stat-num" data-target="1000" data-suffix="+">1,000+</div>
+      <div class="stat-label">Students</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      </div>
+      <div class="stat-num" data-target="95" data-suffix="%">95%</div>
+      <div class="stat-label">Success Rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <div class="stat-num" data-target="100" data-suffix="+">100+</div>
+      <div class="stat-label">Video Lessons</div>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="section">
+    <div class="section-header">
+      <h2>How StructLab Works</h2>
+      <p>A startup-ready journey from skill-building to certification and hiring</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="how-step">Step 01</div>
+        <h3>Choose a role-based learning path</h3>
+        <p>Students can search courses by discipline, experience level, and career target to quickly start the right path.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div class="how-step">Step 02</div>
+        <h3>Earn a verifiable certificate</h3>
+        <p>Every completed course can unlock a branded certificate that is ready for portfolios, applications, and company review.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div class="how-step">Step 03</div>
+        <h3>Get matched with employers</h3>
+        <p>Companies can review candidate readiness, skills, and certificates in one place and hire faster from the same platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section id="categories" class="section section-bg">
+    <div class="section-header">
+      <h2>Explore by Category</h2>
+      <p>Choose from a wide range of construction and technical service specializations</p>
+    </div>
+    <div class="categories-grid">
+      <div class="cat-card">
+        <div class="cat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6"/>
+            <path d="M8 14h8"/>
+            <path d="M8 18h5"/>
+            <path d="M15 12l3 3"/>
+          </svg>
+        </div>
+        <h3>Shop drawing</h3>
+        <span>Service category</span>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/>
+            <path d="M12 20v-9"/>
+            <path d="M4 6.5l8 4.5 8-4.5"/>
+            <path d="M7.5 4.5l8 4.5"/>
+            <circle cx="12" cy="11" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <h3>BIM model</h3>
+        <span>Service category</span>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <path d="M8 7h8"/>
+            <path d="M8 11h3"/>
+            <path d="M14 11h2"/>
+            <path d="M8 15h3"/>
+            <path d="M14 15h2"/>
+            <path d="M8 19h8"/>
+          </svg>
+        </div>
+        <h3>Estimate</h3>
+        <span>Service category</span>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 3h8l4 4v14H7z"/>
+            <path d="M15 3v5h5"/>
+            <path d="M4 7v14h3"/>
+            <path d="M10 12h6"/>
+            <path d="M10 16h6"/>
+            <path d="M10 20h4"/>
+          </svg>
+        </div>
+        <h3>Technical documentation</h3>
+        <span>Service category</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Courses -->
+  <section id="courses" class="section">
+    <div class="section-header">
+      <h2>Featured Courses</h2>
+      <p>Start learning with our most popular courses</p>
+    </div>
+    <div class="courses-toolbar">
+      <div class="courses-search">
+        <input id="courseSearch" type="text" placeholder="Search by title, author, or keyword">
+      </div>
+      <div class="courses-sort-wrap">
+        <select id="courseSort" class="courses-sort" onchange="applyCourseControls()">
+          <option value="default">Sort: Recommended</option>
+          <option value="az">Sort: A–Z</option>
+          <option value="students">Sort: Most Students</option>
+          <option value="duration">Sort: Shortest Duration</option>
+        </select>
+      </div>
+    </div>
+    <div class="course-status" id="courseStatus">Showing all 4 courses</div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all" onclick="setTab(this, 'all')">All</button>
+      <button class="filter-tab" data-filter="beginner" onclick="setTab(this, 'beginner')">Beginner</button>
+      <button class="filter-tab" data-filter="intermediate" onclick="setTab(this, 'intermediate')">Intermediate</button>
+      <button class="filter-tab" data-filter="advanced" onclick="setTab(this, 'advanced')">Advanced</button>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card" data-level="advanced" data-students="2847" data-duration="8" data-keywords="geodesy surveying topoqraf laser scanner total station design reconstruction facade measurement">
+        <div class="course-img video-preview">
+          <button class="video-thumb" type="button" onclick="openVideoModal('m8bXLkD8FdQ', this.closest('.course-card').querySelector('h3').textContent, 'https://youtu.be/m8bXLkD8FdQ')" aria-label="Open course video">
+            <img src="https://img.youtube.com/vi/m8bXLkD8FdQ/hqdefault.jpg" alt="Geodesy course video thumbnail" loading="lazy" decoding="async">
+            <span class="play-badge">▶</span>
+            <span class="video-tip" id="courseVideoTip">Click to watch inside the site</span>
+          </button>
+          <div class="course-img-label">
+            <span class="badge badge-cat">Geodeziya</span>
+            <span class="badge badge-adv">Advanced</span>
+          </div>
+        </div>
+        <div class="course-body">
+          <h3>Layihənizin hər addımında geodeziya dəstəyi</h3>
+          <p class="course-author">by Topoqraf</p>
+          <p class="course-description">
+            “Topoqraf” şirkəti istənilən mürəkkəblikdə olan obyektlərdə ölçmə işləri aparır. Sahə planlarını və yüksəkliklərini tərtib etmək üçün lazer skanerlərindən və yüksək dəqiqlikli elektron taxeometrlərdən istifadə edirik. Çox vaxt xidmət tikinti və dizayn sahəsində ixtisaslaşmış təşkilatlar tərəfindən sifariş edilir. Ölçmələrin nəticələrinə əsasən xərclər smetaları tərtib edilir, yenidənqurma, genişləndirmələrin tikintisi, fasad üzlüklərinin dəyişdirilməsi layihəsi hazırlanır. Tikinti prosesinin uzun müddət dayanmadan sonra bərpası gözlənildiyi halda, yarımçıq qalan obyektin həndəsi parametrləri də geodeziya ölçmələri aparılmaqla dəqiqləşdirilməlidir.
+          </p>
+          <div class="course-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Video course
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 1.96C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+              YouTube
+            </span>
+          </div>
+          <button class="course-link course-video-btn" type="button" onclick="openVideoModal('m8bXLkD8FdQ', this.closest('.course-card').querySelector('h3').textContent, 'https://youtu.be/m8bXLkD8FdQ')">Watch here</button>
+        </div>
+      </div>
+      <div class="course-card" data-level="intermediate" data-students="1923" data-duration="6" data-keywords="planning management scheduling budgeting">
+        <div class="course-img course-img-construction">
+          <div class="course-img-label" >
+            <span class="badge badge-cat">Management</span>
+            <span class="badge badge-int">Intermediate</span>
+          </div>
+        </div>
+        <div class="course-body">
+          <h3>Construction Project Planning</h3>
+          <p class="course-author">by Sarah Williams</p>
+          <p class="course-description">
+            Master the essentials of construction project planning in this comprehensive course. Learn how to create effective schedules, manage resources, and control budgets to ensure your projects are completed on time and within budget. With real-world case studies and practical exercises, you'll gain the skills needed to excel in construction management and lead successful projects from start to finish.
+          </p>
+          <div class="course-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              6 weeks
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              1,923 students
+            </span>
+          </div>
+          <button class="btn-enroll" data-course-id="construction-planning" onclick="enrollCourse(this,'construction-planning')">Enroll Now</button>
+        </div>
+      </div>
+      <div class="course-card" data-level="beginner" data-students="3214" data-duration="4" data-keywords="blueprint fundamentals drawing reading beginner">
+        <div class="course-img course-img-blueprint">
+          <div class="course-img-label">
+            <span class="badge badge-cat">Blueprint Reading</span>
+            <span class="badge badge-beg">Beginner</span>
+          </div>
+        </div>
+        <div class="course-body">
+          <h3>Blueprint Reading Fundamentals</h3>
+          <p class="course-author">by James Torres</p>
+          <p class="course-description">
+            Learn how to read and interpret construction blueprints in this beginner-friendly course. From understanding symbols and scales to interpreting architectural, structural, and MEP drawings, this course covers all the basics you need to get started. With practical exercises and real-world examples, you'll gain the confidence to navigate blueprints and contribute effectively to construction projects.
+          </p>
+          <div class="course-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              4 weeks
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              3,214 students
+            </span>
+          </div>
+          <button class="btn-enroll" data-course-id="blueprint-reading" onclick="enrollCourse(this,'blueprint-reading')">Enroll Now</button>
+        </div>
+      </div>
+      <div class="course-card" data-level="intermediate" data-students="4102" data-duration="5" data-keywords="osha compliance safety construction certification">
+        <div class="course-img course-img-team">
+          <div class="course-img-label">
+            <span class="badge badge-cat">OSHA Compliance</span>
+            <span class="badge badge-int">Intermediate</span>
+          </div>
+        </div>
+        <div class="course-body">
+          <h3>OSHA 30-Hour Construction Safety</h3>
+          <p class="course-author">by Amanda Reid</p>
+
+          <p class="course-description">
+            Ensure your construction site meets OSHA standards with this comprehensive 30-hour course. Covering key topics such as hazard recognition, fall protection, scaffolding safety, and more, this course is designed to help you create a safer work environment. With expert instruction and practical guidance, you'll be prepared to implement effective safety measures and reduce risks on your construction projects.
+          </p>
+          <div class="course-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              5 weeks
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              4,102 students
+            </span>
+          </div>
+          <button class="btn-enroll" data-course-id="osha-30" onclick="enrollCourse(this,'osha-30')">Enroll Now</button>
+        </div>
+      </div>
+    </div>
+    <div id="courseEmpty" class="course-empty">
+      <h3>No courses found</h3>
+      <p>Try another keyword, reset the filter, or switch the course level to see more results.</p>
+    </div>
+  </section>
+
+  <!-- Showcase -->
+  <section id="showcase" class="section section-bg">
+    <div class="section-header">
+      <h2>From learning to hiring in one platform</h2>
+      <p>These product moments make the demo feel like a real startup MVP, not just a landing page.</p>
+    </div>
+    <div class="showcase-grid">
+      <div class="showcase-card">
+        <div class="section-pill">Certificate Preview</div>
+        <h3 id="certificateShowcaseTitle">Share-ready digital certificates</h3>
+        <p id="certificateShowcaseText">Completed learners receive a clean, branded certificate they can add to their CV, portfolio, and company applications.</p>
+        <div class="certificate-preview">
+          <h4 id="certificatePreviewHeading">StructLab Certificate</h4>
+          <p id="certificatePreviewSub">Awarded for verified completion of industry-focused construction training.</p>
+          <div class="cert-meta">
+            <div><span id="certMetaLabel1">Program</span><strong id="certMetaValue1">Advanced Site Safety Management</strong></div>
+            <div><span id="certMetaLabel2">Issued by</span><strong id="certMetaValue2">StructLab Academy</strong></div>
+            <div><span id="certMetaLabel3">Credential ID</span><strong id="certMetaValue3">SL-2026-4471</strong></div>
+            <div><span id="certMetaLabel4">Status</span><strong id="certMetaValue4">Verified</strong></div>
+          </div>
+        </div>
+        <div class="section-actions">
+          <button class="btn-primary" id="openCertificateBtn" onclick="openCertificateModal()">View Sample Certificate</button>
+          <button class="btn-ghost" id="studentViewBtn" onclick="showPage('student')">Open Student Dashboard</button>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="section-pill">Job Matching</div>
+        <h3 id="jobMatchTitle">Role-based hiring readiness</h3>
+        <p id="jobMatchText">Companies can immediately see how close a learner is to a real vacancy based on course progress, certificates, and skill coverage.</p>
+        <div class="job-match-card">
+          <div class="match-score">
+            <strong id="matchScore">87%</strong>
+            <span id="matchScoreLabel">match score for Site Supervisor</span>
+          </div>
+          <div class="match-item">
+            <div class="match-item-head"><span id="matchItem1Label">Safety compliance</span><span>94%</span></div>
+            <div class="match-track"><div class="match-fill" style="width:94%"></div></div>
+          </div>
+          <div class="match-item">
+            <div class="match-item-head"><span id="matchItem2Label">Planning & reporting</span><span>86%</span></div>
+            <div class="match-track"><div class="match-fill" style="width:86%"></div></div>
+          </div>
+          <div class="match-item">
+            <div class="match-item-head"><span id="matchItem3Label">Field coordination</span><span>81%</span></div>
+            <div class="match-track"><div class="match-fill" style="width:81%"></div></div>
+          </div>
+        </div>
+        <div class="section-actions">
+          <button class="btn-orange" id="companyViewBtn" onclick="showPage('company')">Open Company Dashboard</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="section">
+    <div class="section-header">
+      <h2>What users love about StructLab</h2>
+      <p>Short proof points like these make a presentation feel credible and investor-friendly.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">“</div>
+        <p id="testimonialText1">I could show my completed safety certificate during interviews, and it made my application look much stronger.</p>
+        <div class="testimonial-meta">
+          <strong id="testimonialName1">Ali Rahimov</strong>
+          <span id="testimonialRole1">Student · Safety Track</span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">“</div>
+        <p id="testimonialText2">The dashboard made it easy to compare candidates fast. We could immediately see who was ready for the field.</p>
+        <div class="testimonial-meta">
+          <strong id="testimonialName2">BakuBuild Co.</strong>
+          <span id="testimonialRole2">Hiring Partner</span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">“</div>
+        <p id="testimonialText3">The platform brings learning, exams, and hiring together. That makes the concept very strong as a startup product.</p>
+        <div class="testimonial-meta">
+          <strong id="testimonialName3">Aylin Mammadli</strong>
+          <span id="testimonialRole3">Startup Jury Feedback</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section section-bg">
+    <div class="section-header">
+      <h2>Frequently Asked Questions</h2>
+      <p>Useful for presentations because it answers the business and product questions before they are asked.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q" onclick="toggleFaq(this)"><span id="faqQ1">Who is StructLab for?</span><span>+</span></button>
+        <div class="faq-a"><p id="faqA1">StructLab is designed for students, construction professionals, employers, and administrators who need one place for training and hiring workflows.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span id="faqQ2">Do learners receive certificates?</span><span>+</span></button>
+        <div class="faq-a"><p id="faqA2">Yes. Each completed course can generate a branded certificate that can be reviewed by companies or shared professionally.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span id="faqQ3">Can companies hire directly from the platform?</span><span>+</span></button>
+        <div class="faq-a"><p id="faqA3">That is the core value proposition. Employers can review candidate progress, certificates, and job-fit indicators inside the same ecosystem.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span id="faqQ4">Why is this good for a startup presentation?</span><span>+</span></button>
+        <div class="faq-a"><p id="faqA4">Because it demonstrates a clear user journey, monetization logic, and a multi-sided product for students, companies, and admins.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team" class="section team-section">
+    <div class="section-header">
+      <h2>Meet the Team</h2>
+      <p>The core people behind StructLab’s product, strategy, and industry partnerships.</p>
+    </div>
+
+    <div class="team-grid">
+      <article class="team-card">
+        <div class="team-photo team-photo-baba">
+          <img src="/assets/images/baba.jpeg" alt="Baba Aslanov" loading="lazy" decoding="async">
+        </div>
+        <div class="team-body">
+          <h3>Baba Aslanov</h3>
+          <p class="team-role">CEO &amp; Founder</p>
+          <p class="team-bio">Leads StructLab’s product vision, strategy, and business development direction.</p>
+          <a class="linkedin-link" href="https://www.linkedin.com/in/baba-aslanov/" target="_blank" rel="noopener noreferrer" aria-label="Baba Aslanov LinkedIn profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <span class="linkedin-label">View LinkedIn</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <div class="team-photo team-photo-sarvat">
+          <img src="/assets/images/servet.jpeg" alt="Sarvat Sadirov" loading="lazy" decoding="async">
+        </div>
+        <div class="team-body">
+          <h3>Sarvat Sadirov</h3>
+          <p class="team-role">CEO &amp; Founder Topoqraf.az</p>
+          <p class="team-bio">Brings industry partnership, geodesy, and topography expert </p>
+          <a class="linkedin-link" href="https://www.linkedin.com/in/sarvat/" target="_blank" rel="noopener noreferrer" aria-label="Sarvat Sadirov LinkedIn profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <span class="linkedin-label">View LinkedIn</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <div class="team-photo team-photo-sabuhi">
+          <img src="/assets/images/sabuhi.JPG" alt="Sabuhi Gasimzada" loading="lazy" decoding="async">
+        </div>
+        <div class="team-body">
+          <h3>Sabuhi Gasimzada</h3>
+          <p class="team-role">Developer</p>
+          <p class="team-bio">Works on the web development and digital product experience of the StructLab platform.</p>
+          <a class="linkedin-link" href="https://www.linkedin.com/in/sabuhi-gasimzada/" target="_blank" rel="noopener noreferrer" aria-label="Sabuhi Gasimzada LinkedIn profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <span class="linkedin-label">View LinkedIn</span>
+          </a>
+        </div>
+      </article>
+      <article class="team-card">
+        <div class="team-photo team-photo-sevinc">
+          <img src="/assets/images/sevinc.jpeg" alt="Sevinc Aliyeva" loading="lazy" decoding="async">
+        </div>
+        <div class="team-body">
+          <h3>Sevinc Aliyeva</h3>
+          <p class="team-role">UI/UX Designer</p>
+          <p class="team-bio">Designs intuitive, accessible, and polished digital experiences for StructLab.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="section-header">
+      <h2>About StructLab</h2>
+      <p>StructLab connects education, certification, and hiring for the construction industry.</p>
+    </div>
+    <div class="dash-card" style="max-width:960px;margin:0 auto;box-shadow:var(--shadow)">
+      <h3 style="margin-bottom:12px">Why StructLab?</h3>
+      <p style="color:var(--gray-600);line-height:1.8;font-size:0.96rem">We help students gain job-ready construction skills, support companies in finding qualified talent, and give administrators a simple way to manage the whole ecosystem in one place.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Ready to Start Your Journey?</h2>
+    <p>Join thousands of professionals advancing their construction careers with StructLab</p>
+    <div class="cta-btns">
+      <button class="btn-cta-white" onclick="showCoursesSection()">Browse Courses</button>
+      <button class="btn-cta-outline" onclick="openAuthModal('signup')">Become an Instructor</button>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section section-bg">
+    <div class="section-header">
+      <h2 id="contactTitle">Get in Touch</h2>
+      <p id="contactSub">Have a question or want to partner with us? We'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" id="contactEmailLabel">Email</div>
+            <div class="contact-info-value">info@structlab.az</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.4a16 16 0 0 0 5.69 5.69l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" id="contactPhoneLabel">Phone</div>
+            <div class="contact-info-value">+994 50 703 51 83</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" id="contactLocationLabel">Location</div>
+            <div class="contact-info-value">Baku, Azerbaijan</div>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" id="contactForm" onsubmit="submitContact(event)" novalidate>
+        <div class="contact-row">
+          <div class="auth-field">
+            <label id="contactNameLabel" style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Full Name</label>
+            <input type="text" id="contactNameInput" placeholder="Your full name" required style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff">
+          </div>
+          <div class="auth-field">
+            <label id="contactEmailFieldLabel" style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Email Address</label>
+            <input type="email" id="contactEmailInput" placeholder="your@email.com" required style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff">
+          </div>
+        </div>
+        <div class="auth-field">
+          <label id="contactSubjectLabel" style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Subject</label>
+          <input type="text" id="contactSubjectInput" placeholder="How can we help?" required style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff">
+        </div>
+        <div class="auth-field">
+          <label id="contactMessageLabel" style="display:block;font-size:.82rem;font-weight:800;color:var(--gray-900);margin-bottom:7px">Message</label>
+          <textarea id="contactMessageInput" rows="5" placeholder="Write your message here..." required style="width:100%;border:1.5px solid var(--gray-200);border-radius:12px;padding:13px 14px;font-family:'DM Sans',sans-serif;font-size:0.93rem;outline:none;resize:vertical;transition:border-color .2s,box-shadow .2s;background:#fff"></textarea>
+        </div>
+        <button type="submit" class="btn-primary" id="contactSubmitBtn" style="width:100%;padding:14px;font-size:.96rem;border-radius:12px">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section class="partners-section">
+    <div class="section-header">
+      <h2 id="partnersTitle">Əməkdaşlıq etdiyimiz şirkətlər</h2>
+      <p id="partnersSub">Platformamıza dəstək olan tərəfdaşlarımız və sponsorlarımız</p>
+    </div>
+
+    <div class="partners-grid">
+      <a
+        class="partner-card sponsor"
+        href="https://www.topoqraf.az/az"
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        aria-label="Topoqraf saytını aç"
+        title="Topoqraf"
+      >
+        <span class="partner-badge" id="partnerBadgeTopoqraf">Sponsor</span>
+
+        <div class="partner-logo">
+          <img src="/assets/images/topoqraf.webp" alt="Topoqraf logo" loading="lazy" decoding="async">
+        </div>
+
+        <div class="partner-name">Topoqraf</div>
+        <p class="partner-note" id="partnerTextTopoqraf">
+        </p>
+
+        <span class="partner-link-text" id="partnerVisitText">Saytı ziyarət et</span>
+      </a>
+      <a
+        class="partner-card coordinat-partner"
+        href="https://www.coordinatgroup.com/"
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        aria-label="Open Coordinat Group website"
+        title="Coordinat Group"
+      >
+        <span class="partner-badge" id="partnerBadgeCoordinat">Partner</span>
+
+        <div class="partner-logo coordinat-logo">
+          <img src="/assets/images/coordinat.png" alt="Coordinat Group logo" loading="lazy" decoding="async">
+        </div>
+
+        <div class="partner-name">Coordinat Group</div>
+        <p class="partner-note" id="partnerTextCoordinat"></p>
+
+        <span class="partner-link-text" id="partnerVisitTextCoordinat">Visit website</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="nav-logo brand-logo-link footer-logo-link" style="display:flex;margin-bottom:14px;" aria-label="StructLab">
+          <span class="brand-lockup brand-lockup-footer brand-lockup-on-dark" aria-hidden="true">
+            <img class="brand-symbol" src="/assets/images/main_logo.png" alt="" loading="lazy" decoding="async">
+            <img class="brand-wordmark" src="/assets/images/STRUCT%20lub.png" alt="" loading="lazy" decoding="async">
+          </span>
+        </a>
+        <p>Empowering construction professionals through quality education and training.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Courses</h4>
+        <a href="#">Safety Training</a>
+        <a href="#">Project Management</a>
+        <a href="#">Technical Skills</a>
+        <a href="#">Certifications</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Instructors</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Refund Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 StructLab. All rights reserved.</div>
+  </footer>
+</div>

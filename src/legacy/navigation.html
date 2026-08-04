@@ -1,0 +1,33 @@
+<!-- NAV -->
+<nav class="top-nav">
+  <a class="nav-logo brand-logo-link" onclick="showPage('landing')" style="text-decoration:none;cursor:pointer" aria-label="StructLab home">
+    <span class="brand-lockup brand-lockup-nav" aria-hidden="true">
+      <img class="brand-symbol" src="/assets/images/main_logo.png" alt="" decoding="async" fetchpriority="high">
+      <img class="brand-wordmark" src="/assets/images/STRUCT%20lub.png" alt="" decoding="async" fetchpriority="high">
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="#courses" onclick="handleNavClick(event, 'courses')">Courses</a>
+    <a href="#categories" onclick="handleNavClick(event, 'categories')">Categories</a>
+    <a href="#team" onclick="handleNavClick(event, 'team')">Team</a>
+    <a href="#about" onclick="handleNavClick(event, 'about')">About</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch" aria-label="Language switcher">
+      <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn" data-lang="az" onclick="setLanguage('az')">AZ</button>
+    </div>
+    <div id="navGuestArea" style="display:flex;align-items:center;gap:10px">
+      <button class="btn-ghost" id="navSignInBtn" onclick="openAuthModal('login')">Sign In</button>
+      <button class="btn-primary" id="navGetStartedBtn" onclick="openAuthModal('signup')">Get Started</button>
+    </div>
+    <div id="navUserArea" style="display:none;align-items:center;gap:12px">
+      <span id="navUserName" style="font-size:0.88rem;font-weight:600;color:var(--gray-600)"></span>
+      <button class="btn-primary" id="navDashboardBtn" style="font-size:0.82rem;padding:6px 14px;border-radius:8px" onclick="goToCurrentDashboard()">Dashboard</button>
+      <button class="btn-ghost" id="navLogoutBtn" style="font-size:0.82rem;padding:6px 14px;border:1.5px solid var(--gray-200);border-radius:8px" onclick="logoutUser()">Log out</button>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" onclick="toggleMobileNav()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
