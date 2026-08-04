@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import navigationMarkup from './legacy/navigation.html?raw';
 import landingMarkup from './legacy/landing.html?raw';
 import studentMarkup from './legacy/student.html?raw';
@@ -276,6 +277,121 @@ function ScrollExperience() {
   );
 }
 
+const parallaxLayerSpecs = [
+  { id: 'hero-orbit', selector: '.hero', className: 'sl-parallax-orbit', depth: 0.34 },
+  { id: 'category-axis', selector: '#categories', className: 'sl-parallax-axis', depth: 0.22 },
+  { id: 'showcase-compass', selector: '#showcase', className: 'sl-parallax-compass', depth: 0.3 },
+  { id: 'team-truss', selector: '#team', className: 'sl-parallax-truss', depth: 0.18 },
+  { id: 'contact-frame', selector: '#contact', className: 'sl-parallax-frame', depth: 0.26 },
+];
+
+function ParallaxArtwork() {
+  const [layers, setLayers] = useState([]);
+
+  useLayoutEffect(() => {
+    setLayers(
+      parallaxLayerSpecs
+        .map((spec) => ({ ...spec, host: document.querySelector(`#page-landing ${spec.selector}`) }))
+        .filter((spec) => spec.host),
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!layers.length) return undefined;
+
+    const landing = document.getElementById('page-landing');
+    const items = layers
+      .map((layer) => layer.host.querySelector(`[data-sl-parallax='${layer.id}']`))
+      .filter(Boolean);
+    if (!landing || !items.length) return undefined;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const activeItems = new Set();
+    let pointerX = 0;
+    let pointerY = 0;
+    let frame = 0;
+
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('is-parallax-visible', entry.isIntersecting);
+        if (entry.isIntersecting) activeItems.add(entry.target);
+        else activeItems.delete(entry.target);
+      });
+      scheduleRender();
+    }, { rootMargin: '35% 0px 35% 0px', threshold: 0.01 });
+
+    items.forEach((item) => visibilityObserver.observe(item));
+
+    function renderParallax() {
+      frame = 0;
+      if (reducedMotion) return;
+
+      activeItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const depth = Number(item.dataset.slDepth || 0.2);
+        const viewportOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+        const translateY = Math.max(-72, Math.min(72, viewportOffset * depth * -150));
+        const translateX = pointerX * depth * 34;
+        const pointerLift = pointerY * depth * 18;
+        const rotation = pointerX * depth * 2.4;
+
+        item.style.setProperty('--sl-parallax-x', `${translateX.toFixed(2)}px`);
+        item.style.setProperty('--sl-parallax-y', `${(translateY + pointerLift).toFixed(2)}px`);
+        item.style.setProperty('--sl-parallax-r', `${rotation.toFixed(2)}deg`);
+      });
+    }
+
+    function scheduleRender() {
+      if (!frame) frame = window.requestAnimationFrame(renderParallax);
+    }
+
+    function handlePointerMove(event) {
+      const rect = landing.getBoundingClientRect();
+      pointerX = ((event.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
+      pointerY = ((event.clientY - window.innerHeight / 2) / Math.max(1, window.innerHeight / 2));
+      scheduleRender();
+    }
+
+    function resetPointer() {
+      pointerX = 0;
+      pointerY = 0;
+      scheduleRender();
+    }
+
+    if (finePointer && !reducedMotion) {
+      landing.addEventListener('pointermove', handlePointerMove, { passive: true });
+      landing.addEventListener('pointerleave', resetPointer, { passive: true });
+    }
+    window.addEventListener('scroll', scheduleRender, { passive: true });
+    window.addEventListener('resize', scheduleRender, { passive: true });
+    scheduleRender();
+
+    return () => {
+      visibilityObserver.disconnect();
+      landing.removeEventListener('pointermove', handlePointerMove);
+      landing.removeEventListener('pointerleave', resetPointer);
+      window.removeEventListener('scroll', scheduleRender);
+      window.removeEventListener('resize', scheduleRender);
+      window.cancelAnimationFrame(frame);
+      activeItems.clear();
+    };
+  }, [layers]);
+
+  return layers.map((layer) => createPortal(
+    <div
+      className={`sl-parallax-item ${layer.className}`}
+      data-sl-parallax={layer.id}
+      data-sl-depth={layer.depth}
+      aria-hidden="true"
+    >
+      <i /><i /><i /><span />
+    </div>,
+    layer.host,
+    layer.id,
+  ));
+}
+
 function useProgressiveMedia() {
   useLayoutEffect(() => {
     const priorityImages = new Set(
@@ -322,6 +438,7 @@ export default function App() {
       </main>
       <GlobalOverlays />
       <ScrollExperience />
+      <ParallaxArtwork />
     </>
   );
 }

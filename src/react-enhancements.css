@@ -464,6 +464,189 @@ body:not(:has(#page-landing.active)) .sl-scroll-guide {
   margin-top: auto;
 }
 
+/* Lightweight JavaScript parallax artwork. */
+#page-landing .sl-parallax-item {
+  --sl-parallax-x: 0px;
+  --sl-parallax-y: 0px;
+  --sl-parallax-r: 0deg;
+  position: absolute !important;
+  z-index: 0 !important;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--sl-parallax-x), var(--sl-parallax-y), 0) rotate(var(--sl-parallax-r));
+  transition: opacity .7s ease;
+  will-change: transform;
+}
+
+#page-landing .hero > .sl-parallax-item {
+  position: absolute !important;
+  z-index: 0 !important;
+  transform: translate3d(var(--sl-parallax-x), var(--sl-parallax-y), 0) rotate(var(--sl-parallax-r)) !important;
+  transform-style: preserve-3d !important;
+  will-change: transform !important;
+}
+
+#page-landing .sl-parallax-item.is-parallax-visible {
+  opacity: 1;
+}
+
+#page-landing .sl-parallax-item i,
+#page-landing .sl-parallax-item span {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.sl-parallax-orbit {
+  top: 26%;
+  right: clamp(18px, 7vw, 110px);
+  width: clamp(150px, 18vw, 270px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(245,215,127,.28);
+  border-radius: 50%;
+  box-shadow: inset 0 0 48px rgba(166,156,244,.08), 0 0 50px rgba(255,120,103,.08);
+}
+
+.sl-parallax-orbit::before,
+.sl-parallax-orbit::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+
+.sl-parallax-orbit::before {
+  inset: 18%;
+  border: 1px dashed rgba(221,214,254,.28);
+  animation: slParallaxSpin 18s linear infinite;
+}
+
+.sl-parallax-orbit::after {
+  inset: 42%;
+  background: radial-gradient(circle, #f5d77f 0 16%, #ff7867 26%, rgba(255,120,103,0) 68%);
+  box-shadow: 0 0 38px rgba(255,120,103,.32);
+}
+
+.sl-parallax-orbit i:nth-child(1) {
+  inset: -5%;
+  border: 1px solid rgba(166,156,244,.13);
+  border-radius: 43% 57% 52% 48%;
+  animation: slParallaxSpin 26s linear infinite reverse;
+}
+
+.sl-parallax-orbit i:nth-child(2) {
+  top: 12%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f5d77f;
+  box-shadow: 0 0 16px rgba(245,215,127,.8);
+}
+
+.sl-parallax-orbit i:nth-child(3) {
+  top: 50%;
+  left: -12%;
+  width: 124%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(221,214,254,.23), transparent);
+}
+
+.sl-parallax-axis {
+  top: 18%;
+  left: clamp(12px, 3.5vw, 54px);
+  width: clamp(105px, 12vw, 170px);
+  height: clamp(105px, 12vw, 170px);
+  border-top: 1px solid rgba(245,215,127,.34);
+  border-left: 1px solid rgba(245,215,127,.34);
+}
+
+.sl-parallax-axis::before,
+.sl-parallax-axis::after {
+  content: '';
+  position: absolute;
+  background: #ff7867;
+  box-shadow: 0 0 12px rgba(255,120,103,.6);
+}
+
+.sl-parallax-axis::before { top: -3px; left: 36%; width: 6px; height: 6px; border-radius: 50%; }
+.sl-parallax-axis::after { top: 34%; left: -3px; width: 6px; height: 6px; border-radius: 50%; }
+.sl-parallax-axis i:nth-child(1) { inset: 0; border-right: 1px dashed rgba(221,214,254,.13); transform: skew(-18deg); }
+.sl-parallax-axis i:nth-child(2) { left: 0; bottom: 0; width: 72%; height: 1px; background: linear-gradient(90deg, rgba(245,215,127,.3), transparent); }
+.sl-parallax-axis i:nth-child(3) { top: 0; right: 0; width: 1px; height: 72%; background: linear-gradient(180deg, rgba(245,215,127,.3), transparent); }
+.sl-parallax-axis span { right: 8px; bottom: 10px; width: 20px; height: 20px; border: 1px solid rgba(255,255,255,.16); transform: rotate(45deg); }
+
+.sl-parallax-compass {
+  right: clamp(14px, 4vw, 64px);
+  bottom: 12%;
+  width: clamp(120px, 14vw, 205px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(84,89,217,.18);
+  border-radius: 50%;
+}
+
+.sl-parallax-compass::before,
+.sl-parallax-compass::after {
+  content: '';
+  position: absolute;
+  background: rgba(84,89,217,.2);
+}
+
+.sl-parallax-compass::before { top: 50%; left: -16%; width: 132%; height: 1px; }
+.sl-parallax-compass::after { left: 50%; top: -16%; width: 1px; height: 132%; }
+.sl-parallax-compass i:nth-child(1) { inset: 22%; border: 1px dashed rgba(255,120,103,.24); border-radius: 50%; animation: slParallaxSpin 15s linear infinite; }
+.sl-parallax-compass i:nth-child(2) { inset: 45%; border-radius: 50%; background: #ff7867; box-shadow: 0 0 20px rgba(255,120,103,.45); }
+.sl-parallax-compass i:nth-child(3) { top: 5%; left: 49%; width: 2px; height: 42%; background: linear-gradient(#5459d9, transparent); transform: rotate(28deg); transform-origin: bottom; }
+
+.sl-parallax-truss {
+  top: 9%;
+  right: clamp(12px, 3vw, 48px);
+  width: clamp(150px, 18vw, 260px);
+  height: clamp(64px, 8vw, 112px);
+  border-top: 1px solid rgba(84,89,217,.18);
+  border-bottom: 1px solid rgba(255,120,103,.18);
+  transform-origin: center;
+}
+
+.sl-parallax-truss i {
+  top: 0;
+  width: 1px;
+  height: 142%;
+  background: linear-gradient(180deg, rgba(84,89,217,.24), rgba(255,120,103,.18));
+  transform-origin: top;
+}
+
+.sl-parallax-truss i:nth-child(1) { left: 17%; transform: rotate(-48deg); }
+.sl-parallax-truss i:nth-child(2) { left: 50%; transform: rotate(48deg); }
+.sl-parallax-truss i:nth-child(3) { right: 17%; transform: rotate(-48deg); }
+.sl-parallax-truss span { top: 50%; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,215,127,.4), transparent); }
+
+.sl-parallax-frame {
+  right: clamp(16px, 5vw, 78px);
+  bottom: 12%;
+  width: clamp(92px, 11vw, 154px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(245,215,127,.26);
+  border-radius: 22px;
+}
+
+.sl-parallax-frame::before {
+  content: '';
+  position: absolute;
+  inset: 18%;
+  border: 1px solid rgba(221,214,254,.2);
+  border-radius: 13px;
+  transform: rotate(12deg);
+}
+
+.sl-parallax-frame i:nth-child(1) { top: -12%; left: 50%; width: 1px; height: 124%; background: linear-gradient(transparent, rgba(245,215,127,.3), transparent); }
+.sl-parallax-frame i:nth-child(2) { top: 50%; left: -12%; width: 124%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,120,103,.3), transparent); }
+.sl-parallax-frame i:nth-child(3) { top: 9%; right: 9%; width: 7px; height: 7px; border-radius: 50%; background: #f5d77f; box-shadow: 0 0 14px rgba(245,215,127,.7); }
+
+@keyframes slParallaxSpin {
+  to { transform: rotate(360deg); }
+}
+
 @keyframes slGridTravel {
   from { background-position: 0 0, 0 0; }
   to { background-position: 0 76px, 76px 0; }
@@ -518,6 +701,18 @@ body:not(:has(#page-landing.active)) .sl-scroll-guide {
   #page-landing.light-motion .motion-ready[data-sl-reveal='right'] {
     transform: translate3d(0, 44px, 0) scale(.97);
   }
+
+  .sl-parallax-axis,
+  .sl-parallax-truss {
+    display: none !important;
+  }
+
+  .sl-parallax-orbit,
+  .sl-parallax-compass,
+  .sl-parallax-frame {
+    opacity: .38;
+    transform: scale(.82);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -530,6 +725,20 @@ body:not(:has(#page-landing.active)) .sl-scroll-guide {
   .sl-loader-ring,
   .sl-loader-pulse i,
   .sl-scroll-guide i::after {
+    animation: none !important;
+  }
+
+  #page-landing .sl-parallax-item,
+  #page-landing .hero > .sl-parallax-item {
+    opacity: .45 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  #page-landing .sl-parallax-item *,
+  #page-landing .sl-parallax-item::before,
+  #page-landing .sl-parallax-item::after {
     animation: none !important;
   }
 
