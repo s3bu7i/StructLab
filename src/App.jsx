@@ -190,9 +190,9 @@ function ScrollExperience() {
       element.dataset.slReveal = variants[index % variants.length];
       element.style.setProperty('--motion-index', String(index % 5));
     });
-    scenes.forEach((scene, index) => {
+    scenes.forEach((scene) => {
       scene.classList.add('scroll-scene');
-      scene.dataset.slScene = String(index + 1).padStart(2, '0');
+      delete scene.dataset.slScene;
     });
 
     const revealObserver = new IntersectionObserver((entries, observer) => {
