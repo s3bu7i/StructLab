@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   BarChart3,
   BriefcaseBusiness,
@@ -15,10 +15,11 @@ import {
   Search,
   Sparkles,
   Star,
+  Trash2,
   UserCheck,
   UsersRound,
 } from 'lucide-react';
-import { updateLocalProfile } from '../auth/session';
+import { apiRequest, saveProfile, uploadFile } from '../auth/api';
 import PortalShell, { Badge, KpiCard, KpiGrid, Modal, PageLead, Panel } from './PortalShell';
 import { usePersistentState, useToast } from './usePortalState';
 
@@ -27,6 +28,7 @@ const navItems = [
   { id: 'candidates', label: 'Namizədlər', description: 'Talent bazasını araşdır', icon: UsersRound, badge: 12 },
   { id: 'vacancies', label: 'Vakansiyalar', description: 'Elanları idarə et', icon: BriefcaseBusiness },
   { id: 'training', label: 'Təlimlər', description: 'Komanda inkişafı', icon: GraduationCap },
+  { id: 'team', label: 'Komanda', description: 'Üzvlər və icazələr', icon: UserCheck },
   { id: 'analytics', label: 'Analitika', description: 'Nəticələri ölç', icon: BarChart3 },
   { id: 'profile', label: 'Şirkət profili', description: 'Brend və əlaqə', icon: Building2 },
 ];
@@ -36,38 +38,34 @@ const pageMeta = {
   candidates: ['Namizədlər', 'Təsdiqlənmiş bacarıqlarla daha tez seçim et.'],
   vacancies: ['Vakansiyalar', 'Elan yarat, statusu dəyiş və müraciətləri izlə.'],
   training: ['Komanda təlimləri', 'İnkişaf proqramlarını əməkdaşlara təyin et.'],
+  team: ['Komanda və icazələr', 'Owner, recruiter və read-only səlahiyyətlərini idarə et.'],
   analytics: ['Analitika', 'İşə qəbul performansını aydın metriklərlə ölç.'],
   profile: ['Şirkət profili', 'Namizədlərin gördüyü brend məlumatlarını yenilə.'],
 };
 
-const baseCandidates = [
-  { id: 1, name: 'Nigar Məmmədova', title: 'Structural Engineer', location: 'Bakı', match: 96, skills: ['ETABS', 'Revit', 'SAP2000'], status: 'Yeni' },
-  { id: 2, name: 'Murad Əliyev', title: 'BIM Coordinator', location: 'Bakı', match: 92, skills: ['Revit', 'Navisworks', 'Dynamo'], status: 'Baxılıb' },
-  { id: 3, name: 'Aysel Həsənli', title: 'Site Engineer', location: 'Sumqayıt', match: 88, skills: ['AutoCAD', 'HSE', 'Planning'], status: 'Yeni' },
-  { id: 4, name: 'Orxan Quliyev', title: 'Project Engineer', location: 'Gəncə', match: 84, skills: ['Primavera', 'Excel', 'QA/QC'], status: 'Müsahibə' },
-  { id: 5, name: 'Ləman Rzayeva', title: 'Junior Architect', location: 'Bakı', match: 79, skills: ['Revit', 'Lumion', 'AutoCAD'], status: 'Yeni' },
-];
-
-const baseVacancies = [
-  { id: 1, title: 'Senior Structural Engineer', location: 'Bakı · Hibrid', applicants: 18, status: 'Aktiv', date: '12 gün qalıb' },
-  { id: 2, title: 'BIM Coordinator', location: 'Bakı · Ofis', applicants: 27, status: 'Aktiv', date: '6 gün qalıb' },
-  { id: 3, title: 'Site Engineering Intern', location: 'Sumqayıt', applicants: 34, status: 'Pauza', date: 'Qaralama' },
-];
-
-const trainingPrograms = [
-  { id: 1, title: 'Advanced Revit Coordination', duration: '6 həftə', enrolled: 8, completion: 74 },
-  { id: 2, title: 'Site Safety Leadership', duration: '3 həftə', enrolled: 14, completion: 61 },
-  { id: 3, title: 'Project Controls Essentials', duration: '4 həftə', enrolled: 5, completion: 38 },
-];
-
-export default function CompanyWorkspace({ user, section, navigate }) {
+export default function CompanyWorkspace({ user, company, section, navigate }) {
   const active = pageMeta[section] ? section : 'overview';
   const [toast, showToast] = useToast();
   const [shortlist, setShortlist] = usePersistentState('sl_company_shortlist', [2]);
-  const [vacancies, setVacancies] = usePersistentState('sl_company_vacancies', baseVacancies);
-  const [assignments, setAssignments] = usePersistentState('sl_company_training_assignments', {});
+  const [vacancies, setVacancies] = usePersistentState('sl_company_vacancies', []);
+  const [candidates, setCandidates] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [trainingData, setTrainingData] = useState({ courses: [], assignments: [] });
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([apiRequest('/api/company/jobs'), apiRequest('/api/company/candidates'), apiRequest('/api/company/members'), apiRequest('/api/company/training')]).then(([jobPayload, candidatePayload, memberPayload, trainingPayload]) => {
+      if (cancelled) return;
+      setVacancies((jobPayload.items || []).map((job) => ({ ...job, applicants: Number(job.applicants || 0), status: job.status === 'published' ? 'Aktiv' : job.status === 'paused' ? 'Pauza' : 'Qaralama', date: job.closes_at || 'Müddət yoxdur' })));
+      setCandidates((candidatePayload.items || []).map((candidate) => ({ ...candidate, status: applicationLabel(candidate.application_status) })));
+      setMembers(memberPayload.items || []);
+      setTrainingData(trainingPayload);
+      setShortlist((candidatePayload.items || []).filter((candidate) => candidate.application_status === 'shortlisted').map((candidate) => candidate.id));
+    }).catch((requestError) => showToast(requestError.message, 'error'));
+    return () => { cancelled = true; };
+  }, [setShortlist, setVacancies, showToast]);
   const meta = pageMeta[active];
-  const common = { user, navigate, shortlist, setShortlist, vacancies, setVacancies, assignments, setAssignments, showToast };
+  const common = { user, company, navigate, shortlist, setShortlist, vacancies, setVacancies, showToast, candidates, members, setMembers, trainingData, setTrainingData };
 
   return (
     <PortalShell role="company" user={user} items={navItems} active={active} title={meta[0]} subtitle={meta[1]} navigate={navigate} toast={toast}>
@@ -75,13 +73,14 @@ export default function CompanyWorkspace({ user, section, navigate }) {
       {active === 'candidates' && <Candidates {...common} />}
       {active === 'vacancies' && <Vacancies {...common} />}
       {active === 'training' && <Training {...common} />}
+      {active === 'team' && <Team {...common} />}
       {active === 'analytics' && <Analytics {...common} />}
       {active === 'profile' && <CompanyProfile {...common} />}
     </PortalShell>
   );
 }
 
-function CompanyOverview({ user, navigate, shortlist, vacancies }) {
+function CompanyOverview({ user, navigate, shortlist, vacancies, candidates }) {
   const applicants = vacancies.reduce((sum, vacancy) => sum + Number(vacancy.applicants || 0), 0);
   return (
     <>
@@ -94,7 +93,7 @@ function CompanyOverview({ user, navigate, shortlist, vacancies }) {
       </KpiGrid>
       <div className="portal-grid two">
         <Panel title="Tövsiyə olunan namizədlər" subtitle="Aktiv elanlara uyğun ilk seçim" action={<button className="portal-link-button" type="button" onClick={() => navigate('/portal/company/candidates')}>Hamısına bax</button>}>
-          <div className="portal-list">{baseCandidates.slice(0, 4).map((candidate) => <CandidateRow key={candidate.id} candidate={candidate} />)}</div>
+          <div className="portal-list">{candidates.slice(0, 4).map((candidate) => <CandidateRow key={candidate.id} candidate={candidate} />)}</div>
         </Panel>
         <Panel title="Namizəd axını" subtitle="Cari seçim mərhələləri">
           <div className="pipeline"><Pipeline value="79" label="Yeni müraciət" color="violet" /><Pipeline value="31" label="Profil baxışı" color="coral" /><Pipeline value="14" label="Shortlist" color="gold" /><Pipeline value="6" label="Müsahibə" color="green" /></div>
@@ -105,14 +104,17 @@ function CompanyOverview({ user, navigate, shortlist, vacancies }) {
   );
 }
 
-function Candidates({ shortlist, setShortlist, showToast }) {
+function Candidates({ shortlist, setShortlist, showToast, candidates: candidateData }) {
   const [query, setQuery] = useState('');
   const [minimum, setMinimum] = useState('0');
-  const candidates = useMemo(() => baseCandidates.filter((candidate) => candidate.match >= Number(minimum) && `${candidate.name} ${candidate.title} ${candidate.skills.join(' ')}`.toLowerCase().includes(query.toLowerCase())), [query, minimum]);
-  function toggle(candidate) {
+  const candidates = useMemo(() => candidateData.filter((candidate) => candidate.match >= Number(minimum) && `${candidate.name} ${candidate.title || ''} ${(candidate.skills || []).join(' ')}`.toLowerCase().includes(query.toLowerCase())), [candidateData, query, minimum]);
+  async function toggle(candidate) {
     const selected = shortlist.includes(candidate.id);
-    setShortlist((current) => selected ? current.filter((id) => id !== candidate.id) : [...current, candidate.id]);
-    showToast(selected ? `${candidate.name} shortlist-dən çıxarıldı.` : `${candidate.name} shortlist-ə əlavə edildi.`);
+    try {
+      await apiRequest(`/api/company/applications/${candidate.application_id}`, { method: 'PATCH', body: { status: selected ? 'reviewing' : 'shortlisted' } });
+      setShortlist((current) => selected ? current.filter((id) => id !== candidate.id) : [...current, candidate.id]);
+      showToast(selected ? `${candidate.name} shortlist-dən çıxarıldı.` : `${candidate.name} shortlist-ə əlavə edildi.`);
+    } catch (error) { showToast(error.message, 'error'); }
   }
   return (
     <>
@@ -126,16 +128,20 @@ function Candidates({ shortlist, setShortlist, showToast }) {
 function Vacancies({ vacancies, setVacancies, showToast }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ title: '', location: 'Bakı · Hibrid', type: 'Tam iş günü' });
-  function create(event) {
+  async function create(event) {
     event.preventDefault();
-    setVacancies((current) => [{ id: Date.now(), title: form.title, location: form.location, type: form.type, applicants: 0, status: 'Aktiv', date: '30 gün qalıb' }, ...current]);
-    setOpen(false);
-    setForm({ title: '', location: 'Bakı · Hibrid', type: 'Tam iş günü' });
-    showToast('Yeni vakansiya yayımlandı.');
+    try {
+      const result = await apiRequest('/api/company/jobs', { method: 'POST', body: { title: form.title, location: form.location, employment_type: employmentValue(form.type), status: 'published' } });
+      setVacancies((current) => [{ id: result.id, title: form.title, location: form.location, applicants: 0, status: 'Aktiv', date: 'Müddət yoxdur' }, ...current]);
+      setOpen(false);
+      setForm({ title: '', location: 'Bakı · Hibrid', type: 'Tam iş günü' });
+      showToast('Yeni vakansiya database-də yayımlandı.');
+    } catch (error) { showToast(error.message, 'error'); }
   }
-  function toggle(id) {
-    setVacancies((current) => current.map((vacancy) => vacancy.id === id ? { ...vacancy, status: vacancy.status === 'Aktiv' ? 'Pauza' : 'Aktiv' } : vacancy));
-    showToast('Vakansiya statusu yeniləndi.');
+  async function toggle(id) {
+    const vacancy = vacancies.find((item) => item.id === id);
+    const nextStatus = vacancy?.status === 'Aktiv' ? 'paused' : 'published';
+    try { await apiRequest(`/api/company/jobs/${id}`, { method: 'PATCH', body: { status: nextStatus } }); setVacancies((current) => current.map((item) => item.id === id ? { ...item, status: nextStatus === 'published' ? 'Aktiv' : 'Pauza' } : item)); showToast('Vakansiya statusu database-də yeniləndi.'); } catch (error) { showToast(error.message, 'error'); }
   }
   return (
     <>
@@ -146,17 +152,47 @@ function Vacancies({ vacancies, setVacancies, showToast }) {
   );
 }
 
-function Training({ assignments, setAssignments, showToast }) {
-  function assign(program) {
-    setAssignments((current) => ({ ...current, [program.id]: (current[program.id] || 0) + 1 }));
-    showToast(`${program.title} bir əməkdaşa təyin edildi.`);
+function Training({ company, trainingData, setTrainingData, showToast }) {
+  const [selected, setSelected] = useState(null);
+  const [form, setForm] = useState({ assignee_email: '', due_at: '' });
+  const canAssign = ['owner', 'training_manager'].includes(company?.member_role);
+  async function assign(event) {
+    event.preventDefault();
+    try { const assignment = await apiRequest('/api/company/training', { method: 'POST', body: { course_id: selected.id, ...form } }); setTrainingData((current) => ({ ...current, assignments: [{ ...assignment, course_title: selected.title }, ...current.assignments] })); setSelected(null); setForm({ assignee_email: '', due_at: '' }); showToast(`${selected.title} əməkdaşa təyin edildi.`); } catch (error) { showToast(error.message, 'error'); }
   }
   return (
     <>
       <PageLead eyebrow="Team academy" title="Komandanın bacarıqlarını layihələrdən əvvəl gücləndir." text="Təlim seç, əməkdaşa təyin et və ümumi tamamlanma göstəricisini izləməyə başla." accent="green" />
-      <div className="training-grid portal-section-gap">{trainingPrograms.map((program) => <article className="training-card" key={program.id}><span className="training-icon"><GraduationCap size={23} /></span><Badge tone="green">{program.duration}</Badge><h3>{program.title}</h3><p>{program.enrolled + (assignments[program.id] || 0)} əməkdaş qeydiyyatda</p><div className="course-progress-label"><span>Orta tamamlanma</span><strong>{program.completion}%</strong></div><div className="portal-progress"><span style={{ width: `${program.completion}%` }} /></div><button className="portal-button soft" type="button" onClick={() => assign(program)}><UserCheck size={15} /> Əməkdaşa təyin et</button></article>)}</div>
+      <div className="training-grid portal-section-gap">{trainingData.courses.map((program) => { const assigned = trainingData.assignments.filter((item) => item.course_id === program.id); const completion = assigned.length ? Math.round(assigned.reduce((sum, item) => sum + Number(item.progress || 0), 0) / assigned.length) : 0; return <article className="training-card" key={program.id}><span className="training-icon"><GraduationCap size={23} /></span><Badge tone="green">{Math.max(1, Math.round(Number(program.duration_minutes || 0) / 60))} saat</Badge><h3>{program.title}</h3><p>{assigned.length} əməkdaşa təyin edilib</p><div className="course-progress-label"><span>Orta tamamlanma</span><strong>{completion}%</strong></div><div className="portal-progress"><span style={{ width: `${completion}%` }} /></div>{canAssign && <button className="portal-button soft" type="button" onClick={() => setSelected(program)}><UserCheck size={15} /> Əməkdaşa təyin et</button>}</article>; })}</div>
+      {!trainingData.courses.length && <div className="portal-empty"><span><GraduationCap size={26} /></span><h3>Yayımlanmış kurs yoxdur</h3><p>Admin ilk kursu yayımladıqda təlim kataloqu burada görünəcək.</p></div>}
+      {selected && <Modal title={selected.title} subtitle="Təlimi əməkdaşa təyin et" onClose={() => setSelected(null)} footer={<><button className="portal-button ghost" type="button" onClick={() => setSelected(null)}>Ləğv et</button><button className="portal-button primary" type="submit" form="training-form">Təyin et</button></>}><form id="training-form" className="portal-form-grid" onSubmit={assign}><label className="portal-form-field full"><span>Əməkdaşın e-poçtu</span><input type="email" value={form.assignee_email} onChange={(event) => setForm((current) => ({ ...current, assignee_email: event.target.value }))} required /></label><label className="portal-form-field full"><span>Son tarix</span><input type="date" value={form.due_at} onChange={(event) => setForm((current) => ({ ...current, due_at: event.target.value }))} /></label></form></Modal>}
     </>
   );
+}
+
+function Team({ company, members, setMembers, showToast }) {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ email: '', member_role: 'recruiter' });
+  const isOwner = company?.member_role === 'owner';
+  async function add(event) {
+    event.preventDefault();
+    try {
+      const member = await apiRequest('/api/company/members', { method: 'POST', body: form });
+      setMembers((current) => [...current.filter((item) => item.id !== member.id), member]);
+      setOpen(false); setForm({ email: '', member_role: 'recruiter' }); showToast('Komanda üzvü və server icazəsi əlavə edildi.');
+    } catch (error) { showToast(error.message, 'error'); }
+  }
+  async function changeRole(member, memberRole) {
+    try { await apiRequest(`/api/company/members/${member.id}`, { method: 'PATCH', body: { member_role: memberRole } }); setMembers((current) => current.map((item) => item.id === member.id ? { ...item, member_role: memberRole } : item)); showToast('Üzv icazəsi yeniləndi.'); } catch (error) { showToast(error.message, 'error'); }
+  }
+  async function remove(member) {
+    try { await apiRequest(`/api/company/members/${member.id}`, { method: 'PATCH', body: { remove: true } }); setMembers((current) => current.filter((item) => item.id !== member.id)); showToast('Üzv şirkət workspace-indən çıxarıldı.'); } catch (error) { showToast(error.message, 'error'); }
+  }
+  return <>
+    <PageLead eyebrow="Company access" title="Hər əməkdaşa yalnız ehtiyacı olan icazəni ver." text="Owner tam idarə edir, recruiter vakansiya və namizədlərlə işləyir, training manager təlimləri idarə edir, viewer isə yalnız oxuyur." accent="green" actions={isOwner ? <button className="portal-button light" type="button" onClick={() => setOpen(true)}><UserCheck size={16} /> Üzv əlavə et</button> : null} />
+    <Panel className="portal-section-gap" title={`${members.length} komanda üzvü`} subtitle="İcazələr serverdə hər sorğu üçün yoxlanır"><div className="portal-table-wrap"><table className="portal-table"><thead><tr><th>Üzv</th><th>Rol</th><th>Status</th><th>Qoşulub</th>{isOwner && <th />}</tr></thead><tbody>{members.map((member) => <tr key={member.id}><td><strong>{member.name}</strong><br /><small>{member.email}</small></td><td>{isOwner && member.member_role !== 'owner' ? <select className="portal-select compact" value={member.member_role} onChange={(event) => changeRole(member, event.target.value)}><option value="recruiter">Recruiter</option><option value="training_manager">Training manager</option><option value="viewer">Viewer</option></select> : <Badge tone={member.member_role === 'owner' ? 'gold' : 'violet'}>{memberRoleLabel(member.member_role)}</Badge>}</td><td><Badge tone={member.status === 'active' ? 'green' : 'coral'}>{member.status}</Badge></td><td>{member.created_at ? new Date(member.created_at).toLocaleDateString('az-AZ') : '—'}</td>{isOwner && <td>{member.member_role !== 'owner' && <button className="portal-button danger small" type="button" onClick={() => remove(member)}><Trash2 size={13} /> Sil</button>}</td>}</tr>)}</tbody></table></div></Panel>
+    {open && <Modal title="Komanda üzvü əlavə et" subtitle="İstifadəçinin e-poçtu əvvəlcə StructLab-da təsdiqlənməlidir" onClose={() => setOpen(false)} footer={<><button className="portal-button ghost" type="button" onClick={() => setOpen(false)}>Ləğv et</button><button className="portal-button primary" type="submit" form="member-form">Əlavə et</button></>}><form id="member-form" className="portal-form-grid" onSubmit={add}><label className="portal-form-field full"><span>Təsdiqlənmiş e-poçt</span><input type="email" value={form.email} onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))} required /></label><label className="portal-form-field full"><span>İcazə rolu</span><select value={form.member_role} onChange={(event) => setForm((current) => ({ ...current, member_role: event.target.value }))}><option value="recruiter">Recruiter — vakansiya və namizədlər</option><option value="training_manager">Training manager — təlimlər</option><option value="viewer">Viewer — yalnız oxuma</option></select></label></form></Modal>}
+  </>;
 }
 
 function Analytics() {
@@ -169,14 +205,16 @@ function Analytics() {
   );
 }
 
-function CompanyProfile({ user, showToast }) {
-  const [form, setForm] = useState({ name: user.name, email: user.email, website: 'https://bakubuild.az', size: '51–200 əməkdaş', about: 'Müasir infrastruktur və dayanıqlı tikinti layihələri üzərində çalışan mühəndislik şirkəti.' });
+function CompanyProfile({ user, company, showToast }) {
+  const [form, setForm] = useState({ name: company?.name || user.name, email: user.email, website: company?.website || '', size: company?.team_size || '', about: company?.description || '' });
+  const [uploading, setUploading] = useState('');
   function update(field, value) { setForm((current) => ({ ...current, [field]: value })); }
-  function save(event) { event.preventDefault(); updateLocalProfile({ name: form.name, email: form.email }); showToast('Şirkət profili yeniləndi.'); }
+  async function save(event) { event.preventDefault(); try { await saveProfile({ name: form.name, company_name: form.name, website: form.website, team_size: form.size, description: form.about, location: 'Bakı, Azərbaycan' }); showToast('Şirkət profili database-də yeniləndi.'); } catch (error) { showToast(error.message, 'error'); } }
+  async function handleUpload(event, kind) { const file = event.target.files?.[0]; if (!file) return; setUploading(kind); try { await uploadFile(file, kind); showToast(kind === 'company_logo' ? 'Şirkət loqosu yükləndi.' : 'Şirkət sənədi təhlükəsiz storage-a yükləndi.'); } catch (error) { showToast(error.message, 'error'); } finally { setUploading(''); event.target.value = ''; } }
   return (
     <>
       <PageLead eyebrow="Employer brand" title="Güclü şirkət profili güclü namizədləri cəlb edir." text="Missiyanı, komandanı və iş mühitini aydın göstər; vakansiyaların daha etibarlı görünsün." accent="coral" />
-      <div className="portal-grid two portal-section-gap"><Panel title="Şirkət məlumatları" subtitle="Namizədlərin gördüyü əsas profil"><form className="portal-form-grid" onSubmit={save}><label className="portal-form-field"><span>Şirkət adı</span><input value={form.name} onChange={(event) => update('name', event.target.value)} required /></label><label className="portal-form-field"><span>Əlaqə e-poçtu</span><input type="email" value={form.email} onChange={(event) => update('email', event.target.value)} required /></label><label className="portal-form-field"><span>Vebsayt</span><input value={form.website} onChange={(event) => update('website', event.target.value)} /></label><label className="portal-form-field"><span>Komanda ölçüsü</span><select value={form.size} onChange={(event) => update('size', event.target.value)}><option>1–50 əməkdaş</option><option>51–200 əməkdaş</option><option>201+ əməkdaş</option></select></label><label className="portal-form-field full"><span>Haqqımızda</span><textarea value={form.about} onChange={(event) => update('about', event.target.value)} /></label><div className="portal-form-field full"><button className="portal-button primary align-start" type="submit">Yadda saxla</button></div></form></Panel><Panel title="Profil önizləməsi" subtitle="Namizəd görünüşü"><div className="company-preview"><span className="company-mark large">BB</span><Badge tone="green"><Check size={12} /> Təsdiqlənmiş şirkət</Badge><h3>{form.name}</h3><p>{form.about}</p><div><span><Building2 size={15} /> {form.size}</span><span><MapPin size={15} /> Bakı, Azərbaycan</span></div><button className="portal-button ghost" type="button">Açıq vakansiyalar <ChevronRight size={14} /></button></div></Panel></div>
+      <div className="portal-grid two portal-section-gap"><Panel title="Şirkət məlumatları" subtitle="Namizədlərin gördüyü əsas profil"><form className="portal-form-grid" onSubmit={save}><label className="portal-form-field"><span>Şirkət adı</span><input value={form.name} onChange={(event) => update('name', event.target.value)} required /></label><label className="portal-form-field"><span>Təsdiqlənmiş e-poçt</span><input type="email" value={form.email} readOnly /></label><label className="portal-form-field"><span>Vebsayt</span><input value={form.website} onChange={(event) => update('website', event.target.value)} /></label><label className="portal-form-field"><span>Komanda ölçüsü</span><select value={form.size} onChange={(event) => update('size', event.target.value)}><option value="">Seçin</option><option>1–50 əməkdaş</option><option>51–200 əməkdaş</option><option>201+ əməkdaş</option></select></label><label className="portal-form-field full"><span>Haqqımızda</span><textarea value={form.about} onChange={(event) => update('about', event.target.value)} /></label><div className="portal-form-field full upload-actions"><label className="portal-button ghost file-button"><input type="file" accept="image/*" onChange={(event) => handleUpload(event, 'company_logo')} />{uploading === 'company_logo' ? 'Loqo yüklənir…' : 'Şirkət loqosu'}</label><label className="portal-button ghost file-button"><input type="file" accept="application/pdf,image/*" onChange={(event) => handleUpload(event, 'company_document')} />{uploading === 'company_document' ? 'Sənəd yüklənir…' : 'Təsdiq sənədi'}</label></div><div className="portal-form-field full"><button className="portal-button primary align-start" type="submit">Yadda saxla</button></div></form></Panel><Panel title="Profil önizləməsi" subtitle="Namizəd görünüşü"><div className="company-preview"><span className="company-mark large">{form.name.slice(0, 2).toUpperCase()}</span><Badge tone={company?.verification_status === 'approved' ? 'green' : 'gold'}><Check size={12} /> {company?.verification_status === 'approved' ? 'Təsdiqlənmiş şirkət' : 'Admin yoxlaması'}</Badge><h3>{form.name}</h3><p>{form.about || 'Şirkət təsvirini əlavə edin.'}</p><div><span><Building2 size={15} /> {form.size || 'Komanda ölçüsü yoxdur'}</span><span><MapPin size={15} /> {company?.location || 'Məkan yoxdur'}</span></div><button className="portal-button ghost" type="button">Açıq vakansiyalar <ChevronRight size={14} /></button></div></Panel></div>
     </>
   );
 }
@@ -194,3 +232,7 @@ function Pipeline({ value, label, color }) {
 }
 
 function initials(name) { return name.split(' ').slice(0, 2).map((part) => part[0]).join('').toUpperCase(); }
+
+function employmentValue(label) { return { 'Tam iş günü': 'full_time', 'Part-time': 'part_time', Təcrübə: 'internship', Müqavilə: 'contract' }[label] || 'full_time'; }
+function applicationLabel(value) { return { submitted: 'Yeni', reviewing: 'Baxılır', shortlisted: 'Shortlist', interview: 'Müsahibə', offer: 'Təklif', hired: 'İşə qəbul' }[value] || value; }
+function memberRoleLabel(value) { return { owner: 'Owner', recruiter: 'Recruiter', training_manager: 'Training manager', viewer: 'Viewer' }[value] || value; }

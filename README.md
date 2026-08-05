@@ -1,14 +1,23 @@
 # StructLab
 
-StructLab is a React frontend for a construction education, certification, and hiring platform. The original visual language is preserved while the landing page, student dashboard, company dashboard, admin panel, and shared overlays are separated into React-owned page surfaces.
+StructLab is a React/Vite construction education and hiring platform with a Cloudflare-compatible server layer.
 
-## Development
+The application now includes verified identity, role-based authorization, D1 persistence, R2 file storage, student/company/admin workspaces, course and job workflows, moderation, and audit logging. See `docs/access-control.md` and `docs/backend.md` for the security and data model.
 
-```bash
-npm install
-npm run dev
+## Local frontend
+
+```powershell
+npm.cmd install
+npm.cmd run dev
 ```
 
-Create a production build with `npm run build`.
+The local Vite frontend does not emulate hosted identity, D1, or R2. Full authenticated API behavior is available on the deployed Sites environment.
+
+## Validation
+
+```powershell
+npm.cmd run build
+node --check server/index.js
+```
 
 The pre-React source is retained in `reference/index.static.html`. Run `npm run extract:legacy` only when that reference file is intentionally updated; it regenerates the page fragments, stylesheet, and compatibility runtime.

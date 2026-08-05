@@ -4,106 +4,122 @@ import {
   ArrowRight,
   Building2,
   Check,
-  Eye,
-  EyeOff,
   GraduationCap,
-  LockKeyhole,
-  Mail,
+  KeyRound,
+  LoaderCircle,
+  MailCheck,
   ShieldCheck,
   Sparkles,
   UserRound,
 } from 'lucide-react';
-import { createLocalAccount, demoAccounts, getSession, loginLocalAccount, saveSession } from './session';
+import { finishOnboarding, getAuthSession, secureSignInUrl } from './api';
 import './auth.css';
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const pendingKey = 'sl_pending_onboarding';
 
 export default function AuthPage({ mode, location, navigate }) {
   const query = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const requestedRole = query.get('role');
   const [role, setRole] = useState(['student', 'company'].includes(requestedRole) ? requestedRole : 'student');
-  const [showPassword, setShowPassword] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [name, setName] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [existingSession, setExistingSession] = useState(null);
+  const [checking, setChecking] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [error, setError] = useState('');
   const isSignup = mode === 'signup';
+  const verifiedReturn = query.get('verified') === '1';
 
   useEffect(() => {
     document.title = `${isSignup ? 'Create account' : 'Sign in'} — StructLab`;
-    setError('');
-    setSubmitting(false);
-    setExistingSession(getSession());
-    if (['student', 'company'].includes(requestedRole)) setRole(requestedRole);
-  }, [mode, requestedRole]);
+    let cancelled = false;
 
-  function openPortal(user, replace = true) {
-    navigate(`/portal/${user.role}/overview`, { replace });
+    async function resolveSession() {
+      setChecking(true);
+      setError('');
+      try {
+        const session = await getAuthSession();
+        if (cancelled) return;
+        setExistingSession(session);
+
+        if (verifiedReturn) {
+          const pending = readPendingOnboarding();
+          const next = pending ? await finishOnboarding(pending) : session;
+          if (cancelled) return;
+          sessionStorage.removeItem(pendingKey);
+          navigate(`/portal/${next.user.role}/overview`, { replace: true });
+        }
+      } catch (requestError) {
+        if (!cancelled && requestError.status !== 401) setError(requestError.message);
+      } finally {
+        if (!cancelled) setChecking(false);
+      }
+    }
+
+    resolveSession();
+    return () => { cancelled = true; };
+  }, [isSignup, navigate, verifiedReturn]);
+
+  useEffect(() => {
+    if (['student', 'company'].includes(requestedRole)) setRole(requestedRole);
+  }, [requestedRole]);
+
+  function openPortal(session = existingSession) {
+    if (session?.user) navigate(`/portal/${session.user.role}/overview`, { replace: true });
   }
 
-  function handleSubmit(event) {
+  async function continueSecurely(event) {
     event.preventDefault();
     setError('');
-    const data = new FormData(event.currentTarget);
-    const email = String(data.get('email') || '').trim();
-    const password = String(data.get('password') || '');
-    const fullName = String(data.get('name') || '').trim();
+    if (isSignup && name.trim().length < 2) return setError('Ad və soyadınızı daxil edin.');
+    if (isSignup && role === 'company' && companyName.trim().length < 2) return setError('Şirkət adını daxil edin.');
+    if (isSignup && !accepted) return setError('Davam etmək üçün şərtləri qəbul edin.');
 
-    if (!emailPattern.test(email)) {
-      setError('Enter a valid email address.');
-      return;
-    }
-    if (password.length < 4) {
-      setError('Password must contain at least 4 characters for this demo.');
-      return;
-    }
-    if (isSignup && fullName.length < 2) {
-      setError('Enter your full name.');
-      return;
-    }
-    if (isSignup && data.get('terms') !== 'on') {
-      setError('Please accept the demo terms to continue.');
+    const pending = { role, name: name.trim(), company_name: companyName.trim() };
+    sessionStorage.setItem(pendingKey, JSON.stringify(pending));
+
+    if (!existingSession) {
+      window.location.assign(secureSignInUrl(`${isSignup ? '/signup' : '/login'}?verified=1`));
       return;
     }
 
     setSubmitting(true);
-    window.setTimeout(() => {
-      const user = isSignup
-        ? createLocalAccount({ name: fullName, email, role })
-        : loginLocalAccount(email, role);
-      openPortal(user);
-    }, 420);
-  }
-
-  function useDemo(demoRole) {
-    const user = saveSession(demoAccounts[demoRole]);
-    openPortal(user);
+    try {
+      const session = isSignup ? await finishOnboarding(pending) : existingSession;
+      sessionStorage.removeItem(pendingKey);
+      openPortal(session);
+    } catch (requestError) {
+      setError(requestError.message);
+      setSubmitting(false);
+    }
   }
 
   return (
     <div className="auth-page-shell">
       <aside className="auth-story-panel">
-        <a className="auth-back-link" href="/"><ArrowLeft size={17} /> Back to website</a>
+        <a className="auth-back-link" href="/"><ArrowLeft size={17} /> Sayta qayıt</a>
 
         <div className="auth-story-copy">
           <div className="auth-brand-lockup">
             <img src="/assets/images/main_logo.png" alt="" />
             <img src="/assets/images/STRUCT%20lub.png" alt="Struct Lab" />
           </div>
-          <span className="auth-kicker"><Sparkles size={15} /> One profile. A complete construction career.</span>
-          <h1>{isSignup ? 'Build a profile that proves what you can do.' : 'Continue building your construction future.'}</h1>
-          <p>Learning, verified credentials, candidate matching, and company workflows meet in one focused workspace.</p>
+          <span className="auth-kicker"><Sparkles size={15} /> Təsdiqlənmiş profil. Aydın səlahiyyətlər.</span>
+          <h1>{isSignup ? 'Peşəkar profilini təhlükəsiz girişlə yarat.' : 'StructLab workspace-inə təhlükəsiz qayıt.'}</h1>
+          <p>Təhsil, işə qəbul və platform idarəetməsi server tərəfində qorunan ayrıca rol sərhədləri ilə işləyir.</p>
 
           <div className="auth-story-features">
-            <div><Check size={16} /><span><strong>Track real progress</strong><small>Courses, exams, and certificates stay connected.</small></span></div>
-            <div><Check size={16} /><span><strong>Show verified skills</strong><small>Turn completed learning into a stronger profile.</small></span></div>
-            <div><Check size={16} /><span><strong>Reach the right opportunity</strong><small>See roles and candidates with clearer matching.</small></span></div>
+            <div><Check size={16} /><span><strong>Təsdiqlənmiş e-poçt</strong><small>Giriş provider tərəfindən kod və ya təhlükəsiz linklə təsdiqlənir.</small></span></div>
+            <div><Check size={16} /><span><strong>Server əsaslı rollar</strong><small>Tələbə, şirkət və admin icazələri brauzerdən dəyişdirilə bilməz.</small></span></div>
+            <div><Check size={16} /><span><strong>Davamlı məlumat</strong><small>Profil, kurs, vakansiya və fayllar platform storage-da qalır.</small></span></div>
           </div>
         </div>
 
         <div className="auth-story-metrics" aria-hidden="true">
-          <span><strong>1,000+</strong> learners</span>
-          <span><strong>95%</strong> success rate</span>
-          <span><strong>45</strong> companies</span>
+          <span><strong>3</strong> qorunan rol</span>
+          <span><strong>SQL</strong> məlumat bazası</span>
+          <span><strong>R2</strong> fayl storage</span>
         </div>
         <div className="auth-structure-lines" aria-hidden="true"><i /><i /><i /><i /><i /></div>
       </aside>
@@ -116,90 +132,70 @@ export default function AuthPage({ mode, location, navigate }) {
           </div>
 
           <div className="auth-mode-switch" aria-label="Authentication mode">
-            <button className={!isSignup ? 'active' : ''} type="button" onClick={() => navigate('/login', { replace: true })}>Sign in</button>
-            <button className={isSignup ? 'active' : ''} type="button" onClick={() => navigate('/signup', { replace: true })}>Create account</button>
+            <button className={!isSignup ? 'active' : ''} type="button" onClick={() => navigate('/login', { replace: true })}>Daxil ol</button>
+            <button className={isSignup ? 'active' : ''} type="button" onClick={() => navigate('/signup', { replace: true })}>Hesab yarat</button>
           </div>
 
           <header className="auth-form-header">
-            <span>{isSignup ? 'Start with StructLab' : 'Welcome back'}</span>
-            <h2>{isSignup ? 'Create your workspace' : 'Sign in to your account'}</h2>
-            <p>{isSignup ? 'Choose how you will use the platform and complete your profile.' : 'Your dashboard is ready where you left it.'}</p>
+            <span>{isSignup ? 'StructLab-a qoşul' : 'Xoş gəldiniz'}</span>
+            <h2>{isSignup ? 'Təsdiqlənmiş workspace yarat' : 'Təhlükəsiz giriş et'}</h2>
+            <p>{isSignup ? 'Rolunu seç; e-poçtun təhlükəsiz giriş mərhələsində təsdiqlənəcək.' : 'Hesabına bağlı təsdiqlənmiş e-poçtla davam et.'}</p>
           </header>
 
+          {checking && <div className="auth-checking"><LoaderCircle size={18} /> Mövcud giriş yoxlanılır…</div>}
+
           {existingSession && !isSignup && (
-            <button className="auth-resume" type="button" onClick={() => openPortal(existingSession)}>
-              <span className={`auth-role-icon ${existingSession.role}`}><UserRound size={18} /></span>
-              <span><strong>Continue as {existingSession.name}</strong><small>{existingSession.email}</small></span>
+            <button className="auth-resume" type="button" onClick={() => openPortal()}>
+              <span className={`auth-role-icon ${existingSession.user.role}`}><UserRound size={18} /></span>
+              <span><strong>{existingSession.user.name} kimi davam et</strong><small>{existingSession.user.email} · {existingSession.user.role}</small></span>
               <ArrowRight size={18} />
             </button>
           )}
 
-          <form className="auth-page-form" onSubmit={handleSubmit} noValidate>
-            <div className="auth-role-picker" role="radiogroup" aria-label="Account role">
-              <button className={role === 'student' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'student'} onClick={() => setRole('student')}>
-                <GraduationCap size={20} /><span><strong>Student</strong><small>Learn and get hired</small></span>
-              </button>
-              <button className={role === 'company' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'company'} onClick={() => setRole('company')}>
-                <Building2 size={20} /><span><strong>Company</strong><small>Train and recruit</small></span>
-              </button>
+          <form className="auth-page-form" onSubmit={continueSecurely}>
+            {isSignup && (
+              <>
+                <div className="auth-role-picker" role="radiogroup" aria-label="Account role">
+                  <button className={role === 'student' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'student'} onClick={() => setRole('student')}>
+                    <GraduationCap size={20} /><span><strong>Tələbə</strong><small>Öyrən və iş tap</small></span>
+                  </button>
+                  <button className={role === 'company' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'company'} onClick={() => setRole('company')}>
+                    <Building2 size={20} /><span><strong>Şirkət</strong><small>Komanda qur və inkişaf et</small></span>
+                  </button>
+                </div>
+
+                <label className="auth-input-field">
+                  <span>Ad və soyad</span>
+                  <div><UserRound size={18} /><input value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" placeholder="Adınız və soyadınız" /></div>
+                </label>
+
+                {role === 'company' && <label className="auth-input-field"><span>Şirkət adı</span><div><Building2 size={18} /><input value={companyName} onChange={(event) => setCompanyName(event.target.value)} autoComplete="organization" placeholder="Rəsmi şirkət adı" /></div></label>}
+              </>
+            )}
+
+            <div className="auth-verified-flow">
+              <span><MailCheck size={20} /></span>
+              <div><strong>E-poçt təsdiqi ilə giriş</strong><small>E-poçt seçimi və doğrulama kodu təhlükəsiz giriş ekranında tamamlanır. StructLab parol saxlamır.</small></div>
+              <KeyRound size={18} />
             </div>
 
-            {isSignup && (
-              <label className="auth-input-field">
-                <span>Full name</span>
-                <div><UserRound size={18} /><input name="name" type="text" autoComplete="name" placeholder={role === 'company' ? 'Company or contact name' : 'Your full name'} /></div>
-              </label>
-            )}
-
-            <label className="auth-input-field">
-              <span>Email address</span>
-              <div><Mail size={18} /><input name="email" type="email" autoComplete="email" placeholder={role === 'company' ? 'hr@company.az' : 'name@example.com'} /></div>
-            </label>
-
-            <label className="auth-input-field">
-              <span>Password</span>
-              <div>
-                <LockKeyhole size={18} />
-                <input name="password" type={showPassword ? 'text' : 'password'} autoComplete={isSignup ? 'new-password' : 'current-password'} placeholder="Enter your password" />
-                <button className="auth-password-toggle" type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </label>
-
-            {!isSignup && (
-              <div className="auth-form-options">
-                <label><input type="checkbox" defaultChecked /> Remember this device</label>
-                <button type="button" onClick={() => setError('Password recovery is available in the connected production backend.')}>Forgot password?</button>
-              </div>
-            )}
-
-            {isSignup && (
-              <label className="auth-terms"><input name="terms" type="checkbox" /> I agree to the demo terms and privacy policy.</label>
-            )}
+            {isSignup && <label className="auth-terms"><input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} /> Demo şərtlərini və məxfilik qaydalarını qəbul edirəm.</label>}
 
             <p className={`auth-form-message${error ? ' show' : ''}`} role="alert">{error}</p>
 
-            <button className="auth-submit-button" type="submit" disabled={submitting}>
-              <span>{submitting ? 'Preparing workspace…' : isSignup ? 'Create account' : 'Sign in'}</span>
-              {!submitting && <ArrowRight size={18} />}
+            <button className="auth-submit-button" type="submit" disabled={submitting || checking}>
+              <span>{submitting ? 'Workspace hazırlanır…' : existingSession ? 'Təsdiqlə və davam et' : 'Təsdiqlənmiş e-poçtla davam et'}</span>
+              {submitting ? <LoaderCircle className="auth-spin" size={18} /> : <ArrowRight size={18} />}
             </button>
           </form>
 
-          {!isSignup && (
-            <div className="auth-demo-access">
-              <div><span>Quick demo access</span></div>
-              <div className="auth-demo-buttons">
-                <button type="button" onClick={() => useDemo('student')}><GraduationCap size={16} /> Student</button>
-                <button type="button" onClick={() => useDemo('company')}><Building2 size={16} /> Company</button>
-                <button type="button" onClick={() => useDemo('admin')}><ShieldCheck size={16} /> Admin</button>
-              </div>
-            </div>
-          )}
-
-          <p className="auth-local-note"><ShieldCheck size={15} /> This frontend demo stores profile data only on this device.</p>
+          <p className="auth-local-note"><ShieldCheck size={15} /> Giriş kimliyi serverdə yoxlanır; rol icazələri hər API sorğusunda tətbiq olunur.</p>
         </div>
       </main>
     </div>
   );
+}
+
+function readPendingOnboarding() {
+  try { return JSON.parse(sessionStorage.getItem(pendingKey) || 'null'); } catch { return null; }
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Award,
   Bookmark,
@@ -19,7 +19,7 @@ import {
   Target,
   UserRound,
 } from 'lucide-react';
-import { updateLocalProfile } from '../auth/session';
+import { apiRequest, saveProfile, uploadFile } from '../auth/api';
 import PortalShell, { Badge, KpiCard, KpiGrid, Modal, PageLead, Panel } from './PortalShell';
 import { usePersistentState, useToast } from './usePortalState';
 
@@ -41,35 +41,40 @@ const pageMeta = {
   profile: ['Profil', 'İşəgötürənlərin gördüyü peşəkar məlumatları yenilə.'],
 };
 
-const baseCourses = [
-  { id: 1, title: 'Structural Analysis Fundamentals', category: 'Structural', lessons: 18, progress: 68, color: 'violet', next: 'Load combinations' },
-  { id: 2, title: 'BIM Coordination with Revit', category: 'BIM', lessons: 24, progress: 42, color: 'coral', next: 'Clash detection' },
-  { id: 3, title: 'Construction Site Safety', category: 'Safety', lessons: 12, progress: 91, color: 'gold', next: 'Final assessment' },
-  { id: 4, title: 'Project Planning Essentials', category: 'Management', lessons: 16, progress: 24, color: 'green', next: 'Critical path' },
-];
-
-const jobs = [
-  { id: 1, title: 'Junior Structural Engineer', company: 'BakuBuild Co.', location: 'Bakı · Hibrid', match: 94, type: 'Tam iş günü' },
-  { id: 2, title: 'BIM Modeler', company: 'Caspian Design Group', location: 'Bakı · Ofis', match: 89, type: 'Tam iş günü' },
-  { id: 3, title: 'Site Engineering Intern', company: 'North Construction', location: 'Sumqayıt', match: 82, type: 'Təcrübə' },
-  { id: 4, title: 'Project Assistant', company: 'UrbanArc', location: 'Uzaqdan', match: 78, type: 'Part-time' },
-];
-
 const quiz = [
   { q: 'Daşıyıcı elementlərdə “dead load” nəyi ifadə edir?', options: ['Daimi yükü', 'Külək yükünü', 'Seysmik yükü'], correct: 0 },
   { q: 'BIM koordinasiyasının əsas üstünlüyü hansıdır?', options: ['Materialı ağırlaşdırmaq', 'Toqquşmaları erkən tapmaq', 'Çertyoju gizlətmək'], correct: 1 },
   { q: 'Tikinti sahəsində PPE nə üçündür?', options: ['Şəxsi mühafizə üçün', 'Planlama üçün', 'Maliyyə hesabatı üçün'], correct: 0 },
 ];
 
-export default function StudentWorkspace({ user, section, navigate }) {
+export default function StudentWorkspace({ user, profile, section, navigate }) {
   const active = pageMeta[section] ? section : 'overview';
   const [toast, showToast] = useToast();
-  const [progress, setProgress] = usePersistentState('sl_student_course_progress', Object.fromEntries(baseCourses.map((course) => [course.id, course.progress])));
+  const [progress, setProgress] = usePersistentState('sl_student_course_progress', {});
   const [savedJobs, setSavedJobs] = usePersistentState('sl_student_saved_jobs', []);
   const [applications, setApplications] = usePersistentState('sl_student_applications', []);
   const [examScore, setExamScore] = usePersistentState('sl_student_exam_score', null);
+  const [courseCatalog, setCourseCatalog] = useState([]);
+  const [jobCatalog, setJobCatalog] = useState([]);
+  const [certificates, setCertificates] = useState([]);
 
-  const common = { user, navigate, progress, setProgress, savedJobs, setSavedJobs, applications, setApplications, examScore, setExamScore, showToast };
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([apiRequest('/api/student/courses'), apiRequest('/api/student/jobs'), apiRequest('/api/student/certificates')]).then(([coursePayload, jobPayload, certificatePayload]) => {
+      if (cancelled) return;
+      const courses = (coursePayload.items || []).map((course, index) => ({ ...course, color: ['violet', 'coral', 'gold', 'green'][index % 4], next: course.enrollment_status ? 'Növbəti dərs' : 'Qeydiyyata başla' }));
+      const availableJobs = (jobPayload.items || []).map((job) => ({ ...job, company: job.company, match: 85, type: employmentLabel(job.employment_type) }));
+      setCourseCatalog(courses);
+      setJobCatalog(availableJobs);
+      setCertificates(certificatePayload.items || []);
+      setProgress(Object.fromEntries(courses.map((course) => [course.id, Number(course.progress || 0)])));
+      setSavedJobs(availableJobs.filter((job) => job.saved).map((job) => job.id));
+      setApplications(availableJobs.filter((job) => job.application_status).map((job) => job.id));
+    }).catch((requestError) => showToast(requestError.message, 'error'));
+    return () => { cancelled = true; };
+  }, [setApplications, setProgress, setSavedJobs, showToast]);
+
+  const common = { user, profile, navigate, progress, setProgress, savedJobs, setSavedJobs, applications, setApplications, examScore, setExamScore, showToast, courseCatalog, jobCatalog, certificates };
   const meta = pageMeta[active];
 
   return (
@@ -84,20 +89,21 @@ export default function StudentWorkspace({ user, section, navigate }) {
   );
 }
 
-function StudentOverview({ user, navigate, progress, applications, examScore }) {
-  const average = Math.round(Object.values(progress).reduce((sum, value) => sum + value, 0) / baseCourses.length);
+function StudentOverview({ user, navigate, progress, applications, examScore, courseCatalog, jobCatalog }) {
+  const values = Object.values(progress);
+  const average = values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : 0;
   return (
     <>
       <PageLead eyebrow="Sənin inkişaf panelin" title={`${user.name.split(' ')[0]}, növbəti mühəndislik addımın hazırdır.`} text="Kurslarını tamamla, təsdiqlənmiş bacarıqlar qazan və uyğun şirkətlərlə daha tez əlaqə qur." actions={<button className="portal-button light" type="button" onClick={() => navigate('/portal/student/courses')}><Play size={16} /> Davam et</button>} />
       <KpiGrid>
         <KpiCard label="Ümumi irəliləyiş" value={`${average}%`} detail="Bu həftə +8%" icon={Target} />
-        <KpiCard label="Aktiv kurs" value="4" detail="2 dərs bu həftə" icon={BookOpen} tone="coral" />
+        <KpiCard label="Aktiv kurs" value={courseCatalog.filter((course) => course.enrollment_status === 'active').length} detail={`${courseCatalog.length} yayımlanmış kurs`} icon={BookOpen} tone="coral" />
         <KpiCard label="İmtahan balı" value={examScore === null ? '—' : `${examScore}%`} detail={examScore === null ? 'İlk imtahanı tamamla' : 'Nəticə yadda saxlanıb'} icon={FileCheck2} tone="gold" />
         <KpiCard label="Müraciət" value={applications.length} detail="Yerli cihazda saxlanır" icon={Send} tone="green" />
       </KpiGrid>
       <div className="portal-grid two">
         <Panel title="Öyrənməyə davam et" subtitle="Ən son açdığın proqram" action={<button className="portal-link-button" type="button" onClick={() => navigate('/portal/student/courses')}>Hamısına bax</button>}>
-          <CourseRow course={baseCourses[0]} value={progress[1]} onContinue={() => navigate('/portal/student/courses')} />
+          {courseCatalog[0] ? <CourseRow course={courseCatalog[0]} value={progress[courseCatalog[0].id] || 0} onContinue={() => navigate('/portal/student/courses')} /> : <EmptyState icon={BookOpen} title="Hələ kurs yoxdur" text="Admin kurs yayımladıqda burada görünəcək." />}
         </Panel>
         <Panel title="Həftəlik ritm" subtitle="Son 7 gün üzrə aktivlik">
           <div className="mini-chart" aria-label="Weekly learning activity chart">
@@ -107,7 +113,7 @@ function StudentOverview({ user, navigate, progress, applications, examScore }) 
       </div>
       <div className="portal-grid equal portal-section-gap">
         <Panel title="Sənə uyğun vakansiyalar" subtitle="Profil uyğunluğuna görə sıralanıb" action={<button className="portal-link-button" type="button" onClick={() => navigate('/portal/student/jobs')}>Kəşf et</button>}>
-          <div className="portal-list">{jobs.slice(0, 3).map((job) => <JobRow key={job.id} job={job} compact />)}</div>
+          <div className="portal-list">{jobCatalog.slice(0, 3).map((job) => <JobRow key={job.id} job={job} compact />)}</div>
         </Panel>
         <Panel title="Bu həftənin planı" subtitle="Kiçik addımlar, davamlı nəticə">
           <div className="plan-list">
@@ -121,20 +127,24 @@ function StudentOverview({ user, navigate, progress, applications, examScore }) 
   );
 }
 
-function StudentCourses({ progress, setProgress, showToast }) {
+function StudentCourses({ progress, setProgress, showToast, courseCatalog }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All');
-  const filtered = baseCourses.filter((course) => (category === 'All' || course.category === category) && course.title.toLowerCase().includes(query.toLowerCase()));
+  const filtered = courseCatalog.filter((course) => (category === 'All' || course.category === category) && course.title.toLowerCase().includes(query.toLowerCase()));
 
-  function continueCourse(course) {
+  async function continueCourse(course) {
     const next = Math.min(100, (progress[course.id] || 0) + 6);
-    setProgress((current) => ({ ...current, [course.id]: next }));
-    showToast(next === 100 ? `${course.title} tamamlandı.` : `Növbəti dərs tamamlandı — ${next}%`);
+    try {
+      if (!course.enrollment_status) await apiRequest('/api/student/enrollments', { method: 'POST', body: { course_id: course.id } });
+      await apiRequest('/api/student/progress', { method: 'PATCH', body: { course_id: course.id, progress: next } });
+      setProgress((current) => ({ ...current, [course.id]: next }));
+      showToast(next === 100 ? `${course.title} tamamlandı.` : `Növbəti dərs tamamlandı — ${next}%`);
+    } catch (error) { showToast(error.message, 'error'); }
   }
 
   return (
     <>
-      <PageLead eyebrow="Strukturlaşdırılmış öyrənmə" title="Hər dərs səni real layihəyə yaxınlaşdırır." text="İrəliləyişin avtomatik bu cihazda saxlanır; istədiyin yerdən davam et." accent="green" actions={<button className="portal-button light" type="button" onClick={() => continueCourse(baseCourses[0])}><Play size={16} /> Son dərsə davam et</button>} />
+      <PageLead eyebrow="Strukturlaşdırılmış öyrənmə" title="Hər dərs səni real layihəyə yaxınlaşdırır." text="Qeydiyyat və irəliləyiş server database-də saxlanır; istədiyin cihazdan davam et." accent="green" actions={courseCatalog[0] ? <button className="portal-button light" type="button" onClick={() => continueCourse(courseCatalog[0])}><Play size={16} /> Son dərsə davam et</button> : null} />
       <div className="portal-search-row portal-section-gap"><label className="portal-search-field"><Search size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Kurs axtar…" /></label><select className="portal-select" value={category} onChange={(event) => setCategory(event.target.value)}>{['All', 'Structural', 'BIM', 'Safety', 'Management'].map((item) => <option key={item}>{item}</option>)}</select></div>
       <div className="course-grid">{filtered.map((course) => <CourseCard key={course.id} course={course} value={progress[course.id] || 0} onContinue={() => continueCourse(course)} />)}</div>
       {!filtered.length && <EmptyState icon={BookOpen} title="Uyğun kurs tapılmadı" text="Axtarışı və ya kateqoriya filtrini dəyiş." />}
@@ -172,14 +182,14 @@ function StudentExams({ examScore, setExamScore, showToast }) {
   );
 }
 
-function StudentJobs({ savedJobs, setSavedJobs, applications, setApplications, showToast }) {
+function StudentJobs({ savedJobs, setSavedJobs, applications, setApplications, showToast, jobCatalog }) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('Hamısı');
-  const filtered = jobs.filter((job) => (filter === 'Hamısı' || job.type === filter) && `${job.title} ${job.company} ${job.location}`.toLowerCase().includes(query.toLowerCase()));
-  const toggleSaved = (id) => setSavedJobs((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
-  const apply = (job) => {
-    if (!applications.includes(job.id)) setApplications((current) => [...current, job.id]);
-    showToast(applications.includes(job.id) ? 'Bu vakansiyaya artıq müraciət etmisən.' : `${job.company} üçün müraciət göndərildi.`);
+  const filtered = jobCatalog.filter((job) => (filter === 'Hamısı' || job.type === filter) && `${job.title} ${job.company} ${job.location}`.toLowerCase().includes(query.toLowerCase()));
+  const toggleSaved = async (id) => { try { const result = await apiRequest('/api/student/saved-jobs', { method: 'POST', body: { job_id: id } }); setSavedJobs((current) => result.saved ? [...new Set([...current, id])] : current.filter((item) => item !== id)); } catch (error) { showToast(error.message, 'error'); } };
+  const apply = async (job) => {
+    if (applications.includes(job.id)) return showToast('Bu vakansiyaya artıq müraciət etmisən.');
+    try { await apiRequest('/api/student/applications', { method: 'POST', body: { job_id: job.id } }); setApplications((current) => [...current, job.id]); showToast(`${job.company} üçün müraciət göndərildi.`); } catch (error) { showToast(error.message, 'error'); }
   };
   return (
     <>
@@ -191,17 +201,14 @@ function StudentJobs({ savedJobs, setSavedJobs, applications, setApplications, s
   );
 }
 
-function StudentCertificates({ showToast }) {
-  const certificates = [
-    { title: 'Construction Site Safety', issued: '18 iyul 2026', id: 'SL-SAF-2084', tone: 'gold' },
-    { title: 'Structural Fundamentals', issued: '02 iyun 2026', id: 'SL-STR-1751', tone: 'violet' },
-  ];
+function StudentCertificates({ showToast, certificates }) {
   function download(certificate) {
-    const blob = new Blob([`STRUCTLAB CERTIFICATE\n\n${certificate.title}\nCredential: ${certificate.id}\nIssued: ${certificate.issued}\n\nDemo certificate for portfolio preview.`], { type: 'text/plain;charset=utf-8' });
+    if (certificate.file_id) { window.open(`/api/files/${certificate.file_id}`, '_blank', 'noopener,noreferrer'); return; }
+    const blob = new Blob([`STRUCTLAB CERTIFICATE\n\n${certificate.title}\nCredential: ${certificate.credential_code}\nIssued: ${certificate.issued_at}\n\nVerify this credential with StructLab support.`], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = `${certificate.id}.txt`;
+    anchor.download = `${certificate.credential_code}.txt`;
     anchor.click();
     URL.revokeObjectURL(url);
     showToast('Demo sertifikat endirildi.');
@@ -209,23 +216,26 @@ function StudentCertificates({ showToast }) {
   return (
     <>
       <PageLead eyebrow="Verified skills" title="Nailiyyətlərin paylaşmağa hazırdır." text="Sertifikatlarını portfolioda göstər və iş müraciətlərində profilini gücləndir." />
-      <div className="certificate-grid portal-section-gap">{certificates.map((certificate) => <article className={`certificate-card ${certificate.tone}`} key={certificate.id}><div className="certificate-watermark"><Award /></div><span>StructLab verified credential</span><h3>{certificate.title}</h3><p>Credential ID: <strong>{certificate.id}</strong></p><small>Verilib: {certificate.issued}</small><button className="portal-button ghost" type="button" onClick={() => download(certificate)}><Download size={15} /> Endir</button></article>)}</div>
+      <div className="certificate-grid portal-section-gap">{certificates.map((certificate, index) => <article className={`certificate-card ${index % 2 ? 'violet' : 'gold'}`} key={certificate.id}><div className="certificate-watermark"><Award /></div><span>StructLab verified credential</span><h3>{certificate.title}</h3><p>Credential ID: <strong>{certificate.credential_code}</strong></p><small>Verilib: {new Date(certificate.issued_at).toLocaleDateString('az-AZ')}</small><button className="portal-button ghost" type="button" onClick={() => download(certificate)}><Download size={15} /> Endir</button></article>)}</div>
+      {!certificates.length && <EmptyState icon={Award} title="Hələ sertifikat yoxdur" text="Kursu 100% tamamladıqda sertifikat avtomatik yaradılacaq." />}
     </>
   );
 }
 
-function StudentProfile({ user, showToast }) {
-  const [form, setForm] = useState(() => ({ name: user.name, email: user.email, location: 'Bakı, Azərbaycan', headline: 'Junior Structural Engineer', about: 'Daşıyıcı konstruksiyalar və BIM koordinasiyası ilə maraqlanan inkişaf yönümlü mühəndis.' }));
-  const [skills, setSkills] = usePersistentState('sl_student_skills', ['AutoCAD', 'Revit', 'Structural Analysis']);
+function StudentProfile({ user, profile, showToast }) {
+  const [form, setForm] = useState(() => ({ name: user.name, email: user.email, location: profile?.location || '', headline: profile?.headline || '', about: profile?.bio || '' }));
+  const [skills, setSkills] = useState(profile?.skills || []);
   const [newSkill, setNewSkill] = useState('');
+  const [uploading, setUploading] = useState('');
   function update(field, value) { setForm((current) => ({ ...current, [field]: value })); }
-  function submit(event) { event.preventDefault(); updateLocalProfile({ name: form.name, email: form.email }); showToast('Profil məlumatları yadda saxlanıldı.'); }
+  async function submit(event) { event.preventDefault(); try { await saveProfile({ name: form.name, location: form.location, headline: form.headline, bio: form.about, skills, visibility: 'companies' }); showToast('Profil məlumatları database-də yadda saxlanıldı.'); } catch (error) { showToast(error.message, 'error'); } }
+  async function handleUpload(event, kind) { const file = event.target.files?.[0]; if (!file) return; setUploading(kind); try { await uploadFile(file, kind); showToast(kind === 'resume' ? 'CV təhlükəsiz storage-a yükləndi.' : 'Profil şəkli yükləndi.'); } catch (error) { showToast(error.message, 'error'); } finally { setUploading(''); event.target.value = ''; } }
   function addSkill() { const value = newSkill.trim(); if (value && !skills.includes(value)) setSkills((current) => [...current, value]); setNewSkill(''); }
   return (
     <>
       <PageLead eyebrow="Professional profile" title="Profilin sənin rəqəmsal vizit kartındır." text="Dəqiq bacarıqlar və qısa təqdimat uyğun vakansiyalarda görünməyini artırır." accent="green" />
       <div className="portal-grid two portal-section-gap">
-        <Panel title="Şəxsi məlumatlar" subtitle="Dəyişikliklər bu cihazda saxlanır"><form className="portal-form-grid" onSubmit={submit}><label className="portal-form-field"><span>Ad və soyad</span><input value={form.name} onChange={(event) => update('name', event.target.value)} required /></label><label className="portal-form-field"><span>E-poçt</span><input type="email" value={form.email} onChange={(event) => update('email', event.target.value)} required /></label><label className="portal-form-field"><span>Məkan</span><input value={form.location} onChange={(event) => update('location', event.target.value)} /></label><label className="portal-form-field"><span>Peşə başlığı</span><input value={form.headline} onChange={(event) => update('headline', event.target.value)} /></label><label className="portal-form-field full"><span>Haqqımda</span><textarea value={form.about} onChange={(event) => update('about', event.target.value)} /></label><div className="portal-form-field full"><button className="portal-button primary align-start" type="submit">Yadda saxla</button></div></form></Panel>
+        <Panel title="Şəxsi məlumatlar" subtitle="Dəyişikliklər server database-də saxlanır"><form className="portal-form-grid" onSubmit={submit}><label className="portal-form-field"><span>Ad və soyad</span><input value={form.name} onChange={(event) => update('name', event.target.value)} required /></label><label className="portal-form-field"><span>Təsdiqlənmiş e-poçt</span><input type="email" value={form.email} readOnly /></label><label className="portal-form-field"><span>Məkan</span><input value={form.location} onChange={(event) => update('location', event.target.value)} /></label><label className="portal-form-field"><span>Peşə başlığı</span><input value={form.headline} onChange={(event) => update('headline', event.target.value)} /></label><label className="portal-form-field full"><span>Haqqımda</span><textarea value={form.about} onChange={(event) => update('about', event.target.value)} /></label><div className="portal-form-field full upload-actions"><label className="portal-button ghost file-button"><input type="file" accept="application/pdf" onChange={(event) => handleUpload(event, 'resume')} />{uploading === 'resume' ? 'CV yüklənir…' : 'CV yüklə (PDF)'}</label><label className="portal-button ghost file-button"><input type="file" accept="image/*" onChange={(event) => handleUpload(event, 'avatar')} />{uploading === 'avatar' ? 'Şəkil yüklənir…' : 'Profil şəkli yüklə'}</label></div><div className="portal-form-field full"><button className="portal-button primary align-start" type="submit">Yadda saxla</button></div></form></Panel>
         <Panel title="Bacarıqlar" subtitle="Profil uyğunluğu üçün istifadə olunur"><div className="skill-cloud">{skills.map((skill) => <button key={skill} type="button" title="Sil" onClick={() => setSkills((current) => current.filter((item) => item !== skill))}>{skill}<span>×</span></button>)}</div><div className="skill-add"><input value={newSkill} onChange={(event) => setNewSkill(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); addSkill(); } }} placeholder="Yeni bacarıq" /><button className="portal-button soft" type="button" onClick={addSkill}>Əlavə et</button></div><div className="profile-completion"><div><strong>Profil doluluğu</strong><span>86%</span></div><div className="portal-progress"><span style={{ width: '86%' }} /></div><p><Sparkles size={15} /> Bir layihə nümunəsi əlavə etsən, profil daha güclü görünəcək.</p></div></Panel>
       </div>
     </>
@@ -250,4 +260,8 @@ function PlanItem({ done, title, detail }) {
 
 function EmptyState({ icon: Icon, title, text }) {
   return <div className="portal-empty"><span><Icon size={26} /></span><h3>{title}</h3><p>{text}</p></div>;
+}
+
+function employmentLabel(value) {
+  return { full_time: 'Tam iş günü', part_time: 'Part-time', internship: 'Təcrübə', contract: 'Müqavilə' }[value] || 'Tam iş günü';
 }

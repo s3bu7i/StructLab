@@ -11,7 +11,7 @@ import {
   Settings,
   X,
 } from 'lucide-react';
-import { logoutLocalAccount } from '../auth/session';
+import { secureSignOutUrl } from '../auth/api';
 
 const roleLabels = {
   student: 'Learning workspace',
@@ -74,8 +74,7 @@ export default function PortalShell({
   }
 
   function logout() {
-    logoutLocalAccount();
-    navigate('/', { hard: true, replace: true });
+    window.location.assign(secureSignOutUrl('/'));
   }
 
   const initials = user.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();

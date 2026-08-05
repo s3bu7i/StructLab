@@ -405,11 +405,7 @@ function useLegacyRuntime() {
       const originalShowPage = window.showPage;
       window.showPage = (name, targetSection = '') => {
         if (['student', 'company', 'admin'].includes(name)) {
-          let user = null;
-          try { user = JSON.parse(localStorage.getItem('sl_user') || 'null'); } catch { /* ignore invalid local demo data */ }
-          const role = user?.role === name ? name : null;
-          const destination = role ? `/portal/${role}/overview` : `/login?role=${name}`;
-          window.__STRUCTLAB_NAVIGATE__?.(destination);
+          window.__STRUCTLAB_NAVIGATE__?.(`/login?role=${name}`);
           return;
         }
         originalShowPage?.(name, targetSection);
@@ -420,8 +416,7 @@ function useLegacyRuntime() {
       };
 
       window.logoutUser = () => {
-        localStorage.removeItem('sl_user');
-        window.location.assign('/');
+        window.location.assign('/signout-with-chatgpt?return_to=%2F');
       };
 
       document.dispatchEvent(new CustomEvent('structlab:ready'));

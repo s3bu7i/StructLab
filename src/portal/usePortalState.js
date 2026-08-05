@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { readLocalCollection, writeLocalCollection } from '../auth/session';
+import { readLocalPreference, writeLocalPreference } from './localPreferences';
 
 export function usePersistentState(key, initialValue) {
-  const [value, setValue] = useState(() => readLocalCollection(key, initialValue));
+  const [value, setValue] = useState(() => readLocalPreference(key, initialValue));
 
   useEffect(() => {
-    writeLocalCollection(key, value);
+    writeLocalPreference(key, value);
   }, [key, value]);
 
   return [value, setValue];

@@ -10,10 +10,16 @@
 .portal-loading > span { position: absolute; width: 94px; height: 94px; border: 2px solid #e1def4; border-top-color: #ff7867; border-radius: 50%; animation: portalSpin 1s linear infinite; }
 .portal-loading img { width: 52px; height: 52px; object-fit: contain; }
 .portal-loading strong { margin-top: 24px; font: 800 .75rem 'Sora', sans-serif; letter-spacing: .04em; }
+.portal-load-error { padding: 28px; text-align: center; }
+.portal-load-error strong { margin: 0; font-size: 1.05rem; }
+.portal-load-error p { max-width: 440px; margin: 0 0 8px; color: #77788a; font-size: .75rem; line-height: 1.65; }
 .portal-section-gap { margin-top: 18px; }
 .portal-link-button { border: 0; color: var(--portal-accent); background: none; font-size: .68rem; font-weight: 800; cursor: pointer; }
 .portal-button.small { min-height: 31px; padding: 0 10px; border-radius: 8px; font-size: .64rem; }
 .align-start { justify-self: start; }
+.upload-actions { display: flex; flex-wrap: wrap; }
+.file-button { position: relative; overflow: hidden; }
+.file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .portal-table small { color: #9a9bab; font-size: .62rem; }
 .portal-search-field.compact { min-width: 230px; min-height: 36px; }
 
@@ -154,6 +160,17 @@
 .admin-course-stats > span { display: grid; gap: 2px; padding: 9px; border-radius: 10px; background: #f6f4f8; }
 .admin-course-stats strong { color: #353649; font: 800 .83rem 'Sora', sans-serif; }
 .admin-course-stats small { color: #999aaa; font-size: .57rem; }
+.course-admin-actions { display: flex; gap: 8px; }
+.course-admin-actions .portal-button { flex: 1; }
+.course-builder { display: grid; gap: 22px; }
+.module-list { display: grid; gap: 8px; }
+.module-list > div { display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; padding: 12px; border: 1px solid #e9e5ee; border-radius: 12px; }
+.module-list strong { color: #3d3e52; font-size: .72rem; }
+.module-list small, .module-list span { color: #9293a3; font-size: .62rem; }
+.module-list span { grid-column: 1 / -1; padding-left: 12px; }
+.module-list p { color: #8c8d9e; font-size: .7rem; }
+.course-builder-form { padding-top: 20px; border-top: 1px solid #ece8f0; }
+.portal-load-inline { padding: 28px; color: #898a9c; text-align: center; font-size: .72rem; }
 .settings-list > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 13px 3px; border-bottom: 1px solid #eeeaf2; }
 .settings-list > div:last-child { border-bottom: 0; }
 .settings-list > div > span { display: grid; gap: 4px; }
