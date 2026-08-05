@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import './styles.css';
 import './react-enhancements.css';
+import { secureSignOutUrl } from './auth/api';
 import navigationMarkup from './legacy/navigation.html?raw';
 import landingMarkup from './legacy/landing.html?raw';
 import overlaysMarkup from './legacy/overlays.html?raw';
@@ -416,7 +417,7 @@ function useLegacyRuntime() {
       };
 
       window.logoutUser = () => {
-        window.location.assign('/signout-with-chatgpt?return_to=%2F');
+        window.location.assign(secureSignOutUrl('/'));
       };
 
       document.dispatchEvent(new CustomEvent('structlab:ready'));

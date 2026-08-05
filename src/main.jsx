@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { isLocalDevelopment } from './auth/api';
 import './router.css';
 
 const MarketingApp = lazy(() => import('./App'));
@@ -21,6 +22,18 @@ function RouteFallback() {
       <strong>StructLab</strong>
     </div>
   );
+}
+
+function LocalPlatformAuthRedirect({ location, navigate }) {
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const requestedReturn = query.get('return_to') || '/login';
+    const safeReturn = requestedReturn.startsWith('/') && !requestedReturn.startsWith('//') ? requestedReturn : '/login';
+    if (location.pathname === '/signout-with-chatgpt') globalThis.localStorage?.removeItem('sl_local_api_session_v1');
+    navigate(safeReturn, { replace: true });
+  }, [location.pathname, location.search, navigate]);
+
+  return <RouteFallback />;
 }
 
 function AppRouter() {
@@ -61,6 +74,8 @@ function AppRouter() {
   let page;
   if (location.pathname === '/login' || location.pathname === '/signup') {
     page = <AuthPage mode={location.pathname === '/signup' ? 'signup' : 'login'} location={location} navigate={navigate} />;
+  } else if (isLocalDevelopment() && ['/signin-with-chatgpt', '/signout-with-chatgpt'].includes(location.pathname)) {
+    page = <LocalPlatformAuthRedirect location={location} navigate={navigate} />;
   } else if (location.pathname.startsWith('/portal/')) {
     page = <PortalApp location={location} navigate={navigate} />;
   } else if (location.pathname === '/') {

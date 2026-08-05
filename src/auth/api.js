@@ -9,6 +9,11 @@ export class ApiRequestError extends Error {
 }
 
 export async function apiRequest(path, options = {}) {
+  if (isLocalDevelopment()) {
+    const { localApiRequest } = await import('./localApi.js');
+    return localApiRequest(path, options);
+  }
+
   const headers = new Headers(options.headers || {});
   let body = options.body;
   if (body && !(body instanceof Blob) && !(body instanceof ArrayBuffer) && !(body instanceof FormData) && typeof body !== 'string') {
@@ -25,6 +30,11 @@ export async function apiRequest(path, options = {}) {
   return payload;
 }
 
+export function isLocalDevelopment() {
+  if (typeof window === 'undefined') return false;
+  return ['localhost', '127.0.0.1', '[::1]', '::1'].includes(window.location.hostname);
+}
+
 export function getAuthSession() {
   return apiRequest('/api/auth/session');
 }
@@ -39,11 +49,16 @@ export function saveProfile(data) {
 
 export function secureSignInUrl(returnTo = '/login') {
   const safeReturnTo = returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/login';
+  if (isLocalDevelopment()) return safeReturnTo;
   return `/signin-with-chatgpt?return_to=${encodeURIComponent(safeReturnTo)}`;
 }
 
 export function secureSignOutUrl(returnTo = '/') {
   const safeReturnTo = returnTo.startsWith('/') && !returnTo.startsWith('//') ? returnTo : '/';
+  if (isLocalDevelopment()) {
+    globalThis.localStorage?.removeItem('sl_local_api_session_v1');
+    return safeReturnTo;
+  }
   return `/signout-with-chatgpt?return_to=${encodeURIComponent(safeReturnTo)}`;
 }
 

@@ -12,7 +12,7 @@ import {
   Sparkles,
   UserRound,
 } from 'lucide-react';
-import { finishOnboarding, getAuthSession, secureSignInUrl } from './api';
+import { finishOnboarding, getAuthSession, isLocalDevelopment, secureSignInUrl } from './api';
 import './auth.css';
 
 const pendingKey = 'sl_pending_onboarding';
@@ -20,7 +20,9 @@ const pendingKey = 'sl_pending_onboarding';
 export default function AuthPage({ mode, location, navigate }) {
   const query = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const requestedRole = query.get('role');
-  const [role, setRole] = useState(['student', 'company'].includes(requestedRole) ? requestedRole : 'student');
+  const localDevelopment = isLocalDevelopment();
+  const initialRoles = localDevelopment && mode !== 'signup' ? ['student', 'company', 'admin'] : ['student', 'company'];
+  const [role, setRole] = useState(initialRoles.includes(requestedRole) ? requestedRole : 'student');
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [existingSession, setExistingSession] = useState(null);
@@ -62,8 +64,9 @@ export default function AuthPage({ mode, location, navigate }) {
   }, [isSignup, navigate, verifiedReturn]);
 
   useEffect(() => {
-    if (['student', 'company'].includes(requestedRole)) setRole(requestedRole);
-  }, [requestedRole]);
+    const allowedRoles = localDevelopment && !isSignup ? ['student', 'company', 'admin'] : ['student', 'company'];
+    if (allowedRoles.includes(requestedRole)) setRole(requestedRole);
+  }, [isSignup, localDevelopment, requestedRole]);
 
   function openPortal(session = existingSession) {
     if (session?.user) navigate(`/portal/${session.user.role}/overview`, { replace: true });
@@ -76,17 +79,22 @@ export default function AuthPage({ mode, location, navigate }) {
     if (isSignup && role === 'company' && companyName.trim().length < 2) return setError('Şirkət adını daxil edin.');
     if (isSignup && !accepted) return setError('Davam etmək üçün şərtləri qəbul edin.');
 
-    const pending = { role, name: name.trim(), company_name: companyName.trim() };
+    const localNames = { student: 'Aylin Məmmədova', company: 'Kamran Əliyev', admin: 'StructLab Admin' };
+    const pending = {
+      role,
+      name: name.trim() || (localDevelopment ? localNames[role] : ''),
+      company_name: companyName.trim() || (localDevelopment && role === 'company' ? 'Caspian Structures' : ''),
+    };
     sessionStorage.setItem(pendingKey, JSON.stringify(pending));
 
-    if (!existingSession) {
+    if (!existingSession && !localDevelopment) {
       window.location.assign(secureSignInUrl(`${isSignup ? '/signup' : '/login'}?verified=1`));
       return;
     }
 
     setSubmitting(true);
     try {
-      const session = isSignup ? await finishOnboarding(pending) : existingSession;
+      const session = isSignup || localDevelopment ? await finishOnboarding(pending) : existingSession;
       sessionStorage.removeItem(pendingKey);
       openPortal(session);
     } catch (requestError) {
@@ -142,6 +150,13 @@ export default function AuthPage({ mode, location, navigate }) {
             <p>{isSignup ? 'Rolunu seç; e-poçtun təhlükəsiz giriş mərhələsində təsdiqlənəcək.' : 'Hesabına bağlı təsdiqlənmiş e-poçtla davam et.'}</p>
           </header>
 
+          {localDevelopment && (
+            <div className="auth-local-banner">
+              <ShieldCheck size={17} />
+              <span><strong>Lokal demo rejimi</strong><small>Real təsdiq ekranı yalnız yayımlanmış saytda açılır. Burada rol seçib portalları dərhal yoxlaya bilərsiniz.</small></span>
+            </div>
+          )}
+
           {checking && <div className="auth-checking"><LoaderCircle size={18} /> Mövcud giriş yoxlanılır…</div>}
 
           {existingSession && !isSignup && (
@@ -153,6 +168,16 @@ export default function AuthPage({ mode, location, navigate }) {
           )}
 
           <form className="auth-page-form" onSubmit={continueSecurely}>
+            {localDevelopment && !isSignup && (
+              <div className="auth-demo-access">
+                <div>Yoxlama rolunu seçin</div>
+                <div className="auth-demo-buttons" role="radiogroup" aria-label="Local demo role">
+                  <button className={role === 'student' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'student'} onClick={() => setRole('student')}><GraduationCap size={16} /> Tələbə</button>
+                  <button className={role === 'company' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'company'} onClick={() => setRole('company')}><Building2 size={16} /> Şirkət</button>
+                  <button className={role === 'admin' ? 'active' : ''} type="button" role="radio" aria-checked={role === 'admin'} onClick={() => setRole('admin')}><ShieldCheck size={16} /> Admin</button>
+                </div>
+              </div>
+            )}
             {isSignup && (
               <>
                 <div className="auth-role-picker" role="radiogroup" aria-label="Account role">
@@ -173,9 +198,9 @@ export default function AuthPage({ mode, location, navigate }) {
               </>
             )}
 
-            <div className="auth-verified-flow">
+            <div className={`auth-verified-flow${localDevelopment ? ' local' : ''}`}>
               <span><MailCheck size={20} /></span>
-              <div><strong>E-poçt təsdiqi ilə giriş</strong><small>E-poçt seçimi və doğrulama kodu təhlükəsiz giriş ekranında tamamlanır. StructLab parol saxlamır.</small></div>
+              <div><strong>{localDevelopment ? 'Lokal test sessiyası' : 'E-poçt təsdiqi ilə giriş'}</strong><small>{localDevelopment ? 'Demo məlumatları yalnız bu brauzerin localStorage yaddaşında saxlanır.' : 'E-poçt seçimi və doğrulama kodu təhlükəsiz giriş ekranında tamamlanır. StructLab parol saxlamır.'}</small></div>
               <KeyRound size={18} />
             </div>
 
@@ -184,12 +209,12 @@ export default function AuthPage({ mode, location, navigate }) {
             <p className={`auth-form-message${error ? ' show' : ''}`} role="alert">{error}</p>
 
             <button className="auth-submit-button" type="submit" disabled={submitting || checking}>
-              <span>{submitting ? 'Workspace hazırlanır…' : existingSession ? 'Təsdiqlə və davam et' : 'Təsdiqlənmiş e-poçtla davam et'}</span>
+              <span>{submitting ? 'Workspace hazırlanır…' : localDevelopment ? `${role === 'student' ? 'Tələbə' : role === 'company' ? 'Şirkət' : 'Admin'} portalını aç` : existingSession ? 'Təsdiqlə və davam et' : 'Təsdiqlənmiş e-poçtla davam et'}</span>
               {submitting ? <LoaderCircle className="auth-spin" size={18} /> : <ArrowRight size={18} />}
             </button>
           </form>
 
-          <p className="auth-local-note"><ShieldCheck size={15} /> Giriş kimliyi serverdə yoxlanır; rol icazələri hər API sorğusunda tətbiq olunur.</p>
+          <p className="auth-local-note"><ShieldCheck size={15} /> {localDevelopment ? 'Production məlumatlarına toxunmadan bütün əsas funksiyaları yoxlayın.' : 'Giriş kimliyi serverdə yoxlanır; rol icazələri hər API sorğusunda tətbiq olunur.'}</p>
         </div>
       </main>
     </div>
