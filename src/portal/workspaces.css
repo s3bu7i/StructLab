@@ -1,0 +1,196 @@
+.portal-loading {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  color: #11135f;
+  background: radial-gradient(circle at 50% 44%, #f0efff, #f8f7fb 46%, #fff 80%);
+}
+.portal-loading > span { position: absolute; width: 94px; height: 94px; border: 2px solid #e1def4; border-top-color: #ff7867; border-radius: 50%; animation: portalSpin 1s linear infinite; }
+.portal-loading img { width: 52px; height: 52px; object-fit: contain; }
+.portal-loading strong { margin-top: 24px; font: 800 .75rem 'Sora', sans-serif; letter-spacing: .04em; }
+.portal-section-gap { margin-top: 18px; }
+.portal-link-button { border: 0; color: var(--portal-accent); background: none; font-size: .68rem; font-weight: 800; cursor: pointer; }
+.portal-button.small { min-height: 31px; padding: 0 10px; border-radius: 8px; font-size: .64rem; }
+.align-start { justify-self: start; }
+.portal-table small { color: #9a9bab; font-size: .62rem; }
+.portal-search-field.compact { min-width: 230px; min-height: 36px; }
+
+.course-grid, .job-grid, .candidate-grid, .training-grid, .certificate-grid, .course-admin-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.course-card, .job-card, .candidate-card, .training-card, .certificate-card, .admin-course-card { overflow: hidden; border: 1px solid #e6e2ec; border-radius: 19px; background: rgba(255,255,255,.92); box-shadow: 0 12px 34px rgba(31,27,60,.05); transition: transform .22s ease, box-shadow .22s ease; }
+.course-card:hover, .job-card:hover, .candidate-card:hover, .training-card:hover, .certificate-card:hover, .admin-course-card:hover { transform: translateY(-3px); box-shadow: 0 20px 46px rgba(31,27,60,.1); }
+.course-cover { position: relative; min-height: 118px; display: flex; align-items: flex-end; justify-content: space-between; overflow: hidden; padding: 20px; color: #fff; background: linear-gradient(135deg, #11135f, #5b55ce); }
+.course-cover::before { content: ''; position: absolute; width: 150px; height: 150px; top: -66px; right: -34px; border: 1px solid rgba(255,255,255,.19); border-radius: 50%; box-shadow: 0 0 0 22px rgba(255,255,255,.035), 0 0 0 44px rgba(255,255,255,.025); }
+.course-cover.coral { background: linear-gradient(135deg, #66244d, #ef6f5f); }
+.course-cover.gold { color: #463314; background: linear-gradient(135deg, #f0c04d, #ffe8a1); }
+.course-cover.green { background: linear-gradient(135deg, #0f4f46, #2ea68f); }
+.course-cover > * { position: relative; z-index: 1; }
+.course-cover > span { font-size: .64rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.course-body { display: grid; align-content: start; gap: 10px; min-height: 265px; padding: 18px; }
+.course-body h3, .job-card h3, .candidate-card h3, .training-card h3, .certificate-card h3, .admin-course-card h3 { margin: 0; color: #28293d; font: 800 .9rem/1.4 'Sora', sans-serif; }
+.course-body > p, .job-card > p, .candidate-card > p, .training-card > p, .certificate-card > p, .admin-course-card > p { margin: 0; color: #9192a3; font-size: .68rem; line-height: 1.55; }
+.course-body .portal-button { align-self: end; margin-top: auto; }
+.course-progress-label { display: flex; justify-content: space-between; color: #8a8b9c; font-size: .64rem; }
+.course-progress-label strong { color: #44455b; }
+
+.featured-course { display: grid; grid-template-columns: 105px minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+.featured-course .course-cover { min-height: 116px; border-radius: 14px; place-items: center; justify-content: center; }
+.featured-course > div:nth-child(2) { display: grid; gap: 7px; }
+.featured-course h3 { margin: 0; font: 800 .86rem 'Sora', sans-serif; }
+.featured-course p, .featured-course small { margin: 0; color: #9394a4; font-size: .64rem; }
+.featured-course .portal-progress { max-width: 340px; }
+
+.mini-chart, .analytics-bars { height: 190px; display: flex; align-items: flex-end; justify-content: space-around; gap: 9px; padding: 10px 5px 0; }
+.mini-chart > span, .analytics-bars > span { height: 100%; flex: 1; display: flex; align-items: center; flex-direction: column; justify-content: flex-end; gap: 7px; }
+.mini-chart i, .analytics-bars i { width: min(24px, 70%); height: var(--bar-height); min-height: 8px; border-radius: 7px 7px 3px 3px; background: linear-gradient(#9189ef, #5459d9); animation: portalBarIn .7s cubic-bezier(.16,1,.3,1) both; transform-origin: bottom; }
+.mini-chart small, .analytics-bars small { color: #a0a1b0; font-size: .59rem; }
+.analytics-bars { height: 250px; border-bottom: 1px solid #eeeaf2; background-image: linear-gradient(#f1eef4 1px, transparent 1px); background-size: 100% 25%; }
+.analytics-bars i { width: min(34px, 72%); background: linear-gradient(#ff9b8e, #e95f51); }
+.admin-chart i { background: linear-gradient(#9e8ae8, #6539cb); }
+
+.plan-list, .health-list, .settings-list { display: grid; gap: 9px; }
+.plan-item { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 11px; padding: 11px; border: 1px solid #ece8f1; border-radius: 13px; }
+.plan-item > span { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; color: #7e7f92; background: #f1eff5; }
+.plan-item.done > span { color: #16806c; background: #e8f8f4; }
+.plan-item > div { display: grid; gap: 3px; }
+.plan-item strong { color: #3a3b4f; font-size: .72rem; }
+.plan-item small { color: #9697a7; font-size: .63rem; }
+
+.exam-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; padding: 10px; }
+.exam-card > span { width: 72px; height: 72px; display: grid; place-items: center; border-radius: 19px; color: #5459d9; background: #efefff; }
+.exam-card > div { display: grid; gap: 8px; }
+.exam-card h3 { margin: 0; font: 800 .95rem 'Sora', sans-serif; }
+.exam-card p { margin: 0; color: #8e8f9f; font-size: .68rem; }
+.exam-meta { display: flex; gap: 15px; color: #767789; font-size: .64rem; }
+.exam-meta span { display: flex; align-items: center; gap: 5px; }
+.quiz-list { display: grid; gap: 20px; }
+.quiz-list fieldset { display: grid; gap: 8px; margin: 0; padding: 0 0 18px; border: 0; border-bottom: 1px solid #eeeaf2; }
+.quiz-list fieldset:last-child { padding-bottom: 0; border-bottom: 0; }
+.quiz-list legend { width: 100%; display: flex; align-items: center; gap: 9px; margin-bottom: 8px; color: #323347; font-size: .78rem; font-weight: 800; }
+.quiz-list legend > span { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px; color: #fff; background: #5459d9; font-size: .65rem; }
+.quiz-list label { position: relative; cursor: pointer; }
+.quiz-list input { position: absolute; opacity: 0; }
+.quiz-list label > span { display: block; padding: 11px 13px; border: 1px solid #e5e1eb; border-radius: 11px; color: #696a7c; font-size: .71rem; transition: .18s ease; }
+.quiz-list input:checked + span { color: #413da2; border-color: #a69cf4; background: #f0efff; box-shadow: 0 0 0 3px rgba(84,89,217,.07); }
+
+.job-card, .candidate-card, .training-card, .admin-course-card { display: grid; align-content: start; gap: 10px; padding: 18px; }
+.job-card-head, .candidate-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.job-card-head > button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #e8e4ec; border-radius: 10px; color: #999aaa; background: #fff; cursor: pointer; }
+.job-card-head > button.saved { color: #5459d9; border-color: #d9d6fb; background: #f1f0ff; }
+.company-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #11135f, #ff7867); font-size: .66rem; font-weight: 900; }
+.company-mark.large { width: 58px; height: 58px; border-radius: 16px; font-size: .78rem; }
+.job-card > strong { color: #737486; font-size: .69rem; }
+.job-card > p, .candidate-card > small { display: flex; align-items: center; gap: 5px; }
+.job-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; margin-top: 5px; border-top: 1px solid #eeeaf2; }
+
+.candidate-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.candidate-avatar { width: 45px; height: 45px; display: grid; place-items: center; border-radius: 14px; color: #fff; background: linear-gradient(135deg, #5459d9, #a69cf4); font-size: .68rem; font-weight: 900; }
+.candidate-avatar.small { width: 40px; height: 40px; border-radius: 12px; }
+.candidate-card > p { color: #666779; font-weight: 700; }
+.candidate-card > small { color: #999aaa; font-size: .64rem; }
+.candidate-actions { display: flex; gap: 7px; padding-top: 8px; margin-top: auto; }
+.candidate-actions .portal-button { flex: 1; padding-inline: 8px; }
+.skill-cloud { display: flex; flex-wrap: wrap; gap: 7px; }
+.skill-cloud > button, .skill-cloud > span { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 0; border-radius: 9px; color: #57586b; background: #f1eff5; font-size: .66rem; font-weight: 700; }
+.skill-cloud > button { cursor: pointer; }
+.skill-cloud > button span { color: #a5a6b4; font-size: .9rem; }
+.skill-cloud.compact { margin: 3px 0 6px; }
+.skill-cloud.compact > span { padding: 5px 7px; font-size: .58rem; }
+.skill-add { display: flex; gap: 8px; margin-top: 16px; }
+.skill-add input { min-width: 0; flex: 1; padding: 0 12px; border: 1px solid #e2deea; border-radius: 10px; outline: none; font-size: .72rem; }
+.profile-completion { display: grid; gap: 9px; padding-top: 22px; margin-top: 22px; border-top: 1px solid #ebe8ef; }
+.profile-completion > div:first-child { display: flex; justify-content: space-between; font-size: .7rem; }
+.profile-completion p { display: flex; gap: 7px; margin: 3px 0 0; color: #898a9b; font-size: .65rem; line-height: 1.5; }
+
+.certificate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.certificate-card { position: relative; min-height: 290px; display: grid; align-content: end; gap: 10px; padding: 27px; color: #fff; background: linear-gradient(135deg, #11135f, #514abb); }
+.certificate-card.gold { color: #36270c; background: linear-gradient(135deg, #eab83b, #ffe9a8); }
+.certificate-card::after { content: ''; position: absolute; inset: 12px; pointer-events: none; border: 1px solid rgba(255,255,255,.22); border-radius: 13px; }
+.certificate-card.gold::after { border-color: rgba(54,39,12,.16); }
+.certificate-card > * { position: relative; z-index: 1; }
+.certificate-watermark { position: absolute; top: 25px; right: 28px; opacity: .22; }
+.certificate-watermark svg { width: 74px; height: 74px; }
+.certificate-card > span { font-size: .62rem; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+.certificate-card h3 { color: inherit; font-size: 1.2rem; }
+.certificate-card p, .certificate-card small { color: inherit; opacity: .7; }
+.certificate-card .portal-button { width: fit-content; margin-top: 8px; }
+
+.portal-empty { min-height: 240px; display: grid; place-content: center; justify-items: center; gap: 9px; color: #8f90a1; text-align: center; }
+.portal-empty > span { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 15px; color: var(--portal-accent); background: var(--portal-accent-soft); }
+.portal-empty h3 { margin: 4px 0 0; color: #4d4e61; font: 800 .85rem 'Sora', sans-serif; }
+.portal-empty p { margin: 0; font-size: .69rem; }
+
+.pipeline { display: grid; gap: 10px; }
+.pipeline-item { position: relative; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 12px; padding: 12px; overflow: hidden; border: 1px solid #ece8f1; border-radius: 13px; }
+.pipeline-item::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: #5459d9; }
+.pipeline-item.coral::before { background: #ff7867; }.pipeline-item.gold::before { background: #e4b431; }.pipeline-item.green::before { background: #26947f; }
+.pipeline-item span { font: 800 1.1rem 'Sora', sans-serif; }
+.pipeline-item strong { color: #6e6f81; font-size: .7rem; }
+.pipeline-item svg { color: #aaaaba; }
+
+.training-grid, .course-admin-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.training-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 13px; color: var(--portal-accent); background: var(--portal-accent-soft); }
+.training-card .portal-button, .admin-course-card .portal-button { margin-top: 8px; }
+.analytics-bars + * { margin-top: 10px; }
+.rank-list { display: grid; gap: 15px; }
+.rank-list > div { display: grid; grid-template-columns: 24px 125px 1fr 35px; align-items: center; gap: 9px; }
+.rank-list > div > span { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 7px; color: #5459d9; background: #efefff; font-size: .61rem; font-weight: 900; }
+.rank-list strong { color: #55566a; font-size: .67rem; }
+.rank-list small { color: #9192a2; font-size: .62rem; text-align: right; }
+.rank-list .portal-progress i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5459d9, #ff7867); }
+.company-preview { display: grid; justify-items: start; gap: 12px; }
+.company-preview h3 { margin: 2px 0 0; font: 800 1.25rem 'Sora', sans-serif; }
+.company-preview p { margin: 0; color: #7e7f91; font-size: .73rem; line-height: 1.7; }
+.company-preview > div { display: flex; flex-wrap: wrap; gap: 13px; color: #7f8092; font-size: .64rem; }
+.company-preview > div span { display: flex; align-items: center; gap: 5px; }
+
+.health-list > div { display: flex; justify-content: space-between; gap: 15px; padding: 12px 4px; border-bottom: 1px solid #eeeaf2; }
+.health-list > div:last-child { border-bottom: 0; }
+.health-list span { display: flex; align-items: center; gap: 8px; color: #747587; font-size: .7rem; }
+.health-list i { width: 8px; height: 8px; border-radius: 50%; background: #2d9b85; box-shadow: 0 0 0 4px rgba(45,155,133,.1); }
+.health-list strong { color: #292a3d; font-size: .71rem; }
+.admin-course-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 12px 0; }
+.admin-course-stats > span { display: grid; gap: 2px; padding: 9px; border-radius: 10px; background: #f6f4f8; }
+.admin-course-stats strong { color: #353649; font: 800 .83rem 'Sora', sans-serif; }
+.admin-course-stats small { color: #999aaa; font-size: .57rem; }
+.settings-list > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 13px 3px; border-bottom: 1px solid #eeeaf2; }
+.settings-list > div:last-child { border-bottom: 0; }
+.settings-list > div > span { display: grid; gap: 4px; }
+.settings-list strong { color: #45465a; font-size: .72rem; }
+.settings-list small { max-width: 410px; color: #9899a9; font-size: .63rem; line-height: 1.45; }
+.toggle-switch { position: relative; width: 42px; height: 24px; flex: 0 0 auto; padding: 0; border: 0; border-radius: 999px; background: #d9d5df; cursor: pointer; transition: background .2s ease; }
+.toggle-switch i { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,.16); transition: transform .2s ease; }
+.toggle-switch.on { background: #5e4eca; }
+.toggle-switch.on i { transform: translateX(18px); }
+.security-note { display: grid; justify-items: start; gap: 11px; }
+.security-note > span { width: 55px; height: 55px; display: grid; place-items: center; border-radius: 16px; color: #17806c; background: #e8f8f4; }
+.security-note h3 { margin: 3px 0 0; font: 800 .93rem 'Sora', sans-serif; }
+.security-note p { margin: 0; color: #77788a; font-size: .7rem; line-height: 1.75; }
+
+@keyframes portalSpin { to { transform: rotate(360deg); } }
+@keyframes portalBarIn { from { transform: scaleY(0); opacity: .5; } to { transform: scaleY(1); opacity: 1; } }
+
+@media (max-width: 1260px) {
+  .candidate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .course-grid, .job-grid, .training-grid, .course-admin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 740px) {
+  .course-grid, .job-grid, .candidate-grid, .training-grid, .certificate-grid, .course-admin-grid { grid-template-columns: 1fr; }
+  .featured-course { grid-template-columns: 78px 1fr; }
+  .featured-course .course-cover { min-height: 90px; }
+  .featured-course > button { grid-column: 1 / -1; }
+  .exam-card { grid-template-columns: auto 1fr; }
+  .exam-card > button { grid-column: 1 / -1; }
+  .exam-meta { flex-wrap: wrap; }
+  .rank-list > div { grid-template-columns: 24px 105px 1fr 30px; }
+  .portal-search-field.compact { min-width: 0; width: 100%; }
+  .portal-panel > header { align-items: stretch; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-loading > span { animation: none; }
+  .course-card, .job-card, .candidate-card, .training-card, .certificate-card, .admin-course-card { transition: none; }
+  .mini-chart i, .analytics-bars i { animation: none; }
+}

@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/creatheos/StructLab#readme",
   "dependencies": {
+    "lucide-react": "^1.28.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

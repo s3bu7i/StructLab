@@ -1,10 +1,9 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
+import './styles.css';
+import './react-enhancements.css';
 import navigationMarkup from './legacy/navigation.html?raw';
 import landingMarkup from './legacy/landing.html?raw';
-import studentMarkup from './legacy/student.html?raw';
-import companyMarkup from './legacy/company.html?raw';
-import adminMarkup from './legacy/admin.html?raw';
 import overlaysMarkup from './legacy/overlays.html?raw';
 
 function HtmlFragment({ html }) {
@@ -17,18 +16,6 @@ function Navigation() {
 
 function LandingPage() {
   return <HtmlFragment html={landingMarkup} />;
-}
-
-function StudentDashboard() {
-  return <HtmlFragment html={studentMarkup} />;
-}
-
-function CompanyDashboard() {
-  return <HtmlFragment html={companyMarkup} />;
-}
-
-function AdminDashboard() {
-  return <HtmlFragment html={adminMarkup} />;
 }
 
 function GlobalOverlays() {
@@ -414,6 +401,29 @@ function useLegacyRuntime() {
     script.dataset.structlabRuntime = 'true';
     script.addEventListener('load', () => {
       window.__STRUCTLAB_RUNTIME_READY__ = true;
+
+      const originalShowPage = window.showPage;
+      window.showPage = (name, targetSection = '') => {
+        if (['student', 'company', 'admin'].includes(name)) {
+          let user = null;
+          try { user = JSON.parse(localStorage.getItem('sl_user') || 'null'); } catch { /* ignore invalid local demo data */ }
+          const role = user?.role === name ? name : null;
+          const destination = role ? `/portal/${role}/overview` : `/login?role=${name}`;
+          window.__STRUCTLAB_NAVIGATE__?.(destination);
+          return;
+        }
+        originalShowPage?.(name, targetSection);
+      };
+
+      window.openAuthModal = (mode = 'login') => {
+        window.__STRUCTLAB_NAVIGATE__?.(mode === 'signup' ? '/signup' : '/login');
+      };
+
+      window.logoutUser = () => {
+        localStorage.removeItem('sl_user');
+        window.location.assign('/');
+      };
+
       document.dispatchEvent(new CustomEvent('structlab:ready'));
     }, { once: true });
     document.body.appendChild(script);
@@ -432,9 +442,6 @@ export default function App() {
       <Navigation />
       <main id="main-content">
         <LandingPage />
-        <StudentDashboard />
-        <CompanyDashboard />
-        <AdminDashboard />
       </main>
       <GlobalOverlays />
       <ScrollExperience />
